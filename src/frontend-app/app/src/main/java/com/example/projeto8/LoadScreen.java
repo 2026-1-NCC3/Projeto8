@@ -1,4 +1,6 @@
 package com.example.projeto8;
 
-public class LoadScreen {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class LoadScreen extends AppCompatActivity {
 }

@@ -1,4 +1,6 @@
 package com.example.projeto8;
 
-public class MayaChatActivity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MayaChatActivity extends AppCompatActivity {
 }

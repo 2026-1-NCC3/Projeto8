@@ -1,4 +1,6 @@
 package com.example.projeto8;
 
-public class ExercisesActivity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class ExercisesActivity extends AppCompatActivity {
 }

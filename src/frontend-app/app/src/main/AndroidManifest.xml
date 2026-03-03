@@ -20,6 +20,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".ExercisesActivity"/>
+        <activity android:name=".LoadScreen"/>
+        <activity android:name=".LoginActivity"/>
+        <activity android:name=".MayaChatActivity"/>
+        <activity android:name=".MonthCalendarActivity"/>
+        <activity android:name=".ProfileActivity"/>
     </application>
 
 </manifest>
