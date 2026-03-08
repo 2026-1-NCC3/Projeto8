@@ -62,10 +62,11 @@ export default function ExercisesPage() {
 
   return (
     <section className="grid grid-cols-4 items-start gap-4 md:grid-cols-12">
-      <header className="col-span-full pt-6">
+      <header className="col-span-full pt-6 px-4">
         <h1 className="font-display text-4xl">Cadastro de Exercícios</h1>
       </header>
 
+      {/* Cadastrar exercício */}
       <div className="panel col-span-4 self-start md:col-span-8 p-5">
         <h2 className="text-xl">Adicionar um novo exercício</h2>
         <form
@@ -136,16 +137,13 @@ export default function ExercisesPage() {
           className="mt-3 w-full rounded-md border border-slate-300 px-3 py-2 placeholder:text-neutral-700"
         />
 
-        <div className="mt-4 space-y-3 h-[calc(100vh-14rem)] overflow-scroll">
+        <div className="mt-4 space-y-4 h-[calc(100vh-14rem)] overflow-scroll no-scrollbar">
           {filtered.map((exercise) => (
             <article
               key={exercise.id}
-              className="rounded-md border border-slate-200 bg-slate-50 p-3"
+              className="relative rounded-md border border-slate-200 bg-slate-50 p-3 space-y-1"
             >
               <p className="font-semibold">{exercise.name}</p>
-              <p className="mt-1 text-sm text-slate-600">
-                {exercise.description}
-              </p>
               <p className="mt-1 text-xs uppercase tracking-wide text-dark-blue">
                 {exercise.tags}
               </p>
@@ -153,13 +151,13 @@ export default function ExercisesPage() {
                 href={exercise.youtube}
                 target="_blank"
                 rel="noreferrer"
-                className="mt-2 inline-block text-sm font-semibold text-dark-blue"
+                className="mt-2 inline-block text-sm font-semibold text-dark-blue underline underline-offset-2"
               >
                 Abrir video
               </a>
               <button
                 onClick={() => removeExercise(exercise.id)}
-                className="ml-3 rounded-md bg-light-blue px-3 py-1 text-sm"
+                className="absolute right-3 bottom-4 rounded-md bg-light-salmon px-3 py-1 text-sm"
               >
                 Excluir
               </button>

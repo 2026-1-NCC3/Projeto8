@@ -83,3 +83,12 @@ h2 {
   background: #ffffff;
   border: 1px solid color-mix(in srgb, var(--dark-blue) 18%, white);
 }
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
