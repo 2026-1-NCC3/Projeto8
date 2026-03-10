@@ -1,6 +1,7 @@
 package com.example.projeto8;
 
 import android.os.Bundle;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,4 +22,5 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
     }
+
 }
