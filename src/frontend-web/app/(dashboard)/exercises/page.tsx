@@ -78,7 +78,7 @@ export default function ExercisesPage() {
             onChange={(event) =>
               setForm((prev) => ({ ...prev, name: event.target.value }))
             }
-            placeholder="Nome do exercicio"
+            placeholder="Nome do exercício"
             className="col-span-4 rounded-md border border-slate-300 px-3 py-2 md:col-span-6 placeholder:text-neutral-700"
             required
           />
@@ -87,7 +87,7 @@ export default function ExercisesPage() {
             onChange={(event) =>
               setForm((prev) => ({ ...prev, tags: event.target.value }))
             }
-            placeholder="Tags (separadas por virgula)"
+            placeholder="Tags (separadas por vírgula)"
             className="col-span-4 rounded-md border border-slate-300 px-3 py-2 md:col-span-6 placeholder:text-neutral-700"
             required
           />
@@ -96,7 +96,7 @@ export default function ExercisesPage() {
             onChange={(event) =>
               setForm((prev) => ({ ...prev, description: event.target.value }))
             }
-            placeholder="Descricao"
+            placeholder="Descrição"
             className="col-span-4 min-h-34 rounded-md border border-slate-300 px-3 py-2 md:col-span-12 placeholder:text-neutral-700"
             required
           />
@@ -105,7 +105,7 @@ export default function ExercisesPage() {
             onChange={(event) =>
               setForm((prev) => ({ ...prev, thumbnail: event.target.value }))
             }
-            placeholder="URL da thumbnail"
+            placeholder="URL da thumbnail (capa)"
             className="col-span-4 rounded-md border border-slate-300 px-3 py-2 md:col-span-6 placeholder:text-neutral-700"
             required
           />
@@ -119,10 +119,10 @@ export default function ExercisesPage() {
             required
           />
           <button
-            className="col-span-full rounded-md bg-dark-blue mt-2 px-3 py-4 font-semibold text-white"
+            className="col-span-full rounded-md bg-blue mt-2 px-3 py-4 font-semibold text-neutral hover:opacity-70 transition duration-300 ease-in-out"
             type="submit"
           >
-            Cadastrar exercicio
+            Cadastrar exercício
           </button>
         </form>
       </div>
@@ -141,23 +141,23 @@ export default function ExercisesPage() {
           {filtered.map((exercise) => (
             <article
               key={exercise.id}
-              className="relative rounded-md border border-slate-200 bg-slate-50 p-3 space-y-1"
+              className="relative rounded-md border border-slate-200 bg-[#FDFDFD] p-3 space-y-1"
             >
               <p className="font-semibold">{exercise.name}</p>
-              <p className="mt-1  uppercase tracking-wide text-dark-blue">
+              <p className="mt-1 text-xs uppercase tracking-wide">
                 {exercise.tags}
               </p>
               <a
                 href={exercise.youtube}
                 target="_blank"
                 rel="noreferrer"
-                className="mt-2 inline-block text-dark-blue underline underline-offset-2"
+                className="mt-2 inline-block text-darker-blue underline underline-offset-2 hover:opacity-70 transition duration-300 ease-in-out"
               >
                 Abrir video
               </a>
               <button
                 onClick={() => removeExercise(exercise.id)}
-                className="absolute right-3 bottom-4 rounded-md bg-light-salmon px-3 py-1 "
+                className="absolute right-3 bottom-4 rounded-md bg-neutral-200 px-3 py-1 hover:opacity-70 transition duration-300 ease-in-out"
               >
                 Excluir
               </button>

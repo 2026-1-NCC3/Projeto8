@@ -11,54 +11,24 @@ type SidebarProps = {
 type NavItem = {
   href: string;
   label: string;
-  icon: (className?: string) => React.ReactNode;
+  icon: string;
 };
 
 const items: NavItem[] = [
   {
     href: "/exercises",
     label: "Exercícios",
-    icon: (className = "") => (
-      <svg
-        viewBox="0 0 24 24"
-        className={className}
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-      >
-        <path d="M4 7h16M4 12h16M4 17h10" />
-      </svg>
-    ),
+    icon: '/exercises.png'
   },
   {
     href: "/patients/new",
     label: "Adicionar Paciente",
-    icon: (className = "") => (
-      <svg
-        viewBox="0 0 24 24"
-        className={className}
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-      >
-        <path d="M12 5v14M5 12h14" />
-      </svg>
-    ),
+    icon: '/edit-user.png'
   },
   {
     href: "/patients",
     label: "Acompanhar Pacientes",
-    icon: (className = "") => (
-      <svg
-        viewBox="0 0 24 24"
-        className={className}
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-      >
-        <path d="M4 19V5m0 14h16M8 15l3-4 3 2 4-6" />
-      </svg>
-    ),
+    icon: '/users.png'
   },
 ];
 
@@ -67,16 +37,16 @@ export function Sidebar({ expanded, onToggle }: SidebarProps) {
   const iconButtonSize = "h-11 w-11";
 
   return (
-    <aside className="panel w-full p-3 transition-all duration-300 md:min-h-[calc(100vh-2rem)]">
+    <aside className="w-full p-3 transition-all duration-300">
       <div
         className={`flex items-start ${expanded ? "justify-between" : "justify-center"}`}
       >
         <div
-          className={`overflow-hidden transition-[max-width,opacity] duration-200 ${
+          className={`overflow- transition-[max-width,opacity] duration-200 ${
             expanded
-              ? "max-w-52 opacity-100"
+              ? "max-w-62 opacity-100"
               : "max-w-0 opacity-0"
-          }`}
+            }`}
         >
           <p className="font-display text-2xl">Lumière</p>
         </div>
@@ -85,7 +55,7 @@ export function Sidebar({ expanded, onToggle }: SidebarProps) {
           onClick={onToggle}
           aria-expanded={expanded}
           aria-label={expanded ? "Recolher menu" : "Expandir menu"}
-          className={`${iconButtonSize} grid place-items-center rounded-md bg-light-blue/60 text-dark-blue transition-all duration-300 hover:bg-light-blue`}
+          className={`${iconButtonSize} grid place-items-center rounded-md bg-light-blue/60 text-blue transition-all duration-300 hover:bg-light-blue`}
           type="button"
         >
           <svg
@@ -100,31 +70,29 @@ export function Sidebar({ expanded, onToggle }: SidebarProps) {
         </button>
       </div>
 
-      <nav className="mt-4 flex flex-col gap-2">
+      <nav className="mt-6 flex flex-col gap-2">
         {items.map((item) => {
           const active = pathname === item.href;
           return (
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center rounded-md  font-semibold transition-all duration-300 ${
-                expanded
+              className={`flex items-center rounded-md  font-semibold transition-all duration-300 ${expanded
                   ? "h-11 w-full gap-3 px-4"
                   : `${iconButtonSize} mx-auto justify-center`
-              } ${
-                active
-                  ? "bg-dark-blue text-white"
+                } ${active
+                  ? "bg-blue text-neutral"
                   : "bg-light-blue/45 text-black hover:bg-light-blue"
-              }`}
+                }`}
               title={item.label}
             >
-              <span className="h-5 w-5 shrink-0">{item.icon("h-5 w-5")}</span>
+              <span className={`h-6 w-6 shrink-0 ${active && "invert"}`}><img src={item.icon}/></span>
               <span
-                className={`overflow-hidden whitespace-nowrap transition-[max-width,opacity,transform] duration-300 ${
+                className={`overflow-hidden neutralspace-nowrap transition-[max-width,opacity,transform] duration-300 ${
                   expanded
-                    ? "max-w-40 translate-x-0 opacity-100"
+                    ? "max-w-44 translate-x-0 opacity-100"
                     : "max-w-0 -translate-x-2 opacity-0"
-                }`}
+                  }`}
               >
                 {item.label}
               </span>

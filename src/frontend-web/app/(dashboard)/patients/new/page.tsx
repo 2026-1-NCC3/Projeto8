@@ -107,7 +107,7 @@ export default function AddPatientPage() {
           />
           <button
             type="submit"
-            className="col-span-full mt-3 rounded-md bg-dark-blue p-4 font-semibold text-white"
+            className="col-span-full mt-3 rounded-md bg-blue p-4 font-semibold text-neutral hover:opacity-70 transition duration-300 ease-in-out"
           >
             Cadastrar paciente
           </button>
@@ -126,10 +126,10 @@ export default function AddPatientPage() {
       </aside>
 
       {/* Pacientes existentes */}
-      <div className="panel col-span-4 p-5 md:col-span-12 md:min-h-0 md:flex md:flex-col">
+      <div className="panel col-span-4 p-5 md:col-span-12 md:flex md:flex-col">
         <h2 className="text-xl">Pacientes Cadastrados</h2>
-        <div className="no-scrollbar mt-4 overflow-x-auto overflow-y-auto md:min-h-0 md:flex-1">
-          <table className="w-full text-left ">
+        <div className="no-scrollbar mt-4 overflow-x-auto overflow-y-auto md:flex-1">
+          <table className="w-full text-left">
             <thead>
               <tr className="border-b border-slate-200">
                 <th className="py-2">Nome Completo</th>
@@ -146,7 +146,7 @@ export default function AddPatientPage() {
                   <td className="py-2">
                     <button
                       onClick={() => removePatient(patient.id)}
-                      className="rounded-md bg-light-salmon px-3 py-1"
+                      className="rounded-md bg-neutral-200 px-3 py-1 hover:opacity-70 transition duration-300 ease-in-out"
                     >
                       Excluir
                     </button>

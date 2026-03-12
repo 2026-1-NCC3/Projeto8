@@ -1,13 +1,14 @@
 @import "tailwindcss";
-@source inline("bg-salmon text-salmon text-dark-blue bg-dark-blue bg-light-salmon bg-light-blue text-black bg-neutral");
+@source inline("bg-salmon text-salmon text-blue bg-blue bg-neutral-200 bg-light-blue text-black bg-neutral");
 
 :root {
-  --light-blue: #C2D3EA;
-  --dark-blue: #516991;
-  --salmon: #DB5B52;
-  --light-salmon: #FFD8CF;
-  --neutral: #F8F8F8;
-  --black: #000000;
+  --light-blue: #D1E8FF;
+  --blue: #5580DF;
+  --blue: #0B1957;
+  --salmon: #FF6142;
+  --light-salmon: #FFBCAF;
+  --neutral: #FFFCF8;
+  --black: #020202;
   --font-sans: "Archivo", "Segoe UI", sans-serif;
   --font-display: "Archivo", "Segoe UI", sans-serif;
   --font-heading: "Archivo", "Segoe UI", sans-serif;
@@ -15,7 +16,8 @@
 
 @theme {
   --color-light-blue: var(--light-blue);
-  --color-dark-blue: var(--dark-blue);
+  --color-blue: var(--blue);
+  --color-darker-blue: var(--darker-blue);
   --color-salmon: var(--salmon);
   --color-light-salmon: var(--light-salmon);
   --color-neutral: var(--neutral);
@@ -80,8 +82,8 @@ h2 {
 
 .panel {
   border-radius: 0.75rem;
-  background: #ffffff;
-  border: 1px solid color-mix(in srgb, var(--dark-blue) 18%, white);
+  background: #FDFDFD;
+  border: 1px solid color-mix(in srgb, var(--blue) 18%, neutral);
 }
 
 .no-scrollbar {

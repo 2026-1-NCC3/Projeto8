@@ -11,7 +11,7 @@ export default function DashboardLayout({
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <div className="grid grid-cols-4 p-4 gap-4 md:block md:h-screen overflow-clip">
+    <div className="grid grid-cols-4 p-4 gap-4 md:block">
       <div className="col-span-4 md:flex md:items-start md:gap-4">
         <div
           className="col-span-4 md:shrink-0 md:transition-[width] md:duration-300 md:w-(--sidebar-width)"
