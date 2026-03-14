@@ -1,6 +1,7 @@
 package com.example.MayaFisioLumiere.Services;
 
 
+import com.example.MayaFisioLumiere.Domain.ExerciseSession.ExerciseSessionResponseDTO;
 import com.example.MayaFisioLumiere.Domain.Exercises.ExerciseRequestDTO;
 import com.example.MayaFisioLumiere.Domain.Exercises.ExerciseResponseDTO;
 import com.example.MayaFisioLumiere.entity.ExerciseEntity;
@@ -137,5 +138,6 @@ public class ExerciseService {
         }
         exercisesRepository.deleteById(id);
     }
+
 
 }

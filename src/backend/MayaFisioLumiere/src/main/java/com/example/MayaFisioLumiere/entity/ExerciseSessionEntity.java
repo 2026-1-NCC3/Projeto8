@@ -17,7 +17,7 @@ import java.time.OffsetDateTime;
 public class ExerciseSessionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int exercisesession_id;
+    private Long exercisesession_id;
 
     @Column(nullable = false)
     private String serie;
@@ -33,5 +33,6 @@ public class ExerciseSessionEntity {
     @ManyToOne
     @JoinColumn(name="exercise_id", nullable = false)
     private ExerciseEntity exercise;
+
 
 }
