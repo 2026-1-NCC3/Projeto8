@@ -67,7 +67,7 @@ export default function ExercisesPage() {
       </header>
 
       {/* Cadastrar exercício */}
-      <div className="panel col-span-4 self-start md:col-span-8 p-5">
+      <div className=" col-span-4 self-start md:col-span-8 p-5">
         <h2 className="text-xl">Adicionar um novo exercício</h2>
         <form
           onSubmit={submitExercise}
@@ -141,7 +141,7 @@ export default function ExercisesPage() {
           {filtered.map((exercise) => (
             <article
               key={exercise.id}
-              className="relative rounded-md border border-slate-200 bg-[#FDFDFD] p-3 space-y-1"
+              className="relative rounded-md border border-slate-200 bg-white/40 p-3 space-y-1"
             >
               <p className="font-semibold">{exercise.name}</p>
               <p className="mt-1 text-xs uppercase tracking-wide">
@@ -151,7 +151,7 @@ export default function ExercisesPage() {
                 href={exercise.youtube}
                 target="_blank"
                 rel="noreferrer"
-                className="mt-2 inline-block text-darker-blue underline underline-offset-2 hover:opacity-70 transition duration-300 ease-in-out"
+                className="mt-2 inline-block text-dark-blue underline underline-offset-2 hover:opacity-70 transition duration-300 ease-in-out"
               >
                 Abrir video
               </a>

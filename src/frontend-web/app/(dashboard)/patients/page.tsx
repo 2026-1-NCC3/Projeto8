@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState, useEffect } from "react";
-import Select from 'react-select';
+import Select from "react-select";
 import {
   initialPatients,
   initialSchedule,
@@ -9,7 +9,15 @@ import {
 } from "../../lib/mock-data";
 
 // Days of the week
-const daysOfWeek = ["Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado", "Domingo"];
+const daysOfWeek = [
+  "Segunda",
+  "Terça",
+  "Quarta",
+  "Quinta",
+  "Sexta",
+  "Sábado",
+  "Domingo",
+];
 
 export default function PatientsPage() {
   const [patients, setPatients] = useState<Patient[]>(initialPatients);
@@ -36,10 +44,11 @@ export default function PatientsPage() {
   >([]);
   const [exercises, setExercises] = useState([]);
   const [selectedDay, setSelectedDay] = useState<string>(daysOfWeek[0]);
+  const [active, setActive] = useState<boolean>(false);
 
   useEffect(() => {
     async function fetchExercises() {
-      const response = await fetch('/api/exercises'); // Substitua pela sua rota de API
+      const response = await fetch("/api/exercises"); // Substitua pela sua rota de API
       const data = await response.json();
       setExercises(data);
     }
@@ -104,7 +113,7 @@ export default function PatientsPage() {
         <h1 className="font-display text-4xl">Acompanhar Pacientes</h1>
       </header>
 
-      <div className="panel col-span-4 p-5 md:col-span-7">
+      <div className=" col-span-4 p-5 md:col-span-7">
         <div className="grid grid-cols-4 gap-3 md:grid-cols-12">
           <input
             value={query}
@@ -152,7 +161,7 @@ export default function PatientsPage() {
         </div>
       </div>
 
-      <div className="panel col-span-4 p-5 md:col-span-5 md:flex md:flex-col">
+      <div className="col-span-4 p-5 md:col-span-5 md:flex md:flex-col gap-3">
         <h2 className="text-xl">Prontuário e Evolução</h2>
         {selectedPatient ? (
           <div className="mt-3 space-y-3">
@@ -184,19 +193,19 @@ export default function PatientsPage() {
                 {selectedPatient.adherence}% dos exercícios foram completados
               </p>
             </div>
-            <button className="rounded-md bg-blue px-4 py-2 text-neutral w-full hover:opacity-70 transition duration-300 ease-in-out">
+            <button className="rounded-md bg-blue px-4 py-2 text-neutral w-full hover:opacity-70 transition duration-300 ease-in-out mt-3">
               Acessar prontuário completo
             </button>
           </div>
         ) : (
           <p className="mt-3 text-neutral-500">
-            Selecione um paciente para visualizar o prontuario.
+            Selecione um paciente para visualizar o prontuário.
           </p>
         )}
       </div>
 
       {/* Mostrar o formulário e sessões para o dia selecionado */}
-      <div className="panel col-span-4 p-5 md:col-span-12 space-y-4">
+      <div className=" col-span-4 p-5 md:col-span-12 space-y-4">
         <h2 className="text-xl">Calendário do Paciente Selecionado</h2>
 
         {/* Tabs dos dias da semana */}
@@ -204,8 +213,11 @@ export default function PatientsPage() {
           {daysOfWeek.map((day) => (
             <button
               key={day}
-              onClick={() => setSelectedDay(day)}
-              className={`py-2 px-4 rounded-2xl border border-light-blue bg-neutral cursor-pointer ${selectedDay == day && "bg-blue text-color border-blue"}`}
+              onClick={() => {
+                setSelectedDay(day);
+                setActive(!active);
+              }}
+              className={`py-2 px-4 rounded-2xl border border-light-blue bg-neutral cursor-pointer ${active && "bg-blue text-color border-blue"}`}
             >
               {day}
             </button>
@@ -217,14 +229,16 @@ export default function PatientsPage() {
           className="mt-3 grid grid-cols-4 gap-3 md:grid-cols-12"
         >
           <Select
-            options={exercises.map((exercise: { id: string, title: string, value: string }) => ({
-              value: exercise.id,
-              label: exercise.title,
-            }))}
+            options={exercises.map(
+              (exercise: { id: string; title: string; value: string }) => ({
+                value: exercise.id,
+                label: exercise.title,
+              }),
+            )}
             onChange={(selectedOption) =>
               setScheduleForm((prev) => ({
                 ...prev,
-                exerciseName: selectedOption ? selectedOption.value : '',
+                exerciseName: selectedOption ? selectedOption.value : "",
               }))
             }
             placeholder="Selecione um exercício"
@@ -258,7 +272,9 @@ export default function PatientsPage() {
                 className="col-span-4 rounded-md border border-neutral-200 bg-neutral-50 p-3 md:col-span-4"
               >
                 <p className="font-semibold">{item.exerciseName}</p>
-                <p className=" text-neutral-600">Frequência: {item.frequency}</p>
+                <p className=" text-neutral-600">
+                  Frequência: {item.frequency}
+                </p>
               </article>
             ))
           ) : (
@@ -273,10 +289,14 @@ export default function PatientsPage() {
           {workoutSessions
             .filter(
               (ws) =>
-                ws.patient_ID === selectedPatient?.id && ws.weekDay === selectedDay,
+                ws.patient_ID === selectedPatient?.id &&
+                ws.weekDay === selectedDay,
             )
             .map((workoutSession) => (
-              <div key={workoutSession.workoutSession_ID} className="col-span-4">
+              <div
+                key={workoutSession.workoutSession_ID}
+                className="col-span-4"
+              >
                 {exerciseSessions
                   .filter(
                     (es) =>

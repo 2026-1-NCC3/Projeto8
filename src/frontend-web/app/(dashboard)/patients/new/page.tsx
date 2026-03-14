@@ -55,7 +55,7 @@ export default function AddPatientPage() {
         <h1 className="font-display text-4xl">Add Patient</h1>
       </header>
 
-      <div className="panel col-span-4 p-5 md:col-span-8">
+      <div className=" col-span-4 p-5 md:col-span-8">
         <h2 className="text-xl">Adicionar um novo paciente</h2>
         <form
           onSubmit={submitPatient}
@@ -126,10 +126,10 @@ export default function AddPatientPage() {
       </aside>
 
       {/* Pacientes existentes */}
-      <div className="panel col-span-4 p-5 md:col-span-12 md:flex md:flex-col">
+      <div className="col-span-4 p-5 md:col-span-12 md:flex md:flex-col h-full">
         <h2 className="text-xl">Pacientes Cadastrados</h2>
-        <div className="no-scrollbar mt-4 overflow-x-auto overflow-y-auto md:flex-1">
-          <table className="w-full text-left">
+        <div className="no-scrollbar mt-4 overflow-x-auto md:flex-1">
+          <table className="w-full h-full text-left">
             <thead>
               <tr className="border-b border-slate-200">
                 <th className="py-2">Nome Completo</th>
