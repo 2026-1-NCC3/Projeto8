@@ -14,4 +14,5 @@ public interface ExercisesRepository extends JpaRepository<ExerciseEntity, Long>
     List<ExerciseEntity> findByTitleContainingIgnoreCase(String title);
 
     List<ExerciseEntity> findByTagsContainingIgnoreCase(String tag);
+
 }

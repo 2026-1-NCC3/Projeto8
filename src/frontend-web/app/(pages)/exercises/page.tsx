@@ -1,23 +1,13 @@
 "use client";
 
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState } from "react";
+import {
+  useExercises,
+  type ExerciseRequest,
+} from "@/app/hooks/useGetExercises";
+import { Exercise } from "@/app/hooks/useGetExercises";
 
-type Exercise = {
-  exercise_ID: number;
-  title: string;
-  description: string;
-  tags: string;
-  midiaURL: string;
-};
-
-type ExerciseForm = {
-  title: string;
-  description: string;
-  tags: string;
-  midiaURL: string;
-};
-
-const emptyForm: ExerciseForm = {
+const emptyForm: ExerciseRequest = {
   title: "",
   description: "",
   tags: "",
@@ -25,28 +15,10 @@ const emptyForm: ExerciseForm = {
 };
 
 export default function ExercisesPage() {
-  const [exercises, setExercises] = useState<Exercise[]>([]);
+  const { exercises, addExercise, removeExercise } = useExercises();
+
   const [search, setSearch] = useState("");
-  const [form, setForm] = useState<ExerciseForm>(emptyForm);
-
-  const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
-  // Fetch exercises on component mount
-  useEffect(() => {
-    async function fetchExercises() {
-      try {
-        // Fetching with a large size to get all at once for the list
-        const res = await fetch(`${API_URL}/api/exercise/all?page=0&size=100`);
-        if (res.ok) {
-          const data = await res.json();
-          setExercises(data);
-        }
-      } catch (error) {
-        console.error("Erro ao buscar exercícios:", error);
-      }
-    }
-    fetchExercises();
-  }, [API_URL]);
+  const [form, setForm] = useState<ExerciseRequest>(emptyForm);
 
   const filtered = useMemo(() => {
     return exercises.filter((exercise) =>
@@ -61,40 +33,9 @@ export default function ExercisesPage() {
     if (!form.title || !form.description || !form.tags || !form.midiaURL)
       return;
 
-    try {
-      const res = await fetch(`${API_URL}/api/exercise/create-exercise`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-
-      if (res.ok) {
-        const newExercise = await res.json();
-        setExercises((prev) => [newExercise, ...prev]);
-        setForm(emptyForm);
-      } else {
-        alert("Erro ao criar exercício.");
-      }
-    } catch (error) {
-      console.error("Erro na requisição:", error);
-    }
-  }
-
-  async function removeExercise(id: number) {
-    try {
-      const res = await fetch(
-        `${API_URL}/api/exercise/deleteExerciseId/${id}`,
-        {
-          method: "DELETE",
-        },
-      );
-      if (res.ok) {
-        setExercises((prev) =>
-          prev.filter((exercise) => exercise.exercise_ID !== id),
-        );
-      }
-    } catch (error) {
-      console.error("Erro ao deletar exercício:", error);
+    const isSuccess = await addExercise(form);
+    if (isSuccess) {
+      setForm(emptyForm);
     }
   }
 
@@ -116,7 +57,7 @@ export default function ExercisesPage() {
             onChange={(event) =>
               setForm((prev) => ({ ...prev, title: event.target.value }))
             }
-            placeholder="Nome (Título) do exercício"
+            placeholder="Nome do exercício"
             className="col-span-4 rounded-md border border-slate-300 px-3 py-2 md:col-span-6 placeholder:text-neutral-700"
             required
           />
@@ -143,7 +84,7 @@ export default function ExercisesPage() {
             onChange={(event) =>
               setForm((prev) => ({ ...prev, midiaURL: event.target.value }))
             }
-            placeholder="URL da Mídia / YouTube"
+            placeholder="URL do YouTube"
             className="col-span-4 rounded-md border border-slate-300 px-3 py-2 md:col-span-12 placeholder:text-neutral-700"
             required
           />
@@ -167,7 +108,7 @@ export default function ExercisesPage() {
         />
 
         <div className="mt-4 space-y-4 h-[calc(100vh-14rem)] overflow-scroll no-scrollbar">
-          {filtered.map((exercise) => (
+          {filtered.map((exercise: Exercise) => (
             <article
               key={exercise.exercise_ID}
               className="relative rounded-md border border-slate-200 bg-[#FDFDFD] p-3 space-y-1"

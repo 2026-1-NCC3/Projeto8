@@ -6,7 +6,7 @@ import {
   initialPatients,
   initialSchedule,
   type Patient,
-} from "../../lib/mock-data";
+} from "@/app/lib/mock-data";
 
 // Days of the week
 const daysOfWeek = [
