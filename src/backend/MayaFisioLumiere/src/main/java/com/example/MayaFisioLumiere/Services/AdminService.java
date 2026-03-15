@@ -32,6 +32,7 @@ public class AdminService {
     //Atualizar email, nome ou senha do administrador, procurando o admin pelo ID dele
     //Rota
     public AdminResponseDTO updateAdmin(Long id, AdminRequestDTO data){
+        try {
         AdminEntity admin = adminRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Perfil administrador não encontrado"));
         if(data.adminName() != null){
@@ -45,7 +46,6 @@ public class AdminService {
         if(data.adminPassword() != null) {
             admin.setAdminPassword(data.adminPassword());
         }
-
         adminRepository.save(admin);
         return new AdminResponseDTO(
                 admin.getAdminUser_ID(),
@@ -53,11 +53,15 @@ public class AdminService {
                 admin.getAdminEmail(),
                 admin.getAdminPassword()
         );
+        } catch (Exception err) {
+            throw new RuntimeException("Erro ao atualizar dados do administrador", err);
+        }
     }
 
     //Buscar todos os administradores/profissionais e seus dados
 
     public List<AdminResponseDTO> getAllAdmins(int page, int size){
+        try{
         Pageable pageable = PageRequest.of(page,size);
         Page<AdminEntity> adminsPage = this.adminRepository.findAll(pageable);
         return adminsPage.map(admin -> new AdminResponseDTO(
@@ -67,24 +71,33 @@ public class AdminService {
                 admin.getAdminPassword() //REMOVER DEPOIS DA AUTENTICAÇÃO E HASH
             )
         ).stream().toList();
+        } catch (Exception err) {
+            throw new RuntimeException("Erro ao buscar administradores", err);
+        }
     }
 
     //Buscar Administradores/Profissionais por ID (util para o login?)
 
     public AdminResponseDTO findById(Long id) {
+        try {
         AdminEntity admin = adminRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Admin não encontrado"));
+
         return new AdminResponseDTO(
                 admin.getAdminUser_ID(),
                 admin.getAdminName(),
                 admin.getAdminEmail(),
                 admin.getAdminPassword() //REMOVER DEPOIS DA AUTENTICAÇÃO E HASH
         );
+        } catch (Exception err) {
+            throw new RuntimeException("Administrador não encontrado", err);
+        }
     }
 
     //Buscar por email
 
-    public List<AdminResponseDTO> findByEmail(String adminEmail){
+    public List<AdminResponseDTO> findByAdminEmail(String adminEmail){
+        try {
         List<AdminEntity> admins = adminRepository.findByAdminEmailContainingIgnoreCase(adminEmail);
 
         return admins.stream().map(admin ->
@@ -95,14 +108,21 @@ public class AdminService {
                         admin.getAdminPassword() //REMOVER DEPOIS DA AUTENTICAÇÃO E HASH
                 )
         ).toList();
+        } catch (Exception err) {
+            throw new RuntimeException("Não existe administrador com esse email", err);
+        }
     }
 
     //Deletar administrador por id
     public void deleteAdminById(Long id){
+        try {
         if(!adminRepository.existsById(id)){
             throw new RuntimeException("Admin não encontrado");
         }
         adminRepository.deleteById(id);
+        }catch (Exception err) {
+        throw new RuntimeException("Erro ao deletar administrador", err);
+        }
     }
 
 

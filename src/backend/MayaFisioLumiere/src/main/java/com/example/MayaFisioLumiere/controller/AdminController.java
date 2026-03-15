@@ -63,7 +63,7 @@ public class AdminController {
     @GetMapping("/adminEmail/{adminEmail}")
     public ResponseEntity<List<AdminResponseDTO>> searchByEmail(
             @PathVariable String adminEmail) {
-        List<AdminResponseDTO> admin = adminService.findByEmail(adminEmail);
+        List<AdminResponseDTO> admin = adminService.findByAdminEmail(adminEmail);
         return ResponseEntity.ok(admin);
     }
 
