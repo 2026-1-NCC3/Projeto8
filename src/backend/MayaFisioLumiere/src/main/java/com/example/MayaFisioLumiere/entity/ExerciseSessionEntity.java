@@ -6,25 +6,27 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.OffsetDateTime;
-
 @Entity
 @Table(name = "exercisesession")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class ExerciseSessionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long exercisesession_id;
 
     @Column(nullable = false)
-    private String serie;
+    private int serie;
+
+    @Column(nullable = false)
+    private int repetitions;
 
     @ManyToOne
     @JoinColumn(name="workoutsession_id", nullable= false)
-    private WorkoutSessionEntity workoutSession_id;
+    private WorkoutSessionEntity workoutSession;
 
     @ManyToOne
     @JoinColumn(name="patient_id", nullable = false)

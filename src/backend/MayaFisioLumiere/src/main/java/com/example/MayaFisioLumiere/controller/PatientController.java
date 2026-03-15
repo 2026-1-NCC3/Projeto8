@@ -18,6 +18,8 @@ public class PatientController {
 
     @Autowired
     private PatientRepository patientRepository; // conecta o controller ao banco de dados hospedado
+
+    @Autowired
     private PatientService patientService;
 
     @GetMapping("/getAllPatients")
@@ -52,8 +54,8 @@ public class PatientController {
         }
     }
 
-    @DeleteMapping("/delete/patient_id") // deletando paciente por email
-    public ResponseEntity<?> deletePatient(@PathVariable UUID patiend_id) {
+    @DeleteMapping("/delete/{patient_id}") // deletando paciente por email
+    public ResponseEntity<?> deletePatient(@PathVariable("patient_id") UUID patiend_id) {
         try {
             patientRepository.deleteById(patiend_id);
             return ResponseEntity.ok("Paciente deletado com sucesso.");

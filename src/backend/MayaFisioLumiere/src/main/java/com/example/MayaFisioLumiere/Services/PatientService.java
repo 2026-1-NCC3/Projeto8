@@ -33,6 +33,7 @@ public class PatientService {
     }
 
     // busca paciente por nome completo
+    //CADE A ROTA?
     public List<PatientResponseDTO> getPatientByFullName(String name, String surname){
         List<PatientEntity> patients = this.patientRepository.findByNameAndSurnameIgnoreCase(name, surname);
 
@@ -52,6 +53,7 @@ public class PatientService {
         newPatient.setSurname(data.surname());
         newPatient.setCpf(data.cpf());
         newPatient.setEmail(data.email());
+        newPatient.setPassword(data.password());
         newPatient.setPatientAge(data.patientAge());
 
         return patientRepository.save(newPatient);

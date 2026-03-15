@@ -4,7 +4,8 @@ import java.util.UUID;
 
 public record ExerciseSessionRequestDTO(
         Long exercise_id,
-        Long workoutsession_id,
+        Long workoutSession,
         UUID patient_id,
-        String serie
+        int serie,
+        int repetitions
         ) { }
