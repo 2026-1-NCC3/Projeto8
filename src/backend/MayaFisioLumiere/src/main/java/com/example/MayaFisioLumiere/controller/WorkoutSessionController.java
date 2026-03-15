@@ -2,11 +2,15 @@ package com.example.MayaFisioLumiere.controller;
 
 
 import com.example.MayaFisioLumiere.Domain.WorkoutSession.WorkoutSesRequestDTO;
+import com.example.MayaFisioLumiere.entity.PatientEntity;
 import com.example.MayaFisioLumiere.entity.WorkoutSessionEntity;
 import com.example.MayaFisioLumiere.Services.WorkoutSessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/workout")
@@ -34,14 +38,39 @@ public class WorkoutSessionController {
         }
     }
 
-
-    //Buscar se o paciente está ativo
-
     //Buscar todos os pacientes ativos
+    //ROTA http://localhost:8081/workout/patients/active
+    @GetMapping("/patients/active")
+    public ResponseEntity<List<PatientEntity>> getActivePatients(){
+        return ResponseEntity.ok(workoutSessionService.getActivePatients());
+    }
+
+    //Buscar todos os apcientes com status inativo
+    // ROTA http://localhost:8081/workout/patients/inactive
+    @GetMapping("/patients/inactive")
+    public ResponseEntity<List<PatientEntity>> getInactivePatients(){
+        return ResponseEntity.ok(workoutSessionService.getInactivePatients());
+    }
 
     //Buscar todas as workout sessions de um paciente (patient id)
+    //ROTA http://localhost:8081/workout/patient/3e8e4187-47d8-4751-955d-e6a036db9478
+    @GetMapping("/patient/{patient_id}")
+    public ResponseEntity<List<WorkoutSessionEntity>> getWorkoutsByPatient(@PathVariable UUID patient_id){
+        return ResponseEntity.ok(workoutSessionService.getWorkoutsByPatient(patient_id));
+    }
 
     //Buscar todas as workout sessions de todos os pacientes
+    //ROTA http://localhost:8081/workout/all
+    @GetMapping("/all")
+    public ResponseEntity<List<WorkoutSessionEntity>> getAllWorkouts(){
+        return ResponseEntity.ok(workoutSessionService.getAllWorkouts());
+    }
 
     //Deletar a workout Session de um paciente
+    //ROTA http://localhost:8081/workout/deleteById/2
+    @DeleteMapping("/deleteById/{id}")
+    public ResponseEntity<?> deleteWorkoutSession(@PathVariable Long id){
+        workoutSessionService.deleteWorkoutSession(id);
+        return ResponseEntity.ok("Workout deletado com sucesso");
+    }
 }

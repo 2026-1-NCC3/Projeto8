@@ -10,6 +10,7 @@ import java.util.UUID;
 @Repository
 public interface PatientRepository extends JpaRepository<PatientEntity, UUID> {
 
+    List<PatientEntity> findByStatus(String status);
 
     List<PatientEntity> findByNameAndSurnameIgnoreCase(String name, String surname);
 

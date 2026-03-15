@@ -60,7 +60,6 @@ public class WorkoutSessionService {
     }
 
     //Verificar se o paciente está ativo (deu checked em no minimo 2 workouts nos ultimos 7 dias)
-
     public String checkPatientStatus(UUID patientId){
 
         PatientEntity patient = patientRepository.findById(patientId)
@@ -81,15 +80,38 @@ public class WorkoutSessionService {
         return patient.getStatus();
     }
 
-    // exercise session? Atualizar a workout session especifica de um paciente com WeekDay e paciente id
+    //Buscar todos os pacientes com status ativo
+    public List<PatientEntity> getActivePatients(){
+        return patientRepository.findByStatus("ATIVO");
+    }
+
+    //Buscar todos os pacientes com status inativo
+    public List<PatientEntity> getInactivePatients(){
+        return patientRepository.findByStatus("INATIVO");
+    }
 
     //Buscar todas as workout sessions de um paciente (patient id)
+    public List<WorkoutSessionEntity> getWorkoutsByPatient(UUID patientId){
+
+        PatientEntity patient = patientRepository.findById(patientId)
+                .orElseThrow(() -> new RuntimeException("Paciente não encontrado"));
+
+        return workoutSessionRepository.findByPatient(patient);
+    }
 
     //Buscar todas as workout sessions de todos os pacientes
+    public List<WorkoutSessionEntity> getAllWorkouts(){
+        return workoutSessionRepository.findAll();
+    }
 
     //Deletar a workout Session de um paciente
+    public void deleteWorkoutSession(Long workoutSessionId){
 
+        WorkoutSessionEntity workout = workoutSessionRepository.findById(workoutSessionId)
+                .orElseThrow(() -> new RuntimeException("Workout não encontrado"));
 
+        workoutSessionRepository.delete(workout);
+    }
 
 
 
