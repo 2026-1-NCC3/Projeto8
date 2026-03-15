@@ -4,6 +4,7 @@ import com.example.MayaFisioLumiere.Domain.Exercises.ExerciseRequestDTO;
 import com.example.MayaFisioLumiere.Domain.Exercises.ExerciseResponseDTO;
 import com.example.MayaFisioLumiere.entity.ExerciseEntity;
 import com.example.MayaFisioLumiere.Services.ExerciseService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,12 +13,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/exercise")
+@CrossOrigin(origins = "*")
 public class ExerciseController {
     @Autowired
     private ExerciseService exerciseService;
 
     // Criar exercícios novos
-    // http://localhost:3000/api/exercise
+    // http://localhost:3000/api/exercise/create-exercise
     @PostMapping("/create-exercise")
     public ResponseEntity<ExerciseEntity> create(@RequestBody ExerciseRequestDTO body) {
         ExerciseEntity newExercise = this.exerciseService.createExercise(body);

@@ -15,6 +15,7 @@ import java.util.List;
 
 @Service //essa anotação serve para ele identificar que será um service
 public class ExerciseService {
+
 //]ogica de criar exercicios contendo titulo, link do youtube, tags e descrição do exercicio
 
     @Autowired
@@ -41,7 +42,7 @@ public class ExerciseService {
             exercise.setTitle(data.title());
         }
 
-        if(data.tags() != null){
+        if (data.tags() != null){
             exercise.setTags(data.tags());
         }
 
