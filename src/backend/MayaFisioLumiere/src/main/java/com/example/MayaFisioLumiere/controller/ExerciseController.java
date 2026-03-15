@@ -17,7 +17,7 @@ public class ExerciseController {
     private ExerciseService exerciseService;
 
     // Criar exercícios novos
-    // http://localhost:3000/api/exercise
+    // http://localhost:3000/api/exercise/create-exercise
     @PostMapping("/create-exercise")
     public ResponseEntity<ExerciseEntity> create(@RequestBody ExerciseRequestDTO body) {
         ExerciseEntity newExercise = this.exerciseService.createExercise(body);

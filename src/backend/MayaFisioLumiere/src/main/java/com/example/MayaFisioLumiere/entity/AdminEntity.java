@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
 
 @Table(name = "admin")
 @Entity
@@ -27,4 +26,21 @@ public class AdminEntity {
 
     @Column(nullable = false)
     private String adminPassword;
+
+    //Getters para get no login e logout, creio que setters não são necessários porque setamos os valores no Service
+    public Long getAdminUser_ID() {
+        return adminUser_ID;
+    }
+
+    public String getAdminName() {
+        return adminName;
+    }
+
+    public String getAdminEmail() {
+        return adminEmail;
+    }
+
+    public String getAdminPassword() {
+        return adminPassword;
+    }
 }
