@@ -31,7 +31,7 @@ export function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="flex gap-4 items-center w-full p-2 transition-all duration-300 bg-neutral rounded-2xl border border-dark-blue/20">
+    <aside className="flex gap-4 items-center w-full p-2 transition-all duration-300 bg-neutral rounded-md border border-dark-blue/20">
       <nav className="flex gap-2">
         {items.map((item) => {
           const active = pathname === item.href;

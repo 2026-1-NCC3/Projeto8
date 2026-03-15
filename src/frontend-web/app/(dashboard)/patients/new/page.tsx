@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { initialPatients, type Patient } from "../../../lib/mock-data";
 
 type FormState = {

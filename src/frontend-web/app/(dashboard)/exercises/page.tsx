@@ -1,63 +1,101 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { initialExercises, type Exercise } from "../../lib/mock-data";
+import { useMemo, useState, useEffect } from "react";
 
-type ExerciseForm = {
-  name: string;
+type Exercise = {
+  exercise_ID: number;
+  title: string;
   description: string;
   tags: string;
-  thumbnail: string;
-  youtube: string;
+  midiaURL: string;
+};
+
+type ExerciseForm = {
+  title: string;
+  description: string;
+  tags: string;
+  midiaURL: string;
 };
 
 const emptyForm: ExerciseForm = {
-  name: "",
+  title: "",
   description: "",
   tags: "",
-  thumbnail: "",
-  youtube: "",
+  midiaURL: "",
 };
 
 export default function ExercisesPage() {
-  const [exercises, setExercises] = useState<Exercise[]>(initialExercises);
+  const [exercises, setExercises] = useState<Exercise[]>([]);
   const [search, setSearch] = useState("");
   const [form, setForm] = useState<ExerciseForm>(emptyForm);
 
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+  // Fetch exercises on component mount
+  useEffect(() => {
+    async function fetchExercises() {
+      try {
+        // Fetching with a large size to get all at once for the list
+        const res = await fetch(`${API_URL}/api/exercise/all?page=0&size=100`);
+        if (res.ok) {
+          const data = await res.json();
+          setExercises(data);
+        }
+      } catch (error) {
+        console.error("Erro ao buscar exercícios:", error);
+      }
+    }
+    fetchExercises();
+  }, [API_URL]);
+
   const filtered = useMemo(() => {
     return exercises.filter((exercise) =>
-      `${exercise.name} ${exercise.tags}`
+      `${exercise.title} ${exercise.tags}`
         .toLowerCase()
         .includes(search.toLowerCase()),
     );
   }, [exercises, search]);
 
-  function submitExercise(event: React.FormEvent<HTMLFormElement>) {
+  async function submitExercise(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (
-      !form.name ||
-      !form.description ||
-      !form.tags ||
-      !form.thumbnail ||
-      !form.youtube
-    )
+    if (!form.title || !form.description || !form.tags || !form.midiaURL)
       return;
 
-    const next: Exercise = {
-      id: `EX-${Date.now()}`,
-      name: form.name,
-      description: form.description,
-      tags: form.tags,
-      thumbnail: form.thumbnail,
-      youtube: form.youtube,
-    };
+    try {
+      const res = await fetch(`${API_URL}/api/exercise/create-exercise`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
 
-    setExercises((prev) => [next, ...prev]);
-    setForm(emptyForm);
+      if (res.ok) {
+        const newExercise = await res.json();
+        setExercises((prev) => [newExercise, ...prev]);
+        setForm(emptyForm);
+      } else {
+        alert("Erro ao criar exercício.");
+      }
+    } catch (error) {
+      console.error("Erro na requisição:", error);
+    }
   }
 
-  function removeExercise(id: string) {
-    setExercises((prev) => prev.filter((exercise) => exercise.id !== id));
+  async function removeExercise(id: number) {
+    try {
+      const res = await fetch(
+        `${API_URL}/api/exercise/deleteExerciseId/${id}`,
+        {
+          method: "DELETE",
+        },
+      );
+      if (res.ok) {
+        setExercises((prev) =>
+          prev.filter((exercise) => exercise.exercise_ID !== id),
+        );
+      }
+    } catch (error) {
+      console.error("Erro ao deletar exercício:", error);
+    }
   }
 
   return (
@@ -67,18 +105,18 @@ export default function ExercisesPage() {
       </header>
 
       {/* Cadastrar exercício */}
-      <div className=" col-span-4 self-start md:col-span-8 p-5">
+      <div className="panel col-span-4 self-start md:col-span-8 p-5">
         <h2 className="text-xl">Adicionar um novo exercício</h2>
         <form
           onSubmit={submitExercise}
           className="grid grid-cols-4 md:grid-cols-12 gap-3 mt-3"
         >
           <input
-            value={form.name}
+            value={form.title}
             onChange={(event) =>
-              setForm((prev) => ({ ...prev, name: event.target.value }))
+              setForm((prev) => ({ ...prev, title: event.target.value }))
             }
-            placeholder="Nome do exercício"
+            placeholder="Nome (Título) do exercício"
             className="col-span-4 rounded-md border border-slate-300 px-3 py-2 md:col-span-6 placeholder:text-neutral-700"
             required
           />
@@ -101,21 +139,12 @@ export default function ExercisesPage() {
             required
           />
           <input
-            value={form.thumbnail}
+            value={form.midiaURL}
             onChange={(event) =>
-              setForm((prev) => ({ ...prev, thumbnail: event.target.value }))
+              setForm((prev) => ({ ...prev, midiaURL: event.target.value }))
             }
-            placeholder="URL da thumbnail (capa)"
-            className="col-span-4 rounded-md border border-slate-300 px-3 py-2 md:col-span-6 placeholder:text-neutral-700"
-            required
-          />
-          <input
-            value={form.youtube}
-            onChange={(event) =>
-              setForm((prev) => ({ ...prev, youtube: event.target.value }))
-            }
-            placeholder="Link do YouTube"
-            className="col-span-4 rounded-md border border-slate-300 px-3 py-2 md:col-span-6 placeholder:text-neutral-700"
+            placeholder="URL da Mídia / YouTube"
+            className="col-span-4 rounded-md border border-slate-300 px-3 py-2 md:col-span-12 placeholder:text-neutral-700"
             required
           />
           <button
@@ -140,24 +169,24 @@ export default function ExercisesPage() {
         <div className="mt-4 space-y-4 h-[calc(100vh-14rem)] overflow-scroll no-scrollbar">
           {filtered.map((exercise) => (
             <article
-              key={exercise.id}
-              className="relative rounded-md border border-slate-200 bg-white/40 p-3 space-y-1"
+              key={exercise.exercise_ID}
+              className="relative rounded-md border border-slate-200 bg-[#FDFDFD] p-3 space-y-1"
             >
-              <p className="font-semibold">{exercise.name}</p>
+              <p className="font-semibold">{exercise.title}</p>
               <p className="mt-1 text-xs uppercase tracking-wide">
                 {exercise.tags}
               </p>
               <a
-                href={exercise.youtube}
+                href={exercise.midiaURL}
                 target="_blank"
                 rel="noreferrer"
-                className="mt-2 inline-block text-dark-blue underline underline-offset-2 hover:opacity-70 transition duration-300 ease-in-out"
+                className="mt-2 inline-block text-darker-blue underline underline-offset-2 hover:opacity-70 transition duration-300 ease-in-out"
               >
                 Abrir video
               </a>
               <button
-                onClick={() => removeExercise(exercise.id)}
-                className="absolute right-3 bottom-4 rounded-md bg-neutral-200 px-3 py-1 hover:opacity-70 transition duration-300 ease-in-out"
+                onClick={() => removeExercise(exercise.exercise_ID)}
+                className="absolute right-3 bottom-4 rounded-md bg-neutral-200 px-3 py-1 hover:opacity-70 transition duration-300 ease-in-out text-red-600"
               >
                 Excluir
               </button>
