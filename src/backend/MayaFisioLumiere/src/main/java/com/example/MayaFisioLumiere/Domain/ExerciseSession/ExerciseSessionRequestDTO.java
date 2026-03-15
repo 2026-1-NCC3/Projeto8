@@ -6,5 +6,6 @@ public record ExerciseSessionRequestDTO(
         Long exercise_id,
         Long workoutsession_id,
         UUID patient_id,
-        String serie
+        String serie,
+        int repetitions
         ) { }

@@ -4,8 +4,8 @@ import com.example.MayaFisioLumiere.Domain.ExerciseSession.ExerciseSessionReques
 import com.example.MayaFisioLumiere.Domain.ExerciseSession.ExerciseSessionResponseDTO;
 import com.example.MayaFisioLumiere.Services.ExerciseService;
 import com.example.MayaFisioLumiere.Services.ExerciseSessionService;
-import com.example.MayaFisioLumiere.entity.ExerciseSessionEntity;
-import com.example.MayaFisioLumiere.repository.ExerciseSessionRepository;
+import com.example.MayaFisioLumiere.Entity.ExerciseSessionEntity;
+import com.example.MayaFisioLumiere.Repository.ExerciseSessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

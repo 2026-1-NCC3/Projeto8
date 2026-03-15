@@ -1,7 +1,7 @@
 package com.example.MayaFisioLumiere.Controller;
 
 import com.example.MayaFisioLumiere.Services.AdminService;
-import com.example.MayaFisioLumiere.entity.AdminEntity;
+import com.example.MayaFisioLumiere.Entity.AdminEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

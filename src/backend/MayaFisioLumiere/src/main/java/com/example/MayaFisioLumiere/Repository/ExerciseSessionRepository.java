@@ -1,9 +1,7 @@
-package com.example.MayaFisioLumiere.repository;
+package com.example.MayaFisioLumiere.Repository;
 
 import com.example.MayaFisioLumiere.Domain.ExerciseSession.ExerciseSessionResponseDTO;
-import com.example.MayaFisioLumiere.entity.ExerciseSessionEntity;
-import com.example.MayaFisioLumiere.entity.PatientEntity;
-import com.example.MayaFisioLumiere.entity.WorkoutSessionEntity;
+import com.example.MayaFisioLumiere.Entity.ExerciseSessionEntity;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -2,8 +2,8 @@ package com.example.MayaFisioLumiere.Services;
 
 import com.example.MayaFisioLumiere.Domain.Patient.PatientRequestDTO;
 import com.example.MayaFisioLumiere.Domain.Patient.PatientResponseDTO;
-import com.example.MayaFisioLumiere.entity.PatientEntity;
-import com.example.MayaFisioLumiere.repository.PatientRepository;
+import com.example.MayaFisioLumiere.Entity.PatientEntity;
+import com.example.MayaFisioLumiere.Repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

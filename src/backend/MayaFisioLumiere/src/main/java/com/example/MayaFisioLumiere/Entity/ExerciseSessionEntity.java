@@ -1,12 +1,10 @@
-package com.example.MayaFisioLumiere.entity;
+package com.example.MayaFisioLumiere.Entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.time.OffsetDateTime;
 
 @Entity
 @Table(name = "exercisesession")
@@ -21,6 +19,9 @@ public class ExerciseSessionEntity {
 
     @Column(nullable = false)
     private String serie;
+
+    @Column(nullable = false)
+    private int repetitions;
 
     @ManyToOne
     @JoinColumn(name="workoutsession_id", nullable= false)

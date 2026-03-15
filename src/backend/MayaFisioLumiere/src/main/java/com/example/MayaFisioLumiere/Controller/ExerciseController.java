@@ -2,7 +2,7 @@ package com.example.MayaFisioLumiere.Controller;
 
 import com.example.MayaFisioLumiere.Domain.Exercises.ExerciseRequestDTO;
 import com.example.MayaFisioLumiere.Domain.Exercises.ExerciseResponseDTO;
-import com.example.MayaFisioLumiere.entity.ExerciseEntity;
+import com.example.MayaFisioLumiere.Entity.ExerciseEntity;
 import com.example.MayaFisioLumiere.Services.ExerciseService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.beans.factory.annotation.Autowired;

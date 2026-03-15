@@ -1,8 +1,8 @@
-package com.example.MayaFisioLumiere.repository;
+package com.example.MayaFisioLumiere.Repository;
 
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
-import com.example.MayaFisioLumiere.entity.PatientEntity;
+import com.example.MayaFisioLumiere.Entity.PatientEntity;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

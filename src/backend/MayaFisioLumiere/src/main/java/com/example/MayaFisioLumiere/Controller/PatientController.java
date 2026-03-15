@@ -3,8 +3,8 @@ package com.example.MayaFisioLumiere.Controller;
 import com.example.MayaFisioLumiere.Domain.Patient.PatientRequestDTO;
 import com.example.MayaFisioLumiere.Domain.Patient.PatientResponseDTO;
 import com.example.MayaFisioLumiere.Services.PatientService;
-import com.example.MayaFisioLumiere.entity.PatientEntity;
-import com.example.MayaFisioLumiere.repository.PatientRepository; // importando para poder usar o auto-wired
+import com.example.MayaFisioLumiere.Entity.PatientEntity;
+import com.example.MayaFisioLumiere.Repository.PatientRepository; // importando para poder usar o auto-wired
 import org.springframework.beans.factory.annotation.Autowired; // necessário para salvar as coisas dentro do banco de dados
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
