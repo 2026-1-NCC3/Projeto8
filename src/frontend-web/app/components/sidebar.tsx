@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import Link from "next/link";
@@ -31,7 +32,7 @@ export function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="flex gap-4 items-center w-full p-2 transition-all duration-300 bg-neutral rounded-md border border-dark-blue/20">
+    <aside className="flex items-center w-full p-2 bg-neutral rounded-md border border-dark-blue/20">
       <nav className="flex gap-2">
         {items.map((item) => {
           const active = pathname === item.href;
@@ -39,24 +40,26 @@ export function Sidebar() {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center rounded-md font-semibold transition-all duration-300 ${
+              className={`flex items-center h-11 rounded-md font-semibold overflow-hidden transition-all duration-400 ease-in-out ${
                 active
-                  ? "h-11 w-full gap-3 px-4"
-                  : 'w-12 px-6 mx-auto justify-center!'
-              } ${
-                active
-                  ? "bg-dark-blue text-neutral"
-                  : "bg-light-blue/45 text-black hover:bg-light-blue"
+                  ? "gap-3 px-4 bg-dark-blue text-neutral"
+                  : "w-11 justify-center px-0 bg-light-blue/45 text-black hover:bg-light-blue"
               }`}
             >
-              <span className={`h-6 w-6 shrink-0 ${active && "invert"}`}>
-                <img src={item.icon} />
+              <span
+                className={`flex items-center justify-center h-6 w-6 shrink-0 transition-transform duration-400 ${
+                  active && "invert"
+                }`}
+              >
+                <img
+                  src={item.icon}
+                  alt={item.label}
+                  className="w-full h-full object-contain"
+                />
               </span>
               <span
-                className={`neutralspace-nowrap transition-[opacity,transform] duration-100 ${
-                  active
-                    ? "w-fit opacity-100"
-                    : "w-0 opacity-0"
+                className={`whitespace-nowrap overflow-hidden transition-all duration-400 ease-in-out ${
+                  active ? "max-w-50 opacity-100" : "max-w-0 opacity-0"
                 }`}
               >
                 {item.label}

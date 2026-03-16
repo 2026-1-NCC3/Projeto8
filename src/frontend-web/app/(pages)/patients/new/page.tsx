@@ -1,14 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { initialPatients, type Patient } from "@/app/lib/mock-data";
+import { usePatients } from "@/app/hooks/useGetPatients";
 
 type FormState = {
   firstName: string;
   lastName: string;
   birthDate: string;
   cpf: string;
-  diagnosis: string;
 };
 
 const emptyForm: FormState = {
@@ -16,37 +15,39 @@ const emptyForm: FormState = {
   lastName: "",
   birthDate: "",
   cpf: "",
-  diagnosis: "",
 };
 
 export default function AddPatientPage() {
-  const [patients, setPatients] = useState<Patient[]>(initialPatients);
+  const { patients, addPatient, removePatient } = usePatients();
   const [form, setForm] = useState<FormState>(emptyForm);
 
-  function submitPatient(event: React.FormEvent<HTMLFormElement>) {
+  async function submitPatient(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     if (!form.firstName || !form.lastName || !form.birthDate || !form.cpf)
       return;
 
-    const next: Patient = {
-      id: `PAT-${Date.now()}`,
-      firstName: form.firstName,
-      lastName: form.lastName,
-      birthDate: form.birthDate,
+    // Calcular idade a partir da data de nascimento
+    const ageDiffMs = Date.now() - new Date(form.birthDate).getTime();
+    const ageDate = new Date(ageDiffMs);
+    const patientAge = Math.abs(ageDate.getUTCFullYear() - 1970);
+
+    // Gerar credenciais dinamicamente para o backend
+    const email = `${form.firstName.toLowerCase()}.${form.lastName.toLowerCase()}@lumiere.com`;
+    const password = form.birthDate.split("-").reverse().join("");
+
+    const isSuccess = await addPatient({
+      name: form.firstName,
+      surname: form.lastName,
       cpf: form.cpf,
-      diagnosis: form.diagnosis || "Aguardando avaliacao funcional",
-      painLevel: 0,
-      adherence: 0,
-      lastSession: new Date().toISOString().slice(0, 10),
-    };
+      email: email,
+      password: password,
+      patientAge: patientAge,
+    });
 
-    setPatients((prev) => [next, ...prev]);
-    setForm(emptyForm);
-  }
-
-  function removePatient(id: string) {
-    setPatients((prev) => prev.filter((patient) => patient.id !== id));
+    if (isSuccess) {
+      setForm(emptyForm);
+    }
   }
 
   return (
@@ -55,7 +56,7 @@ export default function AddPatientPage() {
         <h1 className="font-display text-4xl">Add Patient</h1>
       </header>
 
-      <div className=" col-span-4 p-5 md:col-span-8">
+      <div className="col-span-4 p-5 md:col-span-8">
         <h2 className="text-xl">Adicionar um novo paciente</h2>
         <form
           onSubmit={submitPatient}
@@ -97,14 +98,6 @@ export default function AddPatientPage() {
             className="col-span-4 rounded-md border border-slate-300 px-3 py-2 md:col-span-7"
             required
           />
-          <input
-            value={form.diagnosis}
-            onChange={(event) =>
-              setForm((prev) => ({ ...prev, diagnosis: event.target.value }))
-            }
-            placeholder="Diagnostico inicial"
-            className="col-span-4 rounded-md border border-slate-300 px-3 py-2 md:col-span-12"
-          />
           <button
             type="submit"
             className="col-span-full mt-3 rounded-md bg-blue p-4 font-semibold text-neutral hover:opacity-70 transition duration-300 ease-in-out"
@@ -114,18 +107,17 @@ export default function AddPatientPage() {
         </form>
       </div>
 
-      {/* Explicação sobre credenciais */}
       <aside className="col-span-4 p-5 md:col-span-4">
         <h2 className="text-xl">Credenciais geradas</h2>
         <p className="mt-3 leading-relaxed">
-          <span className="font-semibold">Login</span>: nome.sobrenome
+          <span className="font-semibold">Login (Email)</span>:
+          nome.sobrenome@lumiere.com
           <br />
-          <span className="font-semibold">Senha</span>: DDMMYYY (dada de
+          <span className="font-semibold">Senha</span>: DDMMYYYY (data de
           nascimento)
         </p>
       </aside>
 
-      {/* Pacientes existentes */}
       <div className="col-span-4 p-5 md:col-span-12 md:flex md:flex-col h-full">
         <h2 className="text-xl">Pacientes Cadastrados</h2>
         <div className="no-scrollbar mt-4 overflow-x-auto md:flex-1">
@@ -133,19 +125,23 @@ export default function AddPatientPage() {
             <thead>
               <tr className="border-b border-slate-200">
                 <th className="py-2">Nome Completo</th>
-                <th className="py-2">CPF</th>
+                <th className="py-2">Email</th>
+                <th className="py-2">Ação</th>
               </tr>
             </thead>
             <tbody>
               {patients.map((patient) => (
-                <tr key={patient.id} className="border-b border-slate-100">
+                <tr
+                  key={patient.patient_id}
+                  className="border-b border-slate-100"
+                >
                   <td className="py-2">
-                    {patient.firstName} {patient.lastName}
+                    {patient.name} {patient.surname}
                   </td>
-                  <td className="py-2">{patient.cpf}</td>
+                  <td className="py-2">{patient.email}</td>
                   <td className="py-2">
                     <button
-                      onClick={() => removePatient(patient.id)}
+                      onClick={() => removePatient(patient.patient_id)}
                       className="rounded-md bg-neutral-200 px-3 py-1 hover:opacity-70 transition duration-300 ease-in-out"
                     >
                       Excluir

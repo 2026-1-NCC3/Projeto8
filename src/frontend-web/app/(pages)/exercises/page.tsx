@@ -110,7 +110,7 @@ export default function ExercisesPage() {
         <div className="mt-4 space-y-4 h-[calc(100vh-14rem)] overflow-scroll no-scrollbar">
           {filtered.map((exercise: Exercise) => (
             <article
-              key={exercise.exercise_ID}
+              key={exercise.exercise_id}
               className="relative rounded-md border border-slate-200 bg-[#FDFDFD] p-3 space-y-1"
             >
               <p className="font-semibold">{exercise.title}</p>
@@ -126,7 +126,7 @@ export default function ExercisesPage() {
                 Abrir video
               </a>
               <button
-                onClick={() => removeExercise(exercise.exercise_ID)}
+                onClick={() => removeExercise(exercise.exercise_id)}
                 className="absolute right-3 bottom-4 rounded-md bg-neutral-200 px-3 py-1 hover:opacity-70 transition duration-300 ease-in-out text-red-600"
               >
                 Excluir

@@ -1,24 +1,22 @@
-// src/frontend-web/app/hooks/useExercises.ts
 import { useState, useEffect, useMemo } from "react";
 
 export type Exercise = {
-  exercise_ID: number;
+  exercise_id: number;
   title: string;
   description: string;
   tags: string;
   midiaURL: string;
 };
 
-export type ExerciseRequest = Omit<Exercise, "exercise_ID">;
+export type ExerciseRequest = Omit<Exercise, "exercise_id">;
 
 export function useExercises() {
   const [exercises, setExercises] = useState<Exercise[]>([]);
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
-  const API_USER = process.env.NEXT_PUBLIC_API_USER;
-  const API_PASS = process.env.NEXT_PUBLIC_API_PASS;
+  const API_USER = process.env.NEXT_API_USER;
+  const API_PASS = process.env.NEXT_API_PASS;
 
-  // 1. Wrap the auth token in useMemo so it is completely stable
   const basicAuth = useMemo(() => {
     if (typeof window !== "undefined" && API_USER && API_PASS) {
       return "Basic " + btoa(`${API_USER}:${API_PASS}`);
@@ -26,7 +24,6 @@ export function useExercises() {
     return "";
   }, [API_USER, API_PASS]);
 
-  // 2. Move the fetch logic INSIDE the useEffect
   useEffect(() => {
     async function fetchExercises() {
       try {
@@ -46,11 +43,10 @@ export function useExercises() {
       }
     }
 
-    // Only fetch if we have an auth token ready
     if (basicAuth) {
       fetchExercises();
     }
-  }, [API_URL, basicAuth]); // Now dependencies are clean and safe
+  }, [API_URL, basicAuth]);
 
   const addExercise = async (newExerciseData: ExerciseRequest) => {
     try {
@@ -64,7 +60,13 @@ export function useExercises() {
       });
 
       if (res.ok) {
-        const newExercise = await res.json();
+        const data = await res.json();
+        
+        const newExercise: Exercise = {
+          ...data,
+          exercise_id: data.exercise_id || data.exercise_ID,
+        };
+        
         setExercises((prev) => [newExercise, ...prev]);
         return true;
       } else {
@@ -90,7 +92,7 @@ export function useExercises() {
       );
       if (res.ok) {
         setExercises((prev) =>
-          prev.filter((exercise) => exercise.exercise_ID !== id),
+          prev.filter((exercise) => exercise.exercise_id !== id),
         );
       }
     } catch (error) {
