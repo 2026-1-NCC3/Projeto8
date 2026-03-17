@@ -3,7 +3,6 @@
 
 import { useMemo, useState, useEffect } from "react";
 import Select from "react-select";
-import { initialSchedule } from "@/app/lib/mock-data";
 import { usePatients } from "@/app/hooks/useGetPatients";
 import { useExercises } from "@/app/hooks/useGetExercises"; // Integration with your exercises hook!
 
@@ -24,7 +23,7 @@ export default function PatientsPage() {
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState("");
 
-  const [schedules, setSchedules] = useState(initialSchedule);
+  const [schedules, setSchedules] = useState();
   const [scheduleForm, setScheduleForm] = useState({
     exerciseName: "",
     frequency: "",
