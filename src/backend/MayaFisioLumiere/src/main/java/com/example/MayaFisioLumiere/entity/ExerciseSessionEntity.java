@@ -24,8 +24,8 @@ public class ExerciseSessionEntity {
     @Column(nullable = false)
     private int repetitions;
 
-    @Column(nullable = false)
-    private Boolean feelPain;
+    @Column(nullable = true)
+    private Boolean feelPain; //DEPOIS, COLOCAR PARA FALSE, ERRO DE POSTGRES NAO IDENTIFICANDO
 
     @ManyToOne
     @JoinColumn(name="workoutsession_id", nullable= false)

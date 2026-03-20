@@ -33,8 +33,8 @@ public class PatientEntity {
     @Column( nullable = false)
     private String password;
 
-    @Column(nullable = false)
-    private String birthDate; //DEPOO MUDAR REQUEST, RESPONSE, SERVICE DE CRIAÇÃO E DE GET
+    @Column(nullable = true)
+    private String birthDate; //DEPOIS, COLOCAR PARA FALSE, ERRO DE POSTGRES NAO IDENTIFICANDO
 
     @Column(nullable = false)
     private String status = "INATIVO";

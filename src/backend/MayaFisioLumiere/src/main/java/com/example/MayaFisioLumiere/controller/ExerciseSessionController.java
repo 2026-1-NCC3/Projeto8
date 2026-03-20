@@ -41,7 +41,7 @@ public class ExerciseSessionController {
             ExerciseSessionEntity newExerciseSession = this.exerciseSessionService.createExerciseSession(body);
             return ResponseEntity.status(HttpStatus.CREATED).body(newExerciseSession);
         }catch(Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erro ao criar sessão de exercicios");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e);
         }
     }
 
