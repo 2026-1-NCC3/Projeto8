@@ -29,13 +29,18 @@ public class ExerciseSessionService {
     private  WorkoutSessionRepository workoutSessionRepository;
 
     public List<ExerciseSessionResponseDTO> getAllExerciseSessions() {
-        List<ExerciseSessionEntity> sessions = this.exerciseSessionRepository.findAll();
+        List<ExerciseSessionEntity> sessions = exerciseSessionRepository.findAll();
 
-        return sessions.stream()
-                .map(entity -> new ExerciseSessionResponseDTO(
-                        Math.toIntExact(entity.getExercisesession_id())
-                ))
-                .collect(Collectors.toList());
+        return sessions.stream().map(entity -> new ExerciseSessionResponseDTO(
+                Math.toIntExact(entity.getExercisesession_id()),
+                entity.getExercise().getExercise_ID(),
+                entity.getWorkoutSession().getWorkoutSession_id(),
+                entity.getPatient().getPatient_ID(),
+                entity.getSerie(),
+                entity.getRepetitions(),
+                entity.getFeelPain()
+                )
+        ).toList();
     }
 
 
@@ -58,6 +63,7 @@ public class ExerciseSessionService {
         newexerciseSession.setWorkoutSession(workoutSession);
         newexerciseSession.setSerie(data.serie());
         newexerciseSession.setRepetitions(data.repetitions());
+        newexerciseSession.setFeelPain(data.feelPain());
 
         return exerciseSessionRepository.save(newexerciseSession);
     }

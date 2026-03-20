@@ -24,6 +24,9 @@ public class ExerciseSessionEntity {
     @Column(nullable = false)
     private int repetitions;
 
+    @Column(nullable = false)
+    private Boolean feelPain;
+
     @ManyToOne
     @JoinColumn(name="workoutsession_id", nullable= false)
     private WorkoutSessionEntity workoutSession;
