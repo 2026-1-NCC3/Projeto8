@@ -104,6 +104,7 @@ Interface administrativa utilizada pela fisioterapeuta para:
 - **Tailwind CSS**
 - **ShadCN UI**
 - **Node.js**
+<br/>
 
 ## Instalação Local
 ### Pré-requisitos
@@ -115,6 +116,7 @@ Para executar o projeto localmente é necessário ter instalado:
 
 ### Passo-a-passo de execução local (Acesso ao App)
 -
+<br/>
 
 ### Passo-a-passo de execução local (Acesso ao Admin)
 1. Clone o repositório
@@ -122,7 +124,7 @@ Para executar o projeto localmente é necessário ter instalado:
 git clone https://github.com/2025-1-MCC1/Projeto8.git
 ```
 
-2. Acesse a pasta do projeto
+2. Acesse a pasta do painel do administrador
 ```bash
 cd Projeto8
 cd frontend-web
@@ -133,9 +135,11 @@ cd frontend-web
 npm install
 ```
 
-4. Configure as variáveis de ambiente (exemplo .env)
+4. Configure as variáveis de ambiente (exemplo `.env.example`)
 ```bash
-DATABASE_URL=
+NEXT_PUBLIC_API_URL=http://localhost:8080 # ou sua URL hospedada
+NEXT_API_USER=seu_usuario
+NEXT_API_PASS=sua_senha
 ```
 
 5. Execute o servidor de desenvolvimento

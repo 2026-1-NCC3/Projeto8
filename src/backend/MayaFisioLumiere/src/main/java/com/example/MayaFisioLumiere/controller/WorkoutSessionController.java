@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/workout")
+@RequestMapping("/api/workout")
 public class WorkoutSessionController {
 
     @Autowired

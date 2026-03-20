@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/exerciseSession")
+@RequestMapping("/api/exerciseSession")
 public class ExerciseSessionController {
     @Autowired
     private ExerciseSessionRepository exerciseSessionRepository;

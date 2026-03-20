@@ -18,13 +18,6 @@ public class AdminController {
     private AdminService adminService;
 
 
-    //Criar Administradores/Profissionais novos
-    @PostMapping("/create-admin")
-    public ResponseEntity<AdminEntity> create(@RequestBody AdminRequestDTO body){
-        AdminEntity newAdmin = this.adminService.createAdmin(body);
-        return ResponseEntity.ok(newAdmin);
-    }
-
     //Atualizar email, nome ou senha
     //http://localhost:8081/api/adminAccess/updateAdmin/2
     @PutMapping("/updateAdmin/{id}")
