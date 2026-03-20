@@ -9,6 +9,11 @@ public record PatientResponseDTO(
         String name,
         String surname,
         String email,
-        String birthDate
+        String birthDate,
+        String cellPhone,
+        String gender,
+        Double height,
+        Double weight
+
 ) {
 }

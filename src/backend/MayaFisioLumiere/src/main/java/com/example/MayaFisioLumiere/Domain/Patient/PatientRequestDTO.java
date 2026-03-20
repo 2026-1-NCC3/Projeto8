@@ -6,5 +6,10 @@ public record PatientRequestDTO(
         String cpf,
         String email,
         String password,
-        String birthDate
+        String birthDate,
+        String cellPhone,
+        String gender,
+        Double height,
+        Double weight
+
 ) { }

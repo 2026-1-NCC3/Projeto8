@@ -28,7 +28,11 @@ public class PatientService {
                         patient.getName(),
                         patient.getSurname(),
                         patient.getEmail(),
-                        patient.getBirthDate()
+                        patient.getBirthDate(),
+                        patient.getCellPhone(),
+                        patient.getGender(),
+                        patient.getHeight(),
+                        patient.getWeight()
                 ))
                 .toList();
     }
@@ -45,7 +49,12 @@ public class PatientService {
                 patient.getName(),
                 patient.getSurname(),
                 patient.getEmail(),
-                patient.getBirthDate()
+                patient.getBirthDate(),
+                patient.getCellPhone(),
+                patient.getGender(),
+                patient.getHeight(),
+                patient.getWeight()
+
         )).toList();
     }
     //cria novo paciente dentro do banco de dados
@@ -57,6 +66,10 @@ public class PatientService {
         newPatient.setEmail(data.email());
         newPatient.setPassword(data.password());
         newPatient.setBirthDate(data.birthDate());
+        newPatient.setCellPhone(data.cellPhone());
+        newPatient.setGender(data.gender());
+        newPatient.setHeight(data.height());
+        newPatient.setWeight(data.weight());
 
         return patientRepository.save(newPatient);
     }
