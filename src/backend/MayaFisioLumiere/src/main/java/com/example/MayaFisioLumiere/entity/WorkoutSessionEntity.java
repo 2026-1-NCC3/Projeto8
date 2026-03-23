@@ -35,12 +35,12 @@ public class WorkoutSessionEntity {
     @Column
     private LocalDate workoutDate;
 
-    //Para permitir associar mais de um exercicio a workout do dia, isso cria uma tabela intermediaria
 
     @ManyToOne
     @JoinColumn(name = "patient_id")
     private PatientEntity patient;
 
+    //Para permitir associar mais de um exercicio a workout do dia, isso cria uma tabela intermediaria
     @JsonIgnore
     @OneToMany(mappedBy = "workoutSession", cascade = CascadeType.ALL)
     private List<ExerciseSessionEntity> exerciseSessions;

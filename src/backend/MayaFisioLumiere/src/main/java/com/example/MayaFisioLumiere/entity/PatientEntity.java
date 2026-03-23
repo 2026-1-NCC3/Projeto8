@@ -43,11 +43,25 @@ public class PatientEntity implements UserDetails {
     @Column( nullable = false)
     private String password;
 
-    @Column(nullable = false)
-    private int patientAge;
+    @Column(nullable = true)
+    private String birthDate; //DEPOIS, COLOCAR PARA FALSE, ERRO DE POSTGRES NAO IDENTIFICANDO
 
     @Column(nullable = false)
     private String status = "INATIVO";
+
+    //ADICIONAR numero zap, genero, altura, peso
+
+    @Column( nullable = false)
+    private String cellPhone;
+
+    @Column( nullable = false)
+    private String gender;
+
+    @Column(precision = 5, scale = 2)
+    private Double height;
+
+    @Column(precision = 5, scale = 2)
+    private Double weight;
 
     @Enumerated(EnumType.STRING)
     private UserRole role;

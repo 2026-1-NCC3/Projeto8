@@ -7,5 +7,6 @@ public record ExerciseSessionRequestDTO(
         Long workoutSession,
         UUID patient_id,
         int serie,
-        int repetitions
+        int repetitions,
+        Boolean feelPain
         ) { }
