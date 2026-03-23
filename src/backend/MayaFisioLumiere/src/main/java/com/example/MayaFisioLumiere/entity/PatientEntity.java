@@ -57,10 +57,10 @@ public class PatientEntity implements UserDetails {
     @Column( nullable = false)
     private String gender;
 
-    @Column(precision = 5, scale = 2)
+    @Column
     private Double height;
 
-    @Column(precision = 5, scale = 2)
+    @Column
     private Double weight;
 
     @Enumerated(EnumType.STRING)
