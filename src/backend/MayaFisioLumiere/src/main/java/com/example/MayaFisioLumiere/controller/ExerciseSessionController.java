@@ -41,13 +41,27 @@ public class ExerciseSessionController {
             ExerciseSessionEntity newExerciseSession = this.exerciseSessionService.createExerciseSession(body);
             return ResponseEntity.status(HttpStatus.CREATED).body(newExerciseSession);
         }catch(Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erro ao criar sessão de exercicios");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e);
         }
     }
 
 
     @PutMapping("/updateExerciseSession")
     public ResponseEntity<?> updateExerciseSession( @PathVariable Long id,
+                                                    @RequestBody ExerciseSessionRequestDTO data){
+        try {
+            ExerciseSessionEntity updatedSession = exerciseSessionService.updateExerciseSession(id, data);
+            return ResponseEntity.ok(updatedSession); //retorna ok com sessão atualizada
+        }catch(Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro interno ao processar a atualização: " + e.getMessage());
+        }
+    }
+
+    //Atualizar o feelPain do ExerciseSession updateExerciseSessionPain
+    //Rota
+    @PutMapping("/updateExerciseSessionPain")
+    public ResponseEntity<?> updateExerciseSessionPain( @PathVariable Long id,
                                                     @RequestBody ExerciseSessionRequestDTO data){
         try {
             ExerciseSessionEntity updatedSession = exerciseSessionService.updateExerciseSession(id, data);
