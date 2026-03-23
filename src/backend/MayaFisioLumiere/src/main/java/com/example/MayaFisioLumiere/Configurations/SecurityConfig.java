@@ -19,14 +19,13 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .requiresChannel(channel -> channel.anyRequest().requiresSecure()) // para requisições sem serem http
                 .csrf(csrf -> csrf.disable()) // configuração necessária para as api's funcionarem
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // para não ser necessário logar no render
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/auth/login/admin").permitAll()    // rota de login de admin
                         .requestMatchers(HttpMethod.POST, "/auth/register/admin").hasAuthority("admin")// rota de sing-up de admin
-                        .requestMatchers(HttpMethod.POST, "auth/register/patient").hasAuthority("admin") // rota de sign-in paciente, permitindo com que o admin cadastre ele
-                        .requestMatchers(HttpMethod.POST, "auth/login/patient").permitAll() // rota de login do paciente
+                        .requestMatchers(HttpMethod.POST, "/auth/register/patient").hasAuthority("admin") // rota de sign-in paciente, permitindo com que o admin cadastre ele
+                        .requestMatchers(HttpMethod.POST, "/auth/login/patient").permitAll() // rota de login do paciente
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()         // para que o cors reconheça as rotas
                         .anyRequest().authenticated()                                   // tudo pede um token para autenticação
                 )
