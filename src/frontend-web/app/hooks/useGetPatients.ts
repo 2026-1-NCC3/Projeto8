@@ -24,6 +24,7 @@ export function usePatients() {
   const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
   const API_USER = process.env.NEXT_PUBLIC_API_USER;
   const API_PASS = process.env.NEXT_PUBLIC_API_PASS;
+  const token = process.env.NEXT_PUBLIC_TOKEN;
 
   const basicAuth = useMemo(() => {
     if (typeof window !== "undefined" && API_USER && API_PASS) {
@@ -38,7 +39,7 @@ export function usePatients() {
       const res = await fetch(`${API_URL}/api/patients/getAllPatients`, {
         method: "GET",
         headers: {
-          Authorization: basicAuth,
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       });
@@ -60,7 +61,7 @@ export function usePatients() {
         const res = await fetch(`${API_URL}/api/patients/getAllPatients`, {
           method: "GET",
           headers: {
-            Authorization: basicAuth,
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
         });
@@ -87,7 +88,7 @@ export function usePatients() {
       const res = await fetch(`${API_URL}/api/patients/createPatient`, {
         method: "POST",
         headers: {
-          Authorization: basicAuth,
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify(newPatient),
@@ -122,7 +123,7 @@ export function usePatients() {
       const res = await fetch(`${API_URL}/api/patients/delete/${id}`, {
         method: "DELETE",
         headers: {
-          Authorization: basicAuth,
+          Authorization: `Bearer ${token}`,
         },
       });
       if (res.ok) {

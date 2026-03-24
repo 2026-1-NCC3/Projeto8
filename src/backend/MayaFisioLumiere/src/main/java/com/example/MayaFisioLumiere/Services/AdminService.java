@@ -151,14 +151,28 @@ public class AdminService  {
     }
 
     // service para login criando um jwt quando for bem sucediddo
-    public String loginAdmin(String email, String password) {
+   /* public String loginAdmin(String email, String password) {
         //validação por meio da classe de UserDetails debaixo dos panos
         var usernamePassword = new UsernamePasswordAuthenticationToken(email, password);
         var auth = this.authManager.authenticate(usernamePassword);
 
         // autenticação bem sucedida -> gera token do usuário
         return tokenService.generateToken((AdminEntity) auth.getPrincipal());
+    } */
+    public String loginAdmin(String email, String password) {
+        try {
+            AdminEntity admin = adminRepository.findByAdminEmail(email)
+                    .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
+            if (!bcrypt.matches(password, admin.getAdminPassword())) {
+                throw new RuntimeException("Senha inválida");
+            }
+
+            return tokenService.generateToken(admin);
+
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao fazer login: " + e.getMessage(), e);
+        }
     }
 
     // toda a vez que der logout, o token vai pra uma denyList que impede de esse mesmo token ser usado denovo
