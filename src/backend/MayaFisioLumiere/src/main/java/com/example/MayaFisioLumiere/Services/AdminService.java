@@ -3,6 +3,7 @@ package com.example.MayaFisioLumiere.Services;
 import com.example.MayaFisioLumiere.Domain.Admin.AdminRequestDTO;
 import com.example.MayaFisioLumiere.Domain.Admin.AdminResponseDTO;
 import com.example.MayaFisioLumiere.entity.AdminEntity;
+import com.example.MayaFisioLumiere.entity.role.UserRole;
 import com.example.MayaFisioLumiere.repository.AdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -36,7 +37,7 @@ public class AdminService  {
     @Autowired
     private BlacklistService blacklistService;
 
-    public AdminResponseDTO createAdmin(AdminRequestDTO data, String adminPassword){
+    public AdminResponseDTO createAdmin(AdminRequestDTO data) {
         if (this.adminRepository.findByAdminEmail(data.adminEmail()).isPresent()) {
             throw new RuntimeException("Este e-mail já está cadastrado.");
         } // se já tiver um email cadastrado ele dá um errinho pra não ter duplicatas no backend
@@ -44,8 +45,14 @@ public class AdminService  {
         AdminEntity newAdmin = new AdminEntity();
         newAdmin.setAdminName(data.adminName());
         newAdmin.setAdminEmail(data.adminEmail());
-        String encryptedPassword = bcrypt.encode(data.adminPassword()); // senha dele com bcrypt
+
+        String encryptedPassword = bcrypt.encode(data.adminPassword());
         newAdmin.setAdminPassword(encryptedPassword);
+
+        newAdmin.setRole(UserRole.Admin);
+
+        newAdmin.setTotalMinutesUsedToday(0);
+        newAdmin.setLastAccessDate(java.time.LocalDate.now());
 
         adminRepository.save(newAdmin);
 

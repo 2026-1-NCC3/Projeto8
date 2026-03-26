@@ -11,6 +11,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class AuthController {
 
     @Autowired
@@ -19,7 +20,7 @@ public class AuthController {
     //cria novo admin
     @PostMapping("/register/admin")
     public ResponseEntity<AdminResponseDTO> register(@RequestBody AdminRequestDTO body) {
-        AdminResponseDTO newAdmin = this.adminService.createAdmin(body, body.adminPassword());
+        AdminResponseDTO newAdmin = this.adminService.createAdmin(body);
         return ResponseEntity.ok(newAdmin);
     }
 

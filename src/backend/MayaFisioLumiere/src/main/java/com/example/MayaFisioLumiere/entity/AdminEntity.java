@@ -59,10 +59,12 @@ public class AdminEntity implements UserDetails {
     // essa classe a baixo diz sobre o tipo de permissão que estamos dando para o nosso admin
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-     if(this.role == UserRole.Admin) return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
-    else return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        if(this.role == UserRole.Admin) {
+            return List.of(new SimpleGrantedAuthority("admin"), new SimpleGrantedAuthority("user"));
+        } else {
+            return List.of(new SimpleGrantedAuthority("user"));
+        }
     }
-
     @Override
     public @Nullable String getPassword() {
         return adminPassword;
@@ -75,13 +77,14 @@ public class AdminEntity implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-    // logica de tempo de sessão por dia
+    /* logica de tempo de sessão por dia
         if (lastAccessDate != null && !lastAccessDate.equals(LocalDate.now())) {
             return true;
         }
 
         int limitMinutes = (this.role == UserRole.Admin) ? 540 : 180; //9h de sessão ou 3h de sessão, tem que ver quanto tempo a gente pretende colocar para a sessão diaria do admin e do usuário
-        return this.totalMinutesUsedToday < limitMinutes;
+        return this.totalMinutesUsedToday < limitMinutes;*/
+        return true;
     }
 
     // verifica se a conta não está expirada
