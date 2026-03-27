@@ -23,5 +23,39 @@ public class Patient {
         return name;
     }
 
+    public String getSurname() {
+        return surname;
+    }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getBirthDate() {
+        return birthDate;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public String getHeight() {
+        return height;
+    }
+
+    public String getWeight() {
+        return weight;
+    }
 }

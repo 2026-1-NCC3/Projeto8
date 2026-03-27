@@ -1,11 +1,14 @@
 package com.example.projeto8.model;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class WorkoutSession {
     private Long workoutSession_id;
     private String weekDay;
     private Boolean checked;
+
+    private LocalDate workoutDate;
 
     // ADICIONE ESTA LINHA:
     private Patient patient;

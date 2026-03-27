@@ -1,13 +1,23 @@
 
 package com.example.projeto8.model;
 
+import com.example.projeto8.model.Exercise;
 import com.google.gson.annotations.SerializedName;
 
 public class ExerciseSession {
 
     // O @SerializedName garante que o Android entenda se o Back enviar "name"
     @SerializedName("name")
-    private String name;
+    private String name; //nao seria melhor pegar pelo exercise ID dentro da exercise session?
+
+
+    private Long exercisesession_id;
+    private int serie;
+    private int repetitions;
+    private Boolean feelPain;
+    private WorkoutSession workoutSession;
+    private Patient patient;
+    private Exercise exercise;
 
     // Construtor vazio (necessário para o Retrofit)
     public ExerciseSession() {}
