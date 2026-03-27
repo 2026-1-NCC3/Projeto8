@@ -1,4 +1,4 @@
-package com.example.projeto8;
+package com.example.projeto8.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.widget.ImageView;
 import android.net.Uri;
 import com.bumptech.glide.Glide;
+import com.example.projeto8.Exercise;
+import com.example.projeto8.R;
 
 public class ExercisesActivity extends AppCompatActivity {
     ImageView iconHome;

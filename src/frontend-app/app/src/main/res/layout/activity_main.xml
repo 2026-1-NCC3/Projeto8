@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="0dp"
-    tools:context=".MainActivity">
+    tools:context=".UI.MainActivity">
 
     <View
         android:id="@+id/topBackground"

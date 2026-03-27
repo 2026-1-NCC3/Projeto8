@@ -1,4 +1,4 @@
-package com.example.projeto8;
+package com.example.projeto8.UI;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,8 @@ import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.projeto8.R;
 
 public class ProfileActivity extends AppCompatActivity {
     ImageView iconHome;

@@ -1,7 +1,7 @@
-package com.example.projeto8;
+package com.example.projeto8.UI;
 
-import static com.example.projeto8.CalendarUtils.daysInWeekArray;
-import static com.example.projeto8.CalendarUtils.monthYearFromDate;
+import static com.example.projeto8.UI.CalendarUtils.daysInWeekArray;
+import static com.example.projeto8.UI.CalendarUtils.monthYearFromDate;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,11 +21,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import com.example.projeto8.R;
 import com.example.projeto8.adapter.TaskAdapter;
-import com.example.projeto8.model.ExerciseSessionEntity;
 import com.example.projeto8.model.Task;
 import com.example.projeto8.model.WorkoutSession;
-import com.example.projeto8.remote.ApiService;
+import com.example.projeto8.api.workout.WorkoutService;
 import com.example.projeto8.remote.RetrofitClient;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
     }
     private void carregarDadosDoPaciente(UUID patientId) {
         // Usa o RetrofitClient que você criou para fazer o pedido
-        ApiService api = RetrofitClient.getApiService();
+        WorkoutService api = RetrofitClient.getWorkoutService();
 
         api.getWorkoutsByPatient(patientId).enqueue(new Callback<List<WorkoutSession>>() {
             @Override

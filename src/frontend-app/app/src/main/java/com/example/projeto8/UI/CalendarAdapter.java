@@ -1,4 +1,4 @@
-package com.example.projeto8;
+package com.example.projeto8.UI;
 
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.projeto8.R;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

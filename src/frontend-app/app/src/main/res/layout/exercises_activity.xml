@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:padding="30dp"
     android:background="@color/white"
-    tools:context=".ExercisesActivity">
+    tools:context=".UI.ExercisesActivity">
 
     <TextView
         android:id="@+id/textExercise"

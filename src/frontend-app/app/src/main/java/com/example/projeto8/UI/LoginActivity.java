@@ -1,14 +1,15 @@
-package com.example.projeto8;
+package com.example.projeto8.UI;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.textservice.TextInfo;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.projeto8.R;
 
 public class LoginActivity extends AppCompatActivity {
     Button btnLogin;
