@@ -1,4 +1,4 @@
-package com.example.projeto8;
+package com.example.projeto8.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,7 +8,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.projeto8.R;
+import com.example.projeto8.model.Task;
 
 import java.util.ArrayList;
 
@@ -28,6 +32,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         public ViewHolder(View itemView) {
             super(itemView);
 
+            // Se o seu XML for um ConstraintLayout, use isso:
             cardTask = itemView.findViewById(R.id.cardTask);
             expandArea = itemView.findViewById(R.id.expandArea);
             btnCheck = itemView.findViewById(R.id.btnCheck);
@@ -43,18 +48,19 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         return new ViewHolder(view);
     }
 
+
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Task task = tasks.get(position);
 
-        holder.txtTitle.setText(task.title);
+        holder.txtTitle.setText(task.getName());
         holder.expandArea.setVisibility(task.isExpanded ? View.VISIBLE : View.GONE);
 
         if (task.isDone) {
             // CORRETO: Apenas o seu ícone e a cor verde
             holder.container.setBackgroundResource(R.drawable.task_bg_done);
             holder.btnCheck.setImageResource(R.drawable.ic_done);
-            holder.cardTask.setCardBackgroundColor(
+            holder.cardTask.setBackgroundColor(
                     holder.itemView.getContext().getColor(android.R.color.holo_green_light)
             );
 
@@ -62,7 +68,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
             // CORRETO: Apenas o seu ícone vazio e a cor branca
             holder.container.setBackgroundResource(R.drawable.task_bg);
             holder.btnCheck.setImageResource(R.drawable.ic_empty);
-            holder.cardTask.setCardBackgroundColor(
+            holder.cardTask.setBackgroundColor(
                     holder.itemView.getContext().getColor(android.R.color.white)
             );
         }

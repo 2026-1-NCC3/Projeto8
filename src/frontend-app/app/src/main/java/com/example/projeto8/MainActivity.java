@@ -5,6 +5,7 @@ import static com.example.projeto8.CalendarUtils.monthYearFromDate;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,13 +18,29 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import com.example.projeto8.adapter.TaskAdapter;
+import com.example.projeto8.model.ExerciseSessionEntity;
+import com.example.projeto8.model.Task;
+import com.example.projeto8.model.WorkoutSession;
+import com.example.projeto8.remote.ApiService;
+import com.example.projeto8.remote.RetrofitClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class MainActivity extends AppCompatActivity implements CalendarAdapter.OnItemListener {
     private TextView monthYearText; // texto "Feb 2026"
     private RecyclerView calendarRecyclerView; // calendário (dias)
-
+    private TextView txtName;
+    private RecyclerView recyclerTasks;
+    private TaskAdapter adapter;
+    private ArrayList<Task> tasksParaExibir;
     private ImageView iconHome, iconExercise, iconProfile; // menu
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,49 +48,46 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
 
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main); // carrega o XML principal
-        RecyclerView recyclerView = findViewById(R.id.recyclerTasks);
 
-        ArrayList<Task> tasks = new ArrayList<>();
-        tasks.add(new Task("Treino de perna"));
-        tasks.add(new Task("Cardio"));
-        tasks.add(new Task("Alongamento"));
-
-        TaskAdapter adapter = new TaskAdapter(tasks);
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
-
-        // LIGA OS ELEMENTOS DO XML COM O JAVA
+        // 1. PRIMEIRO: Inicialize todos os componentes do XML
         initWidgets();
 
-        // menu
-        iconHome.setOnClickListener(v -> {
-            startActivity(new Intent(this, MainActivity.class));
-        });
+        // 2. Configure o RecyclerView de Tarefas com uma lista vazia inicial
+        tasksParaExibir = new ArrayList<>();
+        adapter = new TaskAdapter(tasksParaExibir);
+        recyclerTasks.setAdapter(adapter);
 
-        iconExercise.setOnClickListener(v -> {
-            startActivity(new Intent(this, ExercisesActivity.class));
-        });
 
-        iconProfile.setOnClickListener(v -> {
-            startActivity(new Intent(this, ProfileActivity.class));
-        });
-
-        // define a data atual
+        // 3. Configurações de Menu e Calendário
+        setupMenuClicks();
         CalendarUtils.selectedDate = LocalDate.now();
-
-        // monta o calendário
         setWeekView();
+
+        // 4. POR ÚLTIMO: Busca os dados na API
+        String meuIdReal = "3e8e4187-47d8-4751-955d-e6a036db9478";
+        carregarDadosDoPaciente(UUID.fromString(meuIdReal));
+
+
     }
      // código fica mais limpo, initWidgets() = preparar os atores
     private void initWidgets() {
         calendarRecyclerView = findViewById(R.id.calendarRecyclerView);
         monthYearText = findViewById(R.id.monthYearTV);
 
+        txtName = findViewById(R.id.txtName);
+        recyclerTasks = findViewById(R.id.recyclerTasks);
+        recyclerTasks.setLayoutManager(new LinearLayoutManager(this));
+
+
         iconHome = findViewById(R.id.iconHome);
         iconExercise = findViewById(R.id.iconExercise);
         iconProfile = findViewById(R.id.iconProfile);
 
+    }
+    private void setupMenuClicks() {
+        iconHome.setOnClickListener(v -> startActivity(new Intent(this, MainActivity.class)));
+        iconExercise.setOnClickListener(v -> startActivity(new Intent(this, ExercisesActivity.class)));
+        iconProfile.setOnClickListener(v -> startActivity(new Intent(this, ProfileActivity.class)));
     }
 
     // monta o calendário semanal
@@ -115,6 +129,51 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
             setWeekView();
         }
     }
+    private void carregarDadosDoPaciente(UUID patientId) {
+        // Usa o RetrofitClient que você criou para fazer o pedido
+        ApiService api = RetrofitClient.getApiService();
+
+        api.getWorkoutsByPatient(patientId).enqueue(new Callback<List<WorkoutSession>>() {
+            @Override
+            public void onResponse(Call<List<WorkoutSession>> call, Response<List<WorkoutSession>> response) {
+                // 1. Log de confirmação (que já vimos que funciona)
+                android.util.Log.d("TESTE_API", "O servidor respondeu agora!");
+
+                // 2. TUDO que mexe na tela precisa de permissão do Android para rodar na UI Thread
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            // Mudar o texto do nome
+                            txtName.setText("Jorge");
+                            android.util.Log.d("TESTE_API", "Texto do nome alterado!");
+
+                            // Criar os dados de teste
+                            ArrayList<Task> listaTeste = new ArrayList<>();
+                            listaTeste.add(new Task("Teste: Agachamento"));
+                            listaTeste.add(new Task("Teste: Flexão"));
+
+                            // Atualizar a lista e avisar o adapter
+                            tasksParaExibir.clear();
+                            tasksParaExibir.addAll(listaTeste);
+                            adapter.notifyDataSetChanged();
+
+                            android.util.Log.d("TESTE_API", "Lista de tarefas atualizada no Adapter!");
+
+                        } catch (Exception e) {
+                            android.util.Log.e("TESTE_API", "Erro ao atualizar interface: " + e.getMessage());
+                        }
+                    }
+                });
+            }
 
 
-}
+            @Override
+            public void onFailure(Call<List<WorkoutSession>> call, Throwable t) {
+                Log.e("API_ERRO", "Mensagem: " + t.getMessage());
+                txtName.setText("ERRO DE CONEXÃO: " + t.getMessage());
+            }
+        });
+    }
+
+    }
