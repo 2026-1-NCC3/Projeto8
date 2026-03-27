@@ -51,10 +51,10 @@ public class PatientEntity implements UserDetails {
 
     //ADICIONAR numero zap, genero, altura, peso
 
-    @Column( nullable = false)
+    @Column( nullable = true)
     private String cellPhone;
 
-    @Column( nullable = false)
+    @Column( nullable = true)
     private String gender;
 
     @Column

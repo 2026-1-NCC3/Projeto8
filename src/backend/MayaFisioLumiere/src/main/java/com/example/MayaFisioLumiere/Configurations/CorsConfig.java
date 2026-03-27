@@ -6,14 +6,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 //configuração do cors
 @Configuration
-public class CorsConfig implements WebMvcConfigurer {
+public class CorsConfig  {
 
-    @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedOrigins(
                         "http://localhost:3000",
-                         "https://lumiere-project8.vercel.app"
+                        "http://localhost:8080",
+                        "http://localhost:8081",
+                        "https://lumiere-project8.vercel.app"
                 )
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
