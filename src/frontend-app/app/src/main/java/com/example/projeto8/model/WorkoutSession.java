@@ -11,14 +11,14 @@ public class WorkoutSession {
     private Patient patient;
 
     // ADICIONE ESTA LISTA (para os exercícios como agachamento):
-    private List<ExerciseSessionEntity> exerciseSessions;
+    private List<ExerciseSession> exerciseSessions;
 
     // ADICIONE ESTES GETTERS (O Android precisa deles para ler os dados):
     public Patient getPatient() {
         return patient;
     }
 
-    public List<ExerciseSessionEntity> getExerciseSessions() {
+    public List<ExerciseSession> getExerciseSessions() {
         return exerciseSessions;
     }
 
