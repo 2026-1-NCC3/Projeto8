@@ -51,7 +51,8 @@ public class SecurityConfig {
                 "http://localhost:3000",
                 "http://localhost:8080",
                 "http://localhost:8081",
-                "https://lumiere-project8.vercel.app"
+                "https://lumiere-project8.vercel.app",
+                "https://lumiere-project8.vercel.app/"
         ));
 
         config.setAllowedMethods(java.util.List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
