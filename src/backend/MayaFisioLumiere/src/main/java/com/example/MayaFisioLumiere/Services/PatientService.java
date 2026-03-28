@@ -70,6 +70,7 @@ public class PatientService {
         newPatient.setGender(data.gender());
         newPatient.setHeight(data.height());
         newPatient.setWeight(data.weight());
+        newPatient.setPatientAge(data.patientAge());
 
         return patientRepository.save(newPatient);
     }

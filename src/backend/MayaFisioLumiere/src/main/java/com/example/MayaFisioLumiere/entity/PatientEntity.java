@@ -43,7 +43,10 @@ public class PatientEntity implements UserDetails {
     @Column( nullable = false)
     private String password;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
+    private int patientAge;
+
+    @Column(nullable = false)
     private String birthDate; //DEPOIS, COLOCAR PARA FALSE, ERRO DE POSTGRES NAO IDENTIFICANDO
 
     @Column(nullable = false)
@@ -93,13 +96,14 @@ public class PatientEntity implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        // logica de tempo de sessão por dia
+     /*   // logica de tempo de sessão por dia
         if (lastAccessDate != null && !lastAccessDate.equals(LocalDate.now())) {
             return true;
         }
 
         int limitMinutes = (this.role == UserRole.Patient) ?  180: 60; //3h de sessão ou 1h de sessão, tem que ver quanto tempo a gente pretende colocar para a sessão diaria do admin e do usuário
-        return this.totalMinutesUsedToday < limitMinutes;
+        return this.totalMinutesUsedToday < limitMinutes;*/
+        return true;
     }
 
     // verifica se a conta não está expirada
