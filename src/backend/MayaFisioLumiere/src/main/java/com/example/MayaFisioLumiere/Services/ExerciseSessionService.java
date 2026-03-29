@@ -41,7 +41,7 @@ public class ExerciseSessionService {
                         entity.getExercise().getTags(),
                         entity.getExercise().getDescription()
                 ),
-                entity.getWorkoutSession().getWorkoutSession_id(),
+                entity.getWorkoutSession() != null ? entity.getWorkoutSession().getWorkoutSession_id() : null,
                 entity.getPatient().getPatient_ID(),
                 entity.getSerie(),
                 entity.getRepetitions(),
