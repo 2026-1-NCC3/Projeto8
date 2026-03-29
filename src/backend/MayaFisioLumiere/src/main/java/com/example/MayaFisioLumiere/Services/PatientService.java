@@ -73,7 +73,8 @@ public class PatientService {
         newPatient.setGender(data.gender());
         newPatient.setHeight(data.height());
         newPatient.setWeight(data.weight());
-        newPatient.setPatientAge(data.patientAge());
+        newPatient.setPatientAge(data.patientAge()); //remover? tirar?
+        newPatient.setRole(com.example.MayaFisioLumiere.entity.role.UserRole.Patient);
 
         return patientRepository.save(newPatient);
     }

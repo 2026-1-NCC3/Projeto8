@@ -12,6 +12,7 @@ type FormState = {
   gender: string;
   height: string;
   weight: string;
+  email: string;
 };
 
 const emptyForm: FormState = {
@@ -23,6 +24,7 @@ const emptyForm: FormState = {
   gender: "",
   height: "",
   weight: "",
+  email: "",
 };
 
 export default function AddPatientPage() {
@@ -47,7 +49,7 @@ export default function AddPatientPage() {
       name: form.firstName,
       surname: form.lastName,
       cpf: form.cpf,
-      email,
+      email: form.email,
       password,
       birthDate: form.birthDate,
       status: "INATIVO",
@@ -140,6 +142,14 @@ export default function AddPatientPage() {
             onChange={handleChange("weight")}
             placeholder="Peso (kg)"
             className="col-span-4 rounded-md border border-slate-300 px-3 py-2 md:col-span-6"
+          />
+
+              <input
+            value={form.email}
+            onChange={handleChange("email")}
+            placeholder="Email"
+            className="col-span-4 rounded-md border border-slate-300 px-3 py-2 md:col-span-6"
+            required
           />
 
           <button

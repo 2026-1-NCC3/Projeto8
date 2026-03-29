@@ -23,14 +23,17 @@ public class TokenService {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
 
-            // Verificamos qual é o email (Subject) baseado na classe
-            String email = user.getUsername();
+            // Esta lógica extrai apenas o NOME da primeira permissão
+            // Exemplo: Transforma [admin, user] em apenas "admin"
+            String role = user.getAuthorities().stream()
+                    .map(grantedAuthority -> grantedAuthority.getAuthority())
+                    .findFirst()
+                    .orElse("user");
 
             return JWT.create()
                     .withIssuer("auth-api")
-                    .withSubject(email)
-                    // Pega a role automaticamente das authorities do Spring Security
-                    .withClaim("role", user.getAuthorities().toString())
+                    .withSubject(user.getUsername())
+                    .withClaim("role", role) // Agora o token terá "role": "admin"
                     .withExpiresAt(genExpirationDate())
                     .sign(algorithm);
         } catch (JWTCreationException exception) {
@@ -49,6 +52,8 @@ public class TokenService {
         } catch (JWTVerificationException exception) {
             return null;
         }
+
+
     }
 
     public Long getExpirationDate(String token) {

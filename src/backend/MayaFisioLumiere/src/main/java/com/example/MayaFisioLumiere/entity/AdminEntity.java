@@ -60,9 +60,11 @@ public class AdminEntity implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if(this.role == UserRole.Admin) {
-            return List.of(new SimpleGrantedAuthority("admin"), new SimpleGrantedAuthority("user"));
+            return List.of(
+                    new SimpleGrantedAuthority("ROLE_ADMIN"),
+                    new SimpleGrantedAuthority("ROLE_PATIENT"));
         } else {
-            return List.of(new SimpleGrantedAuthority("user"));
+            return List.of(new SimpleGrantedAuthority("ROLE_PATIENT"));
         }
     }
     @Override

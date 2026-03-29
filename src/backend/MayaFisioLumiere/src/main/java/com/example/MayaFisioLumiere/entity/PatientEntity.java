@@ -26,6 +26,7 @@ import java.util.UUID;
 public class PatientEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO) //gera uuid automatica de acordo com a tabela de pacientes
+    @Column(name = "patient_id", columnDefinition = "uuid", updatable = false, nullable = false) //manda id minusculo pro jpa
     private UUID patient_ID;
 
     @Column(nullable = false)//tipo da coluna no banco de dados e nas outras tb
@@ -80,7 +81,11 @@ public class PatientEntity implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if(this.role == UserRole.Patient) return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_PATIENT"));
+        if(this.role == UserRole.Admin) {
+            return List.of(
+                    new SimpleGrantedAuthority("ROLE_ADMIN"),
+                    new SimpleGrantedAuthority("ROLE_PATIENT"));
+        }
         else return List.of(new SimpleGrantedAuthority("ROLE_PATIENT"));
     }
 

@@ -10,11 +10,16 @@ public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins(
+                .allowedOriginPatterns( "*"
+
+                        /* Quando o aplicativo estiver live podemos manter essas rotas restritas, enquanto não está,
+                         precisa estar liberado todas as rotas porque o Android Studio NAO TEM ROTA ESPECIFICA!
+                        allowedOrigins
                         "http://localhost:3000",
                         "http://localhost:8080",
                         "http://localhost:8081",
                         "https://lumiere-project8.vercel.app"
+                        */
                 )
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
