@@ -47,15 +47,10 @@ public class PatientController {
     @PostMapping("/login")
     public ResponseEntity<?> loginPatient(@RequestBody PatientRequestDTO body) {
         try {
-            String token = patientService.loginPatient(body.email(), body.password());
-
-            return ResponseEntity.ok(Map.of("token", token));
-
+            var response = patientService.loginPatient(body.email(), body.password());
+            return ResponseEntity.ok(response);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Erro ao processar login: " + e.getMessage());
         }
     }
 

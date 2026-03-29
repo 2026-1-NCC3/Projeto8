@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -86,7 +88,7 @@ public class PatientService {
         return patientRepository.save(newPatient);
     }
 
-    public String loginPatient(String email, String password) {
+    public Map<String, Object> loginPatient(String email, String password) {
         PatientEntity patient = patientRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Paciente não encontrado"));
 
@@ -94,7 +96,14 @@ public class PatientService {
             throw new RuntimeException("A senha está incorreta");
         }
 
-        return tokenService.generateToken(patient);
+        String token = tokenService.generateToken(patient);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("token", token);
+        response.put("email", patient.getEmail());
+        response.put("patient_id", patient.getPatient_ID());
+
+        return response;
     }
 
     //deleta paciente pela uuid dele
