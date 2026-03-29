@@ -1,4 +1,4 @@
-package com.example.projeto8;
+package com.example.projeto8.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,8 +7,13 @@ import android.content.Intent;
 import android.widget.ImageView;
 import android.net.Uri;
 import com.bumptech.glide.Glide;
+import com.example.projeto8.R;
+import com.example.projeto8.UI.ExerciseURL;
 
 public class ExercisesActivity extends AppCompatActivity {
+    ImageView iconHome;
+    ImageView iconExercise;
+    ImageView iconProfile;
     ImageView imgExercise;
     String videoUrl = "https://www.youtube.com/watch?v=aclHkVaku9U";
 
@@ -18,6 +23,9 @@ public class ExercisesActivity extends AppCompatActivity {
         setContentView(R.layout.exercises_activity);
 
         imgExercise = findViewById(R.id.imgExercise);
+        ImageView iconHome = findViewById(R.id.iconHome);
+        ImageView iconExercise = findViewById(R.id.iconExercise);
+        ImageView iconProfile = findViewById(R.id.iconProfile);
 
         String videoId = "aclHkVaku9U";
         String thumbnailUrl =
@@ -27,7 +35,7 @@ public class ExercisesActivity extends AppCompatActivity {
                 .load(thumbnailUrl)
                 .into(imgExercise);
 
-        Exercise legpress = new Exercise(
+        ExerciseURL legpress = new ExerciseURL(
                 "Leg Press",
                 "https://www.youtube.com/watch?v=IZxyjW7MPJQ"
 
@@ -37,6 +45,18 @@ public class ExercisesActivity extends AppCompatActivity {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(videoUrl));
             startActivity(intent);
 
+        });
+
+        iconHome.setOnClickListener(v -> {
+            startActivity(new Intent(this, MainActivity.class));
+        });
+
+        iconExercise.setOnClickListener(v -> {
+            startActivity(new Intent(this, ExercisesActivity.class));
+        });
+
+        iconProfile.setOnClickListener(v -> {
+            startActivity(new Intent(this, ProfileActivity.class));
         });
     }
 
