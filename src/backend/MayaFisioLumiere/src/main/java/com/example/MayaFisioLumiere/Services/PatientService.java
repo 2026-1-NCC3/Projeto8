@@ -16,6 +16,9 @@ public class PatientService {
     @Autowired
     private PatientRepository patientRepository;
 
+    @Autowired
+    private TokenService tokenService;
+
     //busca todos os pacientes criados dentro do banco de dados
     public List<PatientResponseDTO> getAllPatients() {
         List<PatientEntity> patients = this.patientRepository.findAll();
@@ -73,6 +76,17 @@ public class PatientService {
         newPatient.setPatientAge(data.patientAge());
 
         return patientRepository.save(newPatient);
+    }
+
+    public String loginPatient(String email, String birthDate) {
+        PatientEntity patient = patientRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Paciente não encontrado"));
+
+        if (!patient.getBirthDate().equals(birthDate)) {
+            throw new RuntimeException("Data de nascimento incorreta");
+        }
+
+        return "Login realizado com sucesso para: " + patient.getEmail();
     }
 
     //deleta paciente pela uuid dele

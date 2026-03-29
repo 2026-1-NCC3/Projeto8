@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController //tipo da classe que vamos fazer
@@ -41,6 +42,13 @@ public class PatientController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erro ao criar paciente: " + e.getMessage());
         }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> loginPatient(@RequestBody PatientRequestDTO body){
+        String email = patientService.loginPatient(body.email(), body.birthDate());
+
+        return ResponseEntity.ok(Map.of("email", email));
     }
 
     @GetMapping("/getByName/{name}")
