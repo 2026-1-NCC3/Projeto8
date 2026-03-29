@@ -47,7 +47,7 @@ public class PatientController {
     @PostMapping("/login")
     public ResponseEntity<?> loginPatient(@RequestBody PatientRequestDTO body) {
         try {
-            String token = patientService.loginPatient(body.email(), body.birthDate());
+            String token = patientService.loginPatient(body.email(), body.password());
 
             return ResponseEntity.ok(Map.of("token", token));
 
@@ -58,6 +58,7 @@ public class PatientController {
                     .body("Erro ao processar login: " + e.getMessage());
         }
     }
+
     @GetMapping("/getByName/{name}")
     public ResponseEntity<?> getPatientByName(@PathVariable String name, String surname) {
         try {

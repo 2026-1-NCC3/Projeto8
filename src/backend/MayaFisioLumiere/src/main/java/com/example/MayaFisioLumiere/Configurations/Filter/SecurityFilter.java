@@ -43,7 +43,6 @@ public class SecurityFilter extends OncePerRequestFilter {
             if (email != null) {
                 UserDetails user = null;
 
-                // 2. Busca Dupla: Primeiro tenta Admin, depois Paciente
                 var admin = adminRepository.findByAdminEmail(email);
                 if (admin.isPresent()) {
                     user = admin.get();

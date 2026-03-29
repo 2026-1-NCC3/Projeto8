@@ -78,12 +78,12 @@ public class PatientService {
         return patientRepository.save(newPatient);
     }
 
-    public String loginPatient(String email, String birthDate) {
+    public String loginPatient(String email, String password) {
         PatientEntity patient = patientRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Paciente não encontrado"));
 
-        if (!patient.getBirthDate().equals(birthDate)) {
-            throw new RuntimeException("Data de nascimento incorreta");
+        if (!patient.getPassword().equals(password)) {
+            throw new RuntimeException("A senha está incorreta");
         }
 
         return tokenService.generateToken(patient);
