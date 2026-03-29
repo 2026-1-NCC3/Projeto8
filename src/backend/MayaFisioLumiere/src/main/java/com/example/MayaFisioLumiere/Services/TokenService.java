@@ -30,7 +30,7 @@ public class TokenService {
                     .withIssuer("auth-api")
                     .withSubject(email)
                     // Pega a role automaticamente das authorities do Spring Security
-                    .withClaim("role", user.getAuthorities().toString())
+                    .withClaim("role", user.getAuthorities().iterator().next().getAuthority())
                     .withExpiresAt(genExpirationDate())
                     .sign(algorithm);
         } catch (JWTCreationException exception) {
@@ -49,6 +49,8 @@ public class TokenService {
         } catch (JWTVerificationException exception) {
             return null;
         }
+
+
     }
 
     public Long getExpirationDate(String token) {

@@ -32,6 +32,7 @@ export function usePatients() {
   const [patients, setPatients] = useState<PatientResponse[]>([]);
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
+  const token = localStorage.getItem("token");
 
   const fetchPatients = useCallback(async () => {
     try {
@@ -80,6 +81,7 @@ export function usePatients() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
         },
         body: JSON.stringify(newPatient),
       });
