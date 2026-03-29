@@ -1,6 +1,6 @@
 package com.example.projeto8.api.exerciseSession;
 
-import com.example.projeto8.api.exerciseSession.ExerciseSessionReqDTO.ExerciseSessionRequestDTO;
+import com.example.projeto8.api.exerciseSession.ExerciseSessionDTO.ExerciseSessionRequestDTO;
 import com.example.projeto8.model.ExerciseSession;
 
 import java.util.List;
