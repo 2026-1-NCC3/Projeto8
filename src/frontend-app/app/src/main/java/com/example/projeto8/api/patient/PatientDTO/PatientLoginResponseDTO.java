@@ -1,5 +1,7 @@
 package com.example.projeto8.api.patient.PatientDTO;
 
+import com.google.gson.annotations.SerializedName;
+
 public class PatientLoginResponseDTO {
 
     private Long id;
@@ -10,6 +12,7 @@ public class PatientLoginResponseDTO {
     public String getName() { return name; }
     public String getEmail() { return email; }
 
+    @SerializedName("token")
     private String token;
 
     public String getToken() { return token; }

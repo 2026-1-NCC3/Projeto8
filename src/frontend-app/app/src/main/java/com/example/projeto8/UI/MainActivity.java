@@ -64,9 +64,12 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         setWeekView();
 
         // 4. POR ÚLTIMO: Busca os dados na API
-        String meuIdReal = "3e8e4187-47d8-4751-955d-e6a036db9478";
-        carregarDadosDoPaciente(UUID.fromString(meuIdReal));
+        //String meuIdReal = "3e8e4187-47d8-4751-955d-e6a036db9478";
 
+        //Mecânismo de buscar os dados que vieram da intent de login
+        String idRecebido = getIntent().getStringExtra("PATIENT_ID");
+        carregarDadosDoPaciente(UUID.fromString(idRecebido));
+        
 
     }
      // código fica mais limpo, initWidgets() = preparar os atores
@@ -144,6 +147,8 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
                     @Override
                     public void run() {
                         try {
+
+                            //MUDAR AQUI OS DADOS MOCKADOS PARA OS REAIS VINDOS DO LOGIN
                             // Mudar o texto do nome
                             txtName.setText("Jorge");
                             android.util.Log.d("TESTE_API", "Texto do nome alterado!");

@@ -76,29 +76,27 @@ public class LoginActivity extends AppCompatActivity {
                             .putString("token", tokenGerado)
                             .apply();
 
+                    Log.d("JSON_REAL", new com.google.gson.Gson().toJson(response.body())); //Log para ver o que está retornando no login
+
+                    //Quando mariah colocar o json response name, id e email vai retornar os dados corretos
+                    Long patientID = response.body().getId();
+                    String patientName = response.body().getName();
+                    String patientEmail = response.body().getEmail();
+
                     Toast.makeText(LoginActivity.this, "Login realizado com sucesso!", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    intent.putExtra("PATIENT_ID", patientID);
+                    intent.putExtra("AUTH_TOKEN", tokenGerado);
+                    intent.putExtra("PATIENT_NAME", patientName);
+                    intent.putExtra("PATIENT_EMAIL", patientEmail);
                     startActivity(intent);
                     finish();
                 } else {
-                   /* if (response.code() == 401) {
+                    if (response.code() == 401) {
                         Toast.makeText(LoginActivity.this, "E-mail ou senha incorretos.", Toast.LENGTH_LONG).show();
                     } else {
                         Toast.makeText(LoginActivity.this, "Erro no servidor: " + response.message(), Toast.LENGTH_SHORT).show();
-                    } */
-                        // Tenta ler o corpo do erro para saber o motivo real do 403
-                        try {
-                            String errorBody = response.errorBody().string();
-                            Log.e("API_DEBUG", errorBody);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-
-                        if (response.code() == 403) {
-                            //Toast.makeText(LoginActivity.this, "Acesso Negado (403). Verifique as permissões do servidor.", Toast.LENGTH_LONG).show();
-                            Log.e("API_DEBUG", "Código: " + response.code());
-                            Log.e("API_DEBUG", "Mensagem: " + response.message());
-                        }
+                    }
                 }
             }
 
