@@ -23,6 +23,7 @@ import java.util.UUID;
 
 import com.example.projeto8.R;
 import com.example.projeto8.adapter.TaskAdapter;
+import com.example.projeto8.model.ExerciseSession;
 import com.example.projeto8.model.Task;
 import com.example.projeto8.model.WorkoutSession;
 import com.example.projeto8.api.workout.WorkoutService;
@@ -135,6 +136,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         }
     }
 
+
     //Mostrar a Workout do dia
     private void WorkoutSeshData(String patientId) {
         WorkoutService api = RetrofitClient.getWorkoutService();
@@ -145,45 +147,55 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
 
                 if (response.isSuccessful() && response.body() != null) {
                     android.util.Log.d("TESTE_API", "O servidor respondeu agora!");
-                    List<WorkoutSession> exerciseList = response.body();
+
+                    List<WorkoutSession> listaDeTreinos = response.body();
 
                     // TUDO que mexe na tela precisa de permissão do Android para rodar na UI Thread
                     runOnUiThread(new Runnable() {
-
                         @Override
                         public void run() {
                             try {
+                            tasksParaExibir.clear();
 
-                                tasksParaExibir.clear();
+                            // 1. Primeiro loop: percorre cada Sessão de Treino (ex: Treino de Segunda)
+                            for (WorkoutSession treino : listaDeTreinos) {
 
-                                for (WorkoutSession sessao : exerciseList) {
-                                    // Supondo que o nome do exercício esteja em getWorkoutName()
+                                // 2. Segundo loop: percorre os exercícios dentro desse treino
+                                if (treino.getExercises() != null) {
+                                    for (ExerciseSession session : treino.getExercises()) {
 
-                                    String exerciseSessions = sessao.getWeekDay();
-                                    tasksParaExibir.add(new Task(exerciseSessions));
+                                        // Pegamos os dados do objeto Exercise que está dentro da Session
+                                        // Se o seu model for Record no Java, use session.getExercise().title()
+                                        // Se for classe comum, use session.getExercise().getTitle()
+                                        String titulo = (session.getExercise() != null) ?
+                                                session.getExercise().getTitle() : "Exercício s/ nome";
+
+                                        String reps = session.getSerie() + "x" + session.getRepetitions();
+
+                                        tasksParaExibir.add(new Task(titulo + " | " + reps));
+                                    }
                                 }
-
-                                if (tasksParaExibir.isEmpty()) {
-                                    tasksParaExibir.add(new Task("Nenhum treino para hoje"));
-                                }
-
-                                adapter.notifyDataSetChanged();
-                                Log.d("TESTE_API", "Dados reais carregados: " + tasksParaExibir.size());
-
-                            } catch (Exception e) {
-                                android.util.Log.e("TESTE_API", "Erro ao atualizar interface: " + e.getMessage());
                             }
+
+                            if (tasksParaExibir.isEmpty()) {
+                                tasksParaExibir.add(new Task("Nenhum exercício para hoje"));
+                            }
+
+                            adapter.notifyDataSetChanged();
+                            Log.d("TESTE_API", "Exercícios carregados: " + tasksParaExibir.size());
+
+                        } catch (Exception e) {
+                            Log.e("TESTE_API", "Erro ao atualizar interface: " + e.getMessage());
                         }
-                    });
-                }
+                    }
+                });
             }
-
-            @Override
-            public void onFailure(Call<List<WorkoutSession>> call, Throwable t) {
-                Log.e("API_ERRO", "Mensagem: " + t.getMessage());
-                txtName.setText("ERRO DE CONEXÃO: " + t.getMessage());
-            }
-        });
-    }
-
-    }
+        }
+        @Override
+        public void onFailure(Call<List<WorkoutSession>> call, Throwable t) {
+            Log.e("API_ERRO", "Mensagem: " + t.getMessage());
+            runOnUiThread(() -> txtName.setText("ERRO DE CONEXÃO"));
+        }
+    });
+}
+}

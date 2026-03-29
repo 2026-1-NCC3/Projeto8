@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.net.Uri;
 import com.bumptech.glide.Glide;
 import com.example.projeto8.R;
-import com.example.projeto8.UI.ExerciseURL;
+import com.example.projeto8.api.exerciseSession.ExerciseSessionDTO.ExerciseResponseDTO;
 
 public class ExercisesActivity extends AppCompatActivity {
     ImageView iconHome;
@@ -35,11 +35,15 @@ public class ExercisesActivity extends AppCompatActivity {
                 .load(thumbnailUrl)
                 .into(imgExercise);
 
-        ExerciseURL legpress = new ExerciseURL(
+        //FAZER A LOGICA DE RETORNAR OS DADOS DOS EXERCICIOS COM A THUMB AQUI!! Aqui poderia ser a descrição completa do exercicio
+        // + os botoes de proximo * botão de feel pain
+        /* ExerciseResponseDTO legpress = new ExerciseResponseDTO(
+                1,
                 "Leg Press",
-                "https://www.youtube.com/watch?v=IZxyjW7MPJQ"
-
-        );
+                "https://www.youtube.com/watch?v=IZxyjW7MPJQ",
+                "inferiores",
+                "Para aumentar a força na coxa"
+        ); */
         imgExercise.setOnClickListener(v -> {
 
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(videoUrl));
