@@ -86,7 +86,7 @@ public class PatientService {
             throw new RuntimeException("Data de nascimento incorreta");
         }
 
-        return "Login realizado com sucesso para: " + patient.getEmail();
+        return tokenService.generateToken(patient);
     }
 
     //deleta paciente pela uuid dele

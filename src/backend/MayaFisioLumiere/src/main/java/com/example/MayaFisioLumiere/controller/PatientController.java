@@ -45,12 +45,19 @@ public class PatientController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginPatient(@RequestBody PatientRequestDTO body){
-        String email = patientService.loginPatient(body.email(), body.birthDate());
+    public ResponseEntity<?> loginPatient(@RequestBody PatientRequestDTO body) {
+        try {
+            String token = patientService.loginPatient(body.email(), body.birthDate());
 
-        return ResponseEntity.ok(Map.of("email", email));
+            return ResponseEntity.ok(Map.of("token", token));
+
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao processar login: " + e.getMessage());
+        }
     }
-
     @GetMapping("/getByName/{name}")
     public ResponseEntity<?> getPatientByName(@PathVariable String name, String surname) {
         try {

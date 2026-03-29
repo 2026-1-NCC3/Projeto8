@@ -6,6 +6,7 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.example.MayaFisioLumiere.entity.AdminEntity;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -14,18 +15,22 @@ import java.time.ZoneOffset;
 
 @Service
 public class TokenService {
-     @Value("${api.security.token.secret}")
+    @Value("${api.security.token.secret}")
     private String secret;
 
-     // geração do token do admin (jwt)
-    public String generateToken(AdminEntity admin) {
+    // Agora aceita UserDetails (funciona para AdminEntity e PatientEntity)
+    public String generateToken(UserDetails user) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
+
+            // Verificamos qual é o email (Subject) baseado na classe
+            String email = user.getUsername();
+
             return JWT.create()
                     .withIssuer("auth-api")
-                    .withSubject(admin.getAdminEmail())
-                    // passando o tipo de usuario que a gente tem dentro da aplicação(nesse caso admin)
-                    .withClaim("role", admin.getRole().toString())
+                    .withSubject(email)
+                    // Pega a role automaticamente das authorities do Spring Security
+                    .withClaim("role", user.getAuthorities().toString())
                     .withExpiresAt(genExpirationDate())
                     .sign(algorithm);
         } catch (JWTCreationException exception) {
@@ -33,7 +38,6 @@ public class TokenService {
         }
     }
 
-    // validando o token
     public String validateToken(String token) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
@@ -43,7 +47,6 @@ public class TokenService {
                     .verify(token)
                     .getSubject();
         } catch (JWTVerificationException exception) {
-            System.out.println("Erro na validação do Token: " + exception.getMessage());
             return null;
         }
     }
@@ -68,5 +71,4 @@ public class TokenService {
         // vai expirar em 2h a partir da entrada da aplicação
         return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
     }
-
 }
