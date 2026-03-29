@@ -23,7 +23,7 @@ public class RetrofitClient {
     }
 
     */
-        private static final String BASE_URL = "https://projeto8.onrender.com/";
+        private static final String BASE_URL = "https://projeto8.onrender.com";
         private static Retrofit retrofit = null;
 
         // Dessa forma, é necessário criar o retrofit builder só uma vez invés de para cada rota!!
