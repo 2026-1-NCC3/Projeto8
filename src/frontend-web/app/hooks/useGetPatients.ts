@@ -19,6 +19,7 @@ export type PatientRequest = {
   surname: string;
   cpf: string;
   email: string;
+  patientAge: number | null;
   password: string;
   birthDate: string;
   status: string;

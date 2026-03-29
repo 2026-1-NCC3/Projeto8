@@ -77,7 +77,6 @@ public class PatientService {
         newPatient.setHeight(data.height());
         newPatient.setWeight(data.weight());
         newPatient.setPatientAge(data.patientAge()); //remover? tirar?
-        newPatient.setRole(com.example.MayaFisioLumiere.entity.role.UserRole.Patient);
 
         newPatient.setRole(UserRole.Patient);
         newPatient.setTotalMinutesUsedToday(0);

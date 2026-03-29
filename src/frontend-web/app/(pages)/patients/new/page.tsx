@@ -12,7 +12,7 @@ type FormState = {
   gender: string;
   height: string;
   weight: string;
-  email: string;
+  patientAge: string;
 };
 
 const emptyForm: FormState = {
@@ -24,7 +24,7 @@ const emptyForm: FormState = {
   gender: "",
   height: "",
   weight: "",
-  email: "",
+  patientAge: "",
 };
 
 export default function AddPatientPage() {
@@ -49,7 +49,8 @@ export default function AddPatientPage() {
       name: form.firstName,
       surname: form.lastName,
       cpf: form.cpf,
-      email: form.email,
+      patientAge: form.patientAge ? parseInt(form.patientAge) : null,
+      email,
       password,
       birthDate: form.birthDate,
       status: "INATIVO",
@@ -143,13 +144,12 @@ export default function AddPatientPage() {
             placeholder="Peso (kg)"
             className="col-span-4 rounded-md border border-slate-300 px-3 py-2 md:col-span-6"
           />
-
-              <input
-            value={form.email}
-            onChange={handleChange("email")}
-            placeholder="Email"
+          <input
+            type="number"
+            value={form.patientAge}
+            onChange={handleChange("patientAge")}
+            placeholder="Idade"
             className="col-span-4 rounded-md border border-slate-300 px-3 py-2 md:col-span-6"
-            required
           />
 
           <button
@@ -198,10 +198,11 @@ export default function AddPatientPage() {
                   <td className="py-2">{patient.email}</td>
                   <td className="py-2">
                     <span
-                      className={`rounded-full px-2 py-0.5 text-sm font-medium ${patient.status === "ATIVO"
+                      className={`rounded-full px-2 py-0.5 text-sm font-medium ${
+                        patient.status === "ATIVO"
                           ? "bg-green-100 text-green-700"
                           : "bg-slate-100 text-slate-500"
-                        }`}
+                      }`}
                     >
                       {patient.status}
                     </span>
