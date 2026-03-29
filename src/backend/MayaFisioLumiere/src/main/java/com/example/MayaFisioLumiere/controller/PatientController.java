@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController //tipo da classe que vamos fazer
@@ -43,6 +44,13 @@ public class PatientController {
         }
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<?> loginPatient(@RequestBody PatientRequestDTO body){
+        String email = patientService.loginPatient(body.email(), body.birthDate());
+
+        return ResponseEntity.ok(Map.of("email", email));
+    }
+
     @GetMapping("/getByName/{name}")
     public ResponseEntity<?> getPatientByName(@PathVariable String name, String surname) {
         try {
@@ -54,7 +62,7 @@ public class PatientController {
         }
     }
 
-    @DeleteMapping("/delete/{patient_id}") // deletando paciente por email
+    @DeleteMapping("/delete/{patient_id}") // deletando paciente por id
     public ResponseEntity<?> deletePatient(@PathVariable("patient_id") UUID patiend_id) {
         try {
             patientRepository.deleteById(patiend_id);

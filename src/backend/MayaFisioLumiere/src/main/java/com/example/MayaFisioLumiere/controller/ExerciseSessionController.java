@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/exerciseSession")
@@ -60,15 +61,19 @@ public class ExerciseSessionController {
 
     //Atualizar o feelPain do ExerciseSession updateExerciseSessionPain
     //Rota
-    @PutMapping("/updateExerciseSessionPain")
-    public ResponseEntity<?> updateExerciseSessionPain( @PathVariable Long id,
-                                                    @RequestBody ExerciseSessionRequestDTO data){
+    @PutMapping("/updateExerciseSessionPain/{patient_id}")
+    public ResponseEntity<?> updateExerciseSessionPain(
+            @PathVariable UUID patient_id,
+            @PathVariable Long exerciseSession_id, // so deu certo quando se busca pela sessão pelo id dela
+            @RequestBody ExerciseSessionRequestDTO data) {
         try {
-            ExerciseSessionEntity updatedSession = exerciseSessionService.updateExerciseSession(id, data);
-            return ResponseEntity.ok(updatedSession); //retorna ok com sessão atualizada
-        }catch(Exception e){
+            ExerciseSessionEntity updatedSession = exerciseSessionService.updateExerciseSessionPain(patient_id, exerciseSession_id, data);
+            return ResponseEntity.ok(updatedSession);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Erro interno ao processar a atualização: " + e.getMessage());
+                    .body("Erro interno: " + e.getMessage());
         }
     }
 

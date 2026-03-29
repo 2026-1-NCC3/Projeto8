@@ -6,6 +6,7 @@ import com.example.MayaFisioLumiere.entity.PatientEntity;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 @Repository
 public interface PatientRepository extends JpaRepository<PatientEntity, UUID> {
@@ -20,4 +21,5 @@ public interface PatientRepository extends JpaRepository<PatientEntity, UUID> {
     void deleteByNameAndSurname(String name, String surname);
 
 
+    Optional<PatientEntity> findByEmail(String email);
 }
