@@ -10,6 +10,7 @@ constraintlayout = "2.2.1"
 glide = "4.16.0"
 desugarJdkLibs = "2.0.4"
 retrofit = "2.9.0"
+okhttpLogging = "4.12.0"
 
 
 [libraries]
@@ -24,6 +25,7 @@ glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 desugar-jdk-libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugarJdkLibs" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 retrofit-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
+okhttp-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttpLogging" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

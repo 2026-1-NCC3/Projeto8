@@ -46,4 +46,4 @@ dependencies {
     implementation(libs.glide)// adiciona a biblioteca GLIDE, baixa imagem, redimensiona, salva em cache e coloca no imgview, uma mão na roda
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
-}
+    implementation(libs.okhttp.logging)}
