@@ -26,11 +26,16 @@ public class TokenService {
             // Verificamos qual é o email (Subject) baseado na classe
             String email = user.getUsername();
 
+            String role = user.getAuthorities().stream()
+                    .map(auth -> auth.getAuthority())
+                    .findFirst()
+                    .orElse("USER");
+
             return JWT.create()
                     .withIssuer("auth-api")
                     .withSubject(email)
                     // Pega a role automaticamente das authorities do Spring Security
-                    .withClaim("role", user.getAuthorities().iterator().next().getAuthority())
+                    .withClaim("role", role)
                     .withExpiresAt(genExpirationDate())
                     .sign(algorithm);
         } catch (JWTCreationException exception) {

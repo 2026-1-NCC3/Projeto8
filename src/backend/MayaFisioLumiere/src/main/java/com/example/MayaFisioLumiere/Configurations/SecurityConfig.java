@@ -31,10 +31,10 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(csrf -> csrf.disable())
-                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Usa a config detalhada abaixo
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        // 1. Libera pre-flight (OPTIONS)
+                        // 1. Libera pre-flight (essencial para não dar 403 no Android/Browser antes do login)
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
                         // 2. Libera LOGINS e Erros
@@ -42,17 +42,18 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/auth/login/**").permitAll()
                         .requestMatchers("/error").permitAll()
 
-                        // 3. Exercícios (Abertos conforme seu código anterior)
+                        // 3. Exercícios (Abertos)
                         .requestMatchers("/api/exercise/**").permitAll()
 
-                        // 4. Cadastro de Pacientes
-                        // Mudei para hasAnyAuthority para evitar o erro do prefixo ROLE_
-                        .requestMatchers(HttpMethod.POST, "/api/patient").hasAnyAuthority("ADMIN", "ROLE_ADMIN")
+                        // 4. Cadastro de Pacientes (Ajustado para aceitar o que vem no seu Token)
+                        // Note que incluí o /** para pegar /createPatient
+                        .requestMatchers(HttpMethod.POST, "/api/patient/**")
+                        .hasAnyAuthority("ADMIN", "admin", "ROLE_ADMIN", "[admin, user]")
 
-                        // 5. Qualquer outra rota de paciente ou do app exige login
-                        .requestMatchers("/api/patient/**").authenticated()
+                        // 5. Bloqueio padrão para o resto do app
                         .anyRequest().authenticated()
                 )
+                // O filtro deve vir DEPOIS do bloco authorizeHttpRequests
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }

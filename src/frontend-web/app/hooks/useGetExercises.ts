@@ -19,7 +19,7 @@ export function useExercises() {
   useEffect(() => {
     async function fetchExercises() {
       try {
-        const res = await fetch(`${API_URL}api/exercise/all?page=0&size=100`, {
+        const res = await fetch(`${API_URL}/api/exercise/all?page=0&size=100`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -40,7 +40,7 @@ export function useExercises() {
 
   const addExercise = async (newExerciseData: ExerciseRequest) => {
     try {
-      const res = await fetch(`${API_URL}api/exercise/create-exercise`, {
+      const res = await fetch(`${API_URL}/api/exercise/create-exercise`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -72,7 +72,7 @@ export function useExercises() {
   const removeExercise = async (id: number) => {
     try {
       const res = await fetch(
-        `${API_URL}api/exercise/deleteExerciseId/${id}`,
+        `${API_URL}/api/exercise/deleteExerciseId/${id}`,
         {
           method: "DELETE"
         },
