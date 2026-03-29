@@ -30,24 +30,25 @@ public class ExerciseSessionService {
     private  WorkoutSessionRepository workoutSessionRepository;
 
     public List<ExerciseSessionResponseDTO> getAllExerciseSessions() {
-        List<ExerciseSessionEntity> sessions = exerciseSessionRepository.findAll();
+        return exerciseSessionRepository.findAll().stream().map(entity -> {
+            ExerciseResponseDTO exerciseDTO = (entity.getExercise() != null) ? new ExerciseResponseDTO(
+                    entity.getExercise().getExercise_ID(),
+                    entity.getExercise().getTitle(),
+                    entity.getExercise().getMidiaURL(),
+                    entity.getExercise().getTags(),
+                    entity.getExercise().getDescription()
+            ) : null;
 
-        return sessions.stream().map(entity -> new ExerciseSessionResponseDTO(
-                Math.toIntExact(entity.getExercisesession_id()),
-                new ExerciseResponseDTO( // Criando o DTO do exercício com os dados da Entity, para retornar os dados deles
-                        entity.getExercise().getExercise_ID(),
-                        entity.getExercise().getTitle(),
-                        entity.getExercise().getMidiaURL(),
-                        entity.getExercise().getTags(),
-                        entity.getExercise().getDescription()
-                ),
-                entity.getWorkoutSession() != null ? entity.getWorkoutSession().getWorkoutSession_id() : null,
-                entity.getPatient().getPatient_ID(),
-                entity.getSerie(),
-                entity.getRepetitions(),
-                entity.getFeelPain()
-                )
-        ).toList();
+            return new ExerciseSessionResponseDTO(
+                    entity.getExercisesession_id() != null ? Math.toIntExact(entity.getExercisesession_id()) : 0,
+                    exerciseDTO,
+                    (entity.getWorkoutSession() != null) ? entity.getWorkoutSession().getWorkoutSession_id() : null,
+                    (entity.getPatient() != null) ? entity.getPatient().getPatient_ID() : null,
+                    entity.getSerie(),
+                    entity.getRepetitions(),
+                    entity.getFeelPain()
+            );
+        }).toList();
     }
 
 
