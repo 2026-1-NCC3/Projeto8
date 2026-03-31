@@ -127,7 +127,7 @@ export default function ExercisesPage() {
               </a>
               <button
                 onClick={() => removeExercise(exercise.exercise_id)}
-                className="absolute right-3 bottom-4 rounded-md bg-neutral-200 px-3 py-1 hover:opacity-70 transition duration-300 ease-in-out text-red-600"
+                className="absolute right-3 bottom-4 rounded-md bg-neutral-200 px-3 py-1 hover:opacity-70 transition duration-300 ease-in-out text-neutral-800"
               >
                 Excluir
               </button>

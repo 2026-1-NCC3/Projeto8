@@ -10,7 +10,6 @@ export default function LoginPage() {
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
-    // Fallback para produção caso o env não carregue
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://projeto8.onrender.com";
 
     try {
@@ -25,54 +24,83 @@ export default function LoginPage() {
         }),
       });
 
-      if (!res.ok) {
-        alert("Login inválido. Verifique suas credenciais.");
-        return;
-      }
-
-      const data = await res.json();
-
-      if (data.token) {
-        localStorage.clear(); 
-        
-        localStorage.setItem("token", data.token);
-
-        // Em vez de router.push, usar window.location garante que 
-        // todos os estados do React sejam resetados com o novo token.
-        window.location.href = "/exercises";
+      if (res.ok) {
+        router.push("/dashboard");
       } else {
-        alert("Erro: O servidor não retornou um token válido.");
+        alert("Login failed. Please check your credentials.");
       }
-
     } catch (error) {
-      console.error("Erro no login:", error);
-      alert("Erro ao conectar com o servidor.");
+      console.error("Error during login:", error);
+      alert("An error occurred. Please try again later.");
     }
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '50px' }}>
-      <h1>Login Administrativo</h1>
-
-      <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '10px', width: '300px' }}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-
-        <input
-          type="password"
-          placeholder="Senha"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-
-        <button type="submit" style={{ padding: '10px', cursor: 'pointer' }}>
-          Entrar
+    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh", backgroundColor: "#f3f4f6" }}>
+      <form
+        onSubmit={handleLogin}
+        style={{
+          backgroundColor: "#ffffff",
+          padding: "2rem",
+          borderRadius: "8px",
+          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+          width: "100%",
+          maxWidth: "400px",
+        }}
+      >
+        <h2 style={{ textAlign: "center", marginBottom: "1.5rem", color: "#333" }}>Admin Login</h2>
+        <div style={{ marginBottom: "1rem" }}>
+          <label htmlFor="email" style={{ display: "block", marginBottom: "0.5rem", color: "#555" }}>
+            Email
+          </label>
+          <input
+            id="email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            style={{
+              width: "100%",
+              padding: "0.75rem",
+              border: "1px solid #ddd",
+              borderRadius: "4px",
+              fontSize: "1rem",
+            }}
+            placeholder="Enter your email"
+          />
+        </div>
+        <div style={{ marginBottom: "1.5rem" }}>
+          <label htmlFor="password" style={{ display: "block", marginBottom: "0.5rem", color: "#555" }}>
+            Password
+          </label>
+          <input
+            id="password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            style={{
+              width: "100%",
+              padding: "0.75rem",
+              border: "1px solid #ddd",
+              borderRadius: "4px",
+              fontSize: "1rem",
+            }}
+            placeholder="Enter your password"
+          />
+        </div>
+        <button
+          type="submit"
+          style={{
+            width: "100%",
+            padding: "0.75rem",
+            backgroundColor: "#4f46e5",
+            color: "#ffffff",
+            border: "none",
+            borderRadius: "4px",
+            fontSize: "1rem",
+            cursor: "pointer",
+          }}
+        >
+          Login
         </button>
       </form>
     </div>
