@@ -3,53 +3,16 @@
 
 import { useMemo, useState } from "react";
 import Select from "react-select";
-import { initialSchedule } from "@/app/lib/mock-data";
 import { usePatients } from "@/app/hooks/useGetPatients";
 import { useExercises, Exercise } from "@/app/hooks/useGetExercises";
-
-const daysOfWeek = [
-  "Segunda",
-  "Terça",
-  "Quarta",
-  "Quinta",
-  "Sexta",
-  "Sábado",
-  "Domingo",
-];
-
-type WorkoutSession = {
-  workoutSession_ID: string;
-  patient_ID: string;
-  weekDay: string;
-};
-
-type ExerciseSession = {
-  exerciseSession_ID: string;
-  workoutSession_ID: string;
-  patient_ID: string;
-  exercise_ID: string;
-  serie: string;
-};
+import { useGetWorkouts } from "@/app/hooks/useGetWorkouts";
 
 export default function PatientsPage() {
   const { patients, removePatient } = usePatients();
   const { exercises } = useExercises();
 
-  console.log("DADOS REAIS DOS PACIENTES:", patients);
-
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState("");
-  const [schedules, setSchedules] = useState(initialSchedule);
-  const [scheduleForm, setScheduleForm] = useState({
-    exerciseName: "",
-    frequency: "",
-  });
-
-  const [workoutSessions, setWorkoutSessions] = useState<WorkoutSession[]>([]);
-  const [exerciseSessions, setExerciseSessions] = useState<ExerciseSession[]>(
-    [],
-  );
-  const [selectedDay, setSelectedDay] = useState<string>(daysOfWeek[0]);
 
   const filteredPatients = useMemo(() => {
     return patients.filter((patient) => {
@@ -64,11 +27,23 @@ export default function PatientsPage() {
         String((p as any).patient_id || p.patient_ID) === String(selectedId),
     ) ?? filteredPatients[0];
 
+  const {
+    daysOfWeek,
+    workoutSessions,
+    exerciseSessions,
+    tempExercises,
+    scheduleForm,
+    selectedDay,
+    isSaving,
+    setScheduleForm,
+    setSelectedDay,
+    addExerciseToTempList,
+    removeTempExercise,
+    saveFullWorkoutToDatabase,
+  } = useGetWorkouts(selectedPatient, exercises);
+
   function deletePatient(id: string) {
     removePatient(id);
-    setSchedules((prev) =>
-      prev.filter((item) => String(item.patientId) !== String(id)),
-    );
     if (String(selectedId) === String(id)) {
       const next = patients.find(
         (p) => String((p as any).patient_id || p.patient_ID) !== String(id),
@@ -80,31 +55,7 @@ export default function PatientsPage() {
   }
 
   function handleSelectPatient(id: string) {
-    console.log("ID clicado:", id);
     setSelectedId(String(id));
-  }
-
-  function submitSchedule(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    if (!selectedPatient || !scheduleForm.exerciseName) return;
-
-    const newWorkoutSession: WorkoutSession = {
-      workoutSession_ID: `WS-${Date.now()}`,
-      patient_ID: String(selectedPatient.patient_ID),
-      weekDay: selectedDay,
-    };
-
-    const newExerciseSession: ExerciseSession = {
-      exerciseSession_ID: `ES-${Date.now()}`,
-      workoutSession_ID: newWorkoutSession.workoutSession_ID,
-      patient_ID: String(selectedPatient.patient_ID),
-      exercise_ID: scheduleForm.exerciseName,
-      serie: scheduleForm.frequency,
-    };
-
-    setWorkoutSessions((prev) => [...prev, newWorkoutSession]);
-    setExerciseSessions((prev) => [...prev, newExerciseSession]);
-    setScheduleForm({ exerciseName: "", frequency: "" });
   }
 
   function getExerciseId(exercise: Exercise): string {
@@ -127,18 +78,21 @@ export default function PatientsPage() {
           />
         </div>
 
-        <div className="mt-4 overflow-x-auto max-h-68 no-scrollbar rounded-lg border border-black/10 p-4">
+        <div className="mt-4 overflow-x-auto max-h-68 no-scrollbar rounded-md border border-black/10 p-4">
           <table className="w-full text-left">
             <tbody>
               {filteredPatients.map((patient, index) => {
                 const isSelected =
-                  String(patient.patient_ID) ===
-                  String(selectedPatient?.patient_ID);
+                  String((patient as any).patient_id || patient.patient_ID) ===
+                  String(
+                    (selectedPatient as any)?.patient_id ||
+                      selectedPatient?.patient_ID,
+                  );
 
                 return (
                   <tr
-                    key={`${index}-${patient.patient_ID}`}
-                    className={`flex justify-between items-center rounded-lg border-b border-slate-100 ${isSelected && "bg-blue-50"}`}
+                    key={`${index}-${(patient as any).patient_id || patient.patient_ID}`}
+                    className={`flex justify-between items-center rounded-md border-b border-slate-100 ${isSelected && "bg-blue/15"}`}
                   >
                     <td className="py-3 px-4">
                       <button
@@ -147,9 +101,7 @@ export default function PatientsPage() {
                             (patient as any).patient_id || patient.patient_ID,
                           )
                         }
-                        className={`transition duration-300 ease-in-out text-left ${
-                          isSelected && "text-blue"
-                        }`}
+                        className={`transition duration-300 ease-in-out text-left ${isSelected && "text-dark-blue"}`}
                       >
                         {patient.name} {patient.surname}
                       </button>
@@ -175,7 +127,7 @@ export default function PatientsPage() {
       </div>
 
       <div className="col-span-4 p-5 md:col-span-5 md:flex md:flex-col gap-3">
-        <h2 className="text-xl">Prontuário e Evolução</h2>
+        <h2 className="text-xl font-bold">Prontuário e Evolução</h2>
         {selectedPatient ? (
           <div className="mt-3 space-y-3">
             <p>
@@ -215,11 +167,7 @@ export default function PatientsPage() {
             <p>
               <span className="font-semibold">Status:</span>{" "}
               <span
-                className={`px-2 py-1 rounded text-sm font-medium ${
-                  selectedPatient.status === "ATIVO"
-                    ? "bg-green-100 text-green-700"
-                    : "bg-slate-100 text-slate-500"
-                }`}
+                className={`px-2 py-1 rounded text-sm font-medium ${selectedPatient.status === "ATIVO" ? "bg-green-100 text-green-700" : "bg-slate-100 text-slate-500"}`}
               >
                 {selectedPatient.status}
               </span>
@@ -227,13 +175,15 @@ export default function PatientsPage() {
           </div>
         ) : (
           <p className="mt-3 text-neutral-500">
-            Selecione um paciente para visualizar o prontuário.
+            Selecione um paciente para visualizar.
           </p>
         )}
       </div>
 
       <div className="col-span-4 p-5 md:col-span-12 space-y-4">
-        <h2 className="text-xl">Calendário do Paciente Selecionado</h2>
+        <h2 className="text-xl font-bold pt-6">
+          Calendário do Paciente Selecionado
+        </h2>
 
         <div className="flex gap-2 mt-4 flex-wrap">
           {daysOfWeek.map((day) => (
@@ -241,7 +191,7 @@ export default function PatientsPage() {
               key={day}
               type="button"
               onClick={() => setSelectedDay(day)}
-              className={`py-2 px-4 rounded-2xl border cursor-pointer transition-colors duration-300 ${
+              className={`py-2 px-4 rounded-md border cursor-pointer transition-colors duration-300 ${
                 selectedDay === day
                   ? "bg-blue text-neutral border-blue"
                   : "bg-neutral border-light-blue hover:bg-neutral-200"
@@ -253,8 +203,8 @@ export default function PatientsPage() {
         </div>
 
         <form
-          onSubmit={submitSchedule}
-          className="mt-3 grid grid-cols-4 gap-3 md:grid-cols-12"
+          onSubmit={addExerciseToTempList}
+          className="mt-6 grid grid-cols-4 gap-3 md:grid-cols-12 p-4 rounded-md border border-slate-200"
         >
           <Select
             options={exercises.map((exercise) => ({
@@ -268,66 +218,140 @@ export default function PatientsPage() {
               }))
             }
             placeholder="Selecione um exercício"
-            className="col-span-4 md:col-span-3 [&_span]:py-3"
+            className="col-span-4 md:col-span-5 [&_span]:py-2"
+            value={
+              scheduleForm.exerciseName
+                ? {
+                    value: scheduleForm.exerciseName,
+                    label: exercises.find(
+                      (e) =>
+                        String(e.exercise_id) === scheduleForm.exerciseName,
+                    )?.title,
+                  }
+                : null
+            }
             isSearchable
           />
           <input
-            value={scheduleForm.frequency}
-            onChange={(event) =>
+            type="number"
+            min="1"
+            value={scheduleForm.serie}
+            onChange={(e) =>
+              setScheduleForm((prev) => ({ ...prev, serie: e.target.value }))
+            }
+            placeholder="Séries (ex: 3)"
+            className="col-span-2 rounded-md border border-neutral-300 px-3 md:col-span-2 outline-none focus:border-blue"
+            required
+          />
+          <input
+            type="number"
+            min="1"
+            value={scheduleForm.repetitions}
+            onChange={(e) =>
               setScheduleForm((prev) => ({
                 ...prev,
-                frequency: event.target.value,
+                repetitions: e.target.value,
               }))
             }
-            placeholder="Série (ex: 3x10)"
-            className="col-span-4 rounded-md border border-neutral-300 px-3 md:col-span-3"
+            placeholder="Repetições (ex: 10)"
+            className="col-span-2 rounded-md border border-neutral-300 px-3 md:col-span-2 outline-none focus:border-blue"
+            required
           />
           <button
-            className="col-span-4 rounded-md bg-blue px-4 py-2 font-semibold text-neutral md:col-span-2 hover:opacity-70 transition duration-300 ease-in-out"
             type="submit"
+            className="col-span-4 rounded-md bg-dark-blue px-4 py-2 font-semibold text-white md:col-span-3 hover:bg-blue transition duration-300"
           >
-            Adicionar
+            + Adicionar à Lista
           </button>
         </form>
 
-        <div className="mt-4 grid grid-cols-4 gap-3 md:grid-cols-12">
-          {workoutSessions
-            .filter(
-              (ws) =>
-                ws.patient_ID === selectedPatient?.patient_ID &&
-                ws.weekDay === selectedDay,
-            )
-            .map((workoutSession) => (
-              <div
-                key={workoutSession.workoutSession_ID}
-                className="col-span-4"
-              >
-                {exerciseSessions
-                  .filter(
-                    (es) =>
-                      es.workoutSession_ID === workoutSession.workoutSession_ID,
-                  )
-                  .map((exerciseSession) => {
-                    const exerciseMatch = exercises.find(
-                      (e) => getExerciseId(e) === exerciseSession.exercise_ID,
-                    );
-                    return (
-                      <article
-                        key={exerciseSession.exerciseSession_ID}
-                        className="rounded-md border border-neutral-200 bg-neutral-50 p-3 mb-2"
-                      >
-                        <p className="font-semibold">
-                          Exercício:{" "}
-                          {exerciseMatch ? exerciseMatch.title : "Desconhecido"}
-                        </p>
-                        <p className="text-neutral-600">
-                          Série: {exerciseSession.serie}
-                        </p>
-                      </article>
-                    );
-                  })}
-              </div>
-            ))}
+        {tempExercises.length > 0 && (
+          <div className="mt-6 p-4 border border-dashed border-blue/30 rounded-md">
+            <h3 className="mb-2 text-black">
+              Treino de {selectedDay} (Não Salvo)
+            </h3>
+            <div className="space-y-2 mb-4">
+              {tempExercises.map((ex, i) => (
+                <div
+                  key={i}
+                  className="flex justify-between items-center bg-white p-3 rounded border border-slate-200"
+                >
+                  <div>
+                    <span className="font-semibold">{ex.exerciseTitle}</span> |{" "}
+                    <span>
+                      {ex.serie} x {ex.repetitions}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <button
+                      onClick={() => removeTempExercise(i)}
+                      className="text-red-400 hover:text-red-700 text-sm border border-red-400 rounded-full px-2 py-1"
+                    >
+                      X
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <button
+              onClick={saveFullWorkoutToDatabase}
+              disabled={isSaving}
+              className="w-full bg-dark-blue text-white py-3 rounded-md font-bold text-lg hover:bg-blue disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+            >
+              {isSaving ? "Salvando..." : `Salvar Treino de ${selectedDay}`}
+            </button>
+          </div>
+        )}
+
+        <div className="mt-8">
+          <div className="grid grid-cols-4 gap-3 md:grid-cols-12">
+            {workoutSessions
+              .filter(
+                (ws) =>
+                  String(ws.patient_ID) ===
+                    String(
+                      (selectedPatient as any)?.patient_id ||
+                        selectedPatient?.patient_ID,
+                    ) && ws.weekDay === selectedDay,
+              )
+              .map((workoutSession) => (
+                <div
+                  key={workoutSession.workoutSession_ID}
+                  className="col-span-4 md:col-span-6 lg:col-span-4"
+                >
+                  {exerciseSessions
+                    .filter(
+                      (es) =>
+                        String(es.workoutSession_ID) ===
+                        String(workoutSession.workoutSession_ID),
+                    )
+                    .map((exerciseSession) => {
+                      const exerciseMatch = exercises.find(
+                        (e) =>
+                          String(e.exercise_id) === exerciseSession.exercise_ID,
+                      );
+                      return (
+                        <article
+                          key={exerciseSession.exerciseSession_ID}
+                          className="rounded-md border-l-4 border-l-green-500 border border-neutral-200 bg-white shadow-sm p-4 mb-2"
+                        >
+                          <p className="font-semibold text-neutral-800">
+                            {exerciseMatch
+                              ? exerciseMatch.title
+                              : "Desconhecido"}
+                          </p>
+                          <p className="text-neutral-500 mt-1">
+                            Série:{" "}
+                            <span className="font-medium">
+                              {exerciseSession.serie}
+                            </span>
+                          </p>
+                        </article>
+                      );
+                    })}
+                </div>
+              ))}
+          </div>
         </div>
       </div>
     </section>

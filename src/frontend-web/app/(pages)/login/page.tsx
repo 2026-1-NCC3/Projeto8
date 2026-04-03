@@ -17,7 +17,7 @@ export default function LoginPage() {
     <div className="flex min-h-screen items-center justify-center p-4">
       <form
         action={formAction}
-        className="w-full max-w-100 rounded-xl border border-gray-200 bg-white px-8 py-10"
+        className="w-full max-w-100 rounded-md border border-gray-200 bg-white px-8 py-10"
       >
         <h2 className="mb-8 text-center font-sans text-2xl font-semibold text-gray-900">
           Admin Login
@@ -66,7 +66,7 @@ export default function LoginPage() {
         <button
           type="submit"
           disabled={isPending}
-          className="w-full rounded-md bg-dark-blue p-3.5 text-base font-semibold text-white transition-colors duration-200 hover:bg-blue disabled:cursor-not-allowed disabled:bg-blue-400"
+          className="w-full rounded-md bg-dark-blue p-3.5 text-base font-semibold text-white transition-colors duration-200 hover:bg-blue disabled:cursor-not-allowed disabled:bg-blue/30"
         >
           {isPending ? "Signing in..." : "Sign in"}
         </button>
