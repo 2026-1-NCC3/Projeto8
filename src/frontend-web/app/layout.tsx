@@ -5,7 +5,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "Lumière Admin | Projeto 8 - 3CCOMP",
+    default: "Lumière Admin",
     template: "%s | Lumière Admin",
   },
   description:
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   applicationName: "Lumière Admin",
   authors: [{ name: "Grupo Lumière - Projeto 8 - 3CCOMP" }],
   creator: "Grupo Lumière",
-  metadataBase: new URL("https://Lumière.local"),
+  metadataBase: new URL("https://lumiere.local"),
   keywords: ["Lumière", "Projeto 8", "3CCOMP", "Fisioterapia", "RPG", "Admin"],
 };
 
@@ -27,8 +27,14 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
-        <link href="https://fonts.googleapis.com/css2?family=Stack+Sans+Headline:wght@200..700&display=swap" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Stack+Sans+Headline:wght@200..700&display=swap"
+          rel="stylesheet"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap"
+          rel="stylesheet"
+        />
       </head>
       <body className="antialiased">
         <Analytics />
