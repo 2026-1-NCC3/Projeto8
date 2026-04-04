@@ -13,7 +13,7 @@ const dayMapping: { [key: string]: string } = {
 };
 
 const reverseDayMapping: { [key: string]: string } = Object.fromEntries(
-  Object.entries(dayMapping).map(([key, value]) => [value, key])
+  Object.entries(dayMapping).map(([key, value]) => [value, key]),
 );
 
 const daysOfWeek = Object.keys(dayMapping);
@@ -24,14 +24,21 @@ export function useGetWorkouts(selectedPatient: any, exercises: Exercise[]) {
   const [tempExercises, setTempExercises] = useState<any[]>([]);
   const [selectedDay, setSelectedDay] = useState<string>(daysOfWeek[0]);
   const [isSaving, setIsSaving] = useState(false);
-  const [scheduleForm, setScheduleForm] = useState({ exerciseName: "", serie: "", repetitions: "" });
+  const [scheduleForm, setScheduleForm] = useState({
+    exerciseName: "",
+    serie: "",
+    repetitions: "",
+  });
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
 
   const fetchWorkouts = useCallback(async () => {
     if (!selectedPatient) return;
-    const patientId = String(selectedPatient.patient_id || selectedPatient.patient_ID);
-    const token = typeof window !== "undefined" ? localStorage.getItem("token") : "";
+    const patientId = String(
+      selectedPatient.patient_id || selectedPatient.patient_ID,
+    );
+    const token =
+      typeof window !== "undefined" ? localStorage.getItem("token") : "";
 
     try {
       const res = await fetch(`${API_URL}/api/workout/patient/${patientId}`, {
@@ -78,14 +85,20 @@ export function useGetWorkouts(selectedPatient: any, exercises: Exercise[]) {
   async function saveFullWorkoutToDatabase() {
     if (!selectedPatient || tempExercises.length === 0) return;
     setIsSaving(true);
-    const patientId = String(selectedPatient.patient_id || selectedPatient.patient_ID);
-    const token = typeof window !== "undefined" ? localStorage.getItem("token") : "";
+    const patientId = String(
+      selectedPatient.patient_id || selectedPatient.patient_ID,
+    );
+    const token =
+      typeof window !== "undefined" ? localStorage.getItem("token") : "";
 
     try {
       // 1. Criar Workout
       const workoutRes = await fetch(`${API_URL}/api/workout/create-workout`, {
         method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: token ? `Bearer ${token}` : "" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token ? `Bearer ${token}` : "",
+        },
         body: JSON.stringify({
           weekDay: dayMapping[selectedDay],
           checked: false,
@@ -97,20 +110,25 @@ export function useGetWorkouts(selectedPatient: any, exercises: Exercise[]) {
       const newWorkoutId = workoutData.workoutSession_id;
 
       // 2. Criar Exercise Sessions (URL CORRIGIDA conforme seu Controller)
-      await Promise.all(tempExercises.map(ex => 
-        fetch(`${API_URL}/api/exerciseSession/createExerciseSession`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json", Authorization: token ? `Bearer ${token}` : "" },
-          body: JSON.stringify({
-            exercise_id: ex.exercise_id,
-            workoutSession: newWorkoutId,
-            patient_id: patientId,
-            serie: ex.serie,
-            repetitions: ex.repetitions,
-            feelPain: false,
+      await Promise.all(
+        tempExercises.map((ex) =>
+          fetch(`${API_URL}/api/exerciseSession/createExerciseSession`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: token ? `Bearer ${token}` : "",
+            },
+            body: JSON.stringify({
+              exercise_id: ex.exercise_id,
+              workoutSession: newWorkoutId,
+              patient_id: patientId,
+              serie: ex.serie,
+              repetitions: ex.repetitions,
+              feelPain: false,
+            }),
           }),
-        })
-      ));
+        ),
+      );
 
       setTempExercises([]);
       await fetchWorkouts(); // Recarrega do banco
@@ -124,21 +142,38 @@ export function useGetWorkouts(selectedPatient: any, exercises: Exercise[]) {
   }
 
   return {
-    daysOfWeek, workoutSessions, exerciseSessions, tempExercises,
-    scheduleForm, selectedDay, isSaving, setScheduleForm,
-    setSelectedDay, 
+    daysOfWeek,
+    workoutSessions,
+    exerciseSessions,
+    tempExercises,
+    scheduleForm,
+    selectedDay,
+    isSaving,
+    setScheduleForm,
+    setSelectedDay,
     addExerciseToTempList: (e: any) => {
       e.preventDefault();
-      const match = exercises.find(ex => String(ex.exercise_id) === scheduleForm.exerciseName);
-      setTempExercises(prev => [...prev, {
-        exercise_id: parseInt(scheduleForm.exerciseName),
-        exerciseTitle: match?.title || "Exercício",
-        serie: parseInt(scheduleForm.serie),
-        repetitions: parseInt(scheduleForm.repetitions)
-      }]);
-      setScheduleForm({ ...scheduleForm, exerciseName: "", serie: "", repetitions: "" });
+      const match = exercises.find(
+        (ex) => String(ex.exercise_id) === scheduleForm.exerciseName,
+      );
+      setTempExercises((prev) => [
+        ...prev,
+        {
+          exercise_id: parseInt(scheduleForm.exerciseName),
+          exerciseTitle: match?.title || "Exercício",
+          serie: parseInt(scheduleForm.serie),
+          repetitions: parseInt(scheduleForm.repetitions),
+        },
+      ]);
+      setScheduleForm({
+        ...scheduleForm,
+        exerciseName: "",
+        serie: "",
+        repetitions: "",
+      });
     },
-    removeTempExercise: (i: number) => setTempExercises(prev => prev.filter((_, idx) => idx !== i)),
-    saveFullWorkoutToDatabase
+    removeTempExercise: (i: number) =>
+      setTempExercises((prev) => prev.filter((_, idx) => idx !== i)),
+    saveFullWorkoutToDatabase,
   };
 }

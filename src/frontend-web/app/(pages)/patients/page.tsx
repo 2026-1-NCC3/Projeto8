@@ -295,9 +295,7 @@ export default function PatientsPage() {
                           </span>
                         </p>
                       </div>
-                      <div>
-                        ✓
-                      </div>
+                      <div>✓</div>
                     </div>
                   </article>
                 );

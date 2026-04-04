@@ -1,0 +1,107 @@
+# Importante: o presente repositório (dentro de /frontend-web) é o admin do projeto descrito abaixo. O admin (web app) se conecta com o mesmo banco de dados que o aplicativo mobile. A estrutura de pastas é: dentro de /src há: /frontend-app, /frontend-web, e /backend; nós estamos em /frontend-web. O nome do meu grupo no projeto é Lumière (grupo 8).
+
+# Aplicativo Mobile + Site – Lumière
+A profissional fisioterapeuta Maya Yoshiko Yamamoto presta atendimento com foco em Reeducação Postural Global (RPG) e necessita de uma solução digital para melhorar a comunicação com seus pacientes e acompanhar a evolução ao longo do tratamento. Atualmente, parte do acompanhamento é realizado de forma dispersa (mensagens e registros não padronizados), o que dificulta a rastreabilidade do prontuário, o planejamento de exercícios domiciliares e o controle de agenda.
+
+## Neste Projeto Interdisciplinar, as equipes desenvolverão uma solução composta por:
+- Aplicativo Mobile (paciente): acesso ao plano de exercícios (vídeos/imagens), registro de execução, lembretes, mensagens e acompanhamento de evolução.
+- Módulo Web (profissional/admin): gestão de pacientes, prontuários, banco de exercícios e avaliações funcionais.
+- Backend (API) e Banco de Dados: serviços de autenticação, regras de negócio, persistência e integração entre mobile e web.
+
+## Fluxo do processo (visão geral):
+- Cadastro e avaliação: profissional registra paciente, realiza avaliação funcional e abre prontuário.
+- Prescrição: profissional seleciona exercícios (vídeo/imagens), define frequência e orientações; o paciente acessa pelo aplicativo.
+- Acompanhamento: paciente registra execução e/ou sinais (ex.: dor 0–10); profissional acompanha evolução e ajusta conduta.
+
+# Requisitos obrigatórios admin (web)
+- Adicionar e excluir novos usuários (login: firstName.lastName; e senha: birthDate)
+- Gestão de pacientes (CRUD) com busca, filtros e status (ativo/inativo).
+- Acessar o prontuário preenchido do paciente
+- Cadastrar exercícios (nome + descrição + tags + thumbnail + link youtube)
+- Personalizar o calendário do paciente, associando ao paciente os exercícios (define frequência e orientações)
+- Acompanhamento do paciente: paciente registra execução e/ou sinais (ex.: dor 0–10); profissional acompanha evolução e ajusta conduta quando necessário.
+- Gestão de usuários e permissões (Admin/Profissional). (cadastrar novos profissionais admins?)
+
+## Mapeamento de telas
+- menu (entire app, left vertical navbar): exercises, add patient, track patient (history/remove/edit)
+
+## Tecnologias web
+Site/Módulo Web:
+- Next.js (TypeScript).
+- UI: ShadCN UI, Tailwind.
+
+## Paleta de cores
+- light-blue: #C4CFEA
+- dark-blue: #46618F
+- salmon: #E26470
+- light-salmon: #FFD8CF
+- neutral: #F5F5F5
+- black: #000000
+
+## Layout
+- bordas arredondadas: rounded-md
+- tamanho da fonte padrão: 16px
+- tamanho título h1: 34px
+- tamanho título h2: 22px
+- layout clean, use whitespace
+- em TODAS as telas, aplicar grid 4 colunas no mobile e 12 colunas no desktop
+- aplique um container em todas as telas para evitar que o conteúdo extrapole 1440px width
+- aplique responsividade
+
+## Descrição de alguns dos controllers (pra contextualizar)
+- patients controller (“/api/patient”)-  pegar todos os pacientes(getAllPatients), pegar paciente pelo nome(getPatientByName), criar um novo paciente (createPatient), atualizar senha do paciente (updatePassword), deletar paciente pelo uuid(deletePatient) 
+- exercises controller (“/api/exercises”)-  o perfil admin criar exercicios com os atributos de exercicio (createExercise), procurar todos os exercicios (getAllExercises), buscar exercicio pelo nome(getExercise/name), atualizar exercicio (nome, tags, midia url, descrição) (updateExercise/id), deletar exercicio pelo name(deleteExercise/id) 
+- ...
+
+## Rascunho banco de dados
+-- 1. Tabela de Usuários do lado da Maya - profissionais, quem ela dará permissões de admin
+CREATE TABLE Admin (
+    user_ID INT PRIMARY KEY AUTO_INCREMENT,
+    email varchar(255) UNIQUE NOT NULL,
+    password varchar(255) NOT NULL,
+    LGPDCheck INT NOT NULL DEFAULT 0 CHECK (aceite_lgpd IN (0, 1)) 
+);
+
+-- 2. Tabela de Pacientes
+CREATE TABLE Patients (
+    patient_ID INT PRIMARY KEY AUTOINCREMENT,
+    name varchar(255) NOT NULL,
+    surname varchar(300) NOT NULL,
+    CPF varchar(15) UNIQUE,
+    patientAge int,
+    status varchar(20) DEFAULT 'ativo' 
+);
+
+-- 3. Banco de Exercícios
+CREATE TABLE Exercises (
+    exercise_ID  INT PRIMARY KEY AUTO_INCREMENT,
+    title varchar(255) NOT NULL,
+    midiaURL varchar(255),
+    tags varchar(255)
+   
+);
+
+-- 4. Prescrição (Onde a profissional vincula o treino ao paciente)
+CREATE TABLE exerciseSession(
+    exerciseSession_ID int PRIMARY KEY AUTO_INCREMENT,
+    patient_ID int,
+    exercise_ID int,
+    serie varchar(255), 
+    startDate TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (patient_ID ) REFERENCES Patients (patient_ID),
+    FOREIGN KEY (exercise_ID ) REFERENCES Exercises (exercise_ID)
+);
+
+-- 5. Execução (Check-in e escala de dor 0-10)
+CREATE TABLE ExecutionRegistry (
+    registry_ID int PRIMARY KEY AUTO_INCREMENT,
+   patient_ID int,
+    exercise_ID int,
+    executionDate TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    painLevel int, 
+   FOREIGN KEY (patient_ID ) REFERENCES Patients (patient_ID),
+    FOREIGN KEY (exercise_ID ) REFERENCES Exercises (exercise_ID)
+
+);
+
+Vamos usar o postgresql
