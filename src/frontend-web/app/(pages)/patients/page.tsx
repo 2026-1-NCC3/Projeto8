@@ -15,10 +15,9 @@ export default function PatientsPage() {
   const [selectedId, setSelectedId] = useState("");
 
   const filteredPatients = useMemo(() => {
-    return patients.filter((patient) => {
-      const fullName = `${patient.name} ${patient.surname}`.toLowerCase();
-      return fullName.includes(query.toLowerCase());
-    });
+    return patients.filter((p) =>
+      `${p.name} ${p.surname}`.toLowerCase().includes(query.toLowerCase()),
+    );
   }, [patients, query]);
 
   const selectedPatient =
@@ -42,78 +41,50 @@ export default function PatientsPage() {
     saveFullWorkoutToDatabase,
   } = useGetWorkouts(selectedPatient, exercises);
 
-  function deletePatient(id: string) {
-    removePatient(id);
-    if (String(selectedId) === String(id)) {
-      const next = patients.find(
-        (p) => String((p as any).patient_id || p.patient_ID) !== String(id),
-      );
-      setSelectedId(
-        next ? String((next as any).patient_id || next.patient_ID) : "",
-      );
-    }
-  }
-
-  function handleSelectPatient(id: string) {
-    setSelectedId(String(id));
-  }
-
-  function getExerciseId(exercise: Exercise): string {
-    return String(exercise.exercise_id);
-  }
-
   return (
     <section className="grid grid-cols-4 gap-4 md:grid-cols-12">
       <header className="col-span-full pt-6 px-4">
-        <h1 className="font-display text-4xl">Acompanhar Pacientes</h1>
+        <h1 className="font-display text-4xl text-neutral-900">
+          Acompanhar Pacientes
+        </h1>
       </header>
 
+      {/* Tabela de Pacientes */}
       <div className="col-span-4 p-5 md:col-span-7">
-        <div className="grid grid-cols-4 gap-3 md:grid-cols-12">
-          <input
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-            placeholder="Buscar por nome"
-            className="col-span-4 rounded-md border border-neutral-300 px-3 py-2 md:col-span-12 placeholder:text-neutral-700"
-          />
-        </div>
-
-        <div className="mt-4 overflow-x-auto max-h-68 no-scrollbar rounded-md border border-black/10 p-4">
+        <input
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Buscar por nome"
+          className="w-full rounded-md border border-neutral-300 px-3 py-2 mb-4 outline-none focus:ring-1 focus:ring-blue"
+        />
+        <div className="overflow-x-auto max-h-68 no-scrollbar rounded-md border border-black/10 p-4">
           <table className="w-full text-left">
             <tbody>
-              {filteredPatients.map((patient, index) => {
+              {filteredPatients.map((p, i) => {
+                const pId = (p as any).patient_id || p.patient_ID;
                 const isSelected =
-                  String((patient as any).patient_id || patient.patient_ID) ===
+                  String(pId) ===
                   String(
                     (selectedPatient as any)?.patient_id ||
                       selectedPatient?.patient_ID,
                   );
-
                 return (
                   <tr
-                    key={`${index}-${(patient as any).patient_id || patient.patient_ID}`}
-                    className={`flex justify-between items-center rounded-md border-b border-slate-100 ${isSelected && "bg-blue/15"}`}
+                    key={i}
+                    className={`flex justify-between items-center border-b border-slate-100 rounded-lg ${isSelected && "bg-blue/15"}`}
                   >
                     <td className="py-3 px-4">
                       <button
-                        onClick={() =>
-                          handleSelectPatient(
-                            (patient as any).patient_id || patient.patient_ID,
-                          )
-                        }
-                        className={`transition duration-300 ease-in-out text-left ${isSelected && "text-dark-blue"}`}
+                        onClick={() => setSelectedId(String(pId))}
+                        className={`transition-all text-left ${isSelected && "text-dark-blue font-bold"}`}
                       >
-                        {patient.name} {patient.surname}
+                        {p.name} {p.surname}
                       </button>
                     </td>
                     <td className="py-3 px-2">
                       <button
-                        onClick={() =>
-                          deletePatient(
-                            (patient as any).patient_id || patient.patient_ID,
-                          )
-                        }
-                        className="rounded-md bg-neutral-50 border border-neutral-100 px-3 py-1 hover:bg-red-600 hover:text-white transition duration-300 ease-in-out text-red-600"
+                        onClick={() => removePatient(String(pId))}
+                        className="rounded-md bg-neutral-50 border border-neutral-100 px-3 py-1 hover:bg-red-600 hover:text-white transition-all text-red-600 text-sm"
                       >
                         Excluir
                       </button>
@@ -126,8 +97,11 @@ export default function PatientsPage() {
         </div>
       </div>
 
-      <div className="col-span-4 p-5 md:col-span-5 md:flex md:flex-col gap-3">
-        <h2 className="text-xl font-bold">Prontuário e Evolução</h2>
+      {/* Detalhes Prontuário */}
+      <div className="col-span-4 p-5 md:col-span-5 md:flex md:flex-col gap-3 rounded-lg">
+        <h2 className="text-xl font-bold text-neutral-800">
+          Prontuário e Evolução
+        </h2>
         {selectedPatient ? (
           <div className="mt-3 space-y-3">
             <p>
@@ -138,114 +112,101 @@ export default function PatientsPage() {
               <span className="font-semibold">Email:</span>{" "}
               {selectedPatient.email}
             </p>
-            {selectedPatient.birthDate && (
-              <p>
-                <span className="font-semibold">Nascimento:</span>{" "}
-                {selectedPatient.birthDate}
-              </p>
-            )}
-            {selectedPatient.gender && (
-              <p>
-                <span className="font-semibold">Gênero:</span>{" "}
-                {selectedPatient.gender}
-              </p>
-            )}
-            {selectedPatient.cellPhone && (
-              <p>
-                <span className="font-semibold">Celular:</span>{" "}
-                {selectedPatient.cellPhone}
-              </p>
-            )}
-            {(selectedPatient.height || selectedPatient.weight) && (
-              <p>
-                <span className="font-semibold">Medidas:</span>{" "}
-                {selectedPatient.height && `${selectedPatient.height}m`}
-                {selectedPatient.height && selectedPatient.weight && " · "}
-                {selectedPatient.weight && `${selectedPatient.weight}kg`}
-              </p>
-            )}
             <p>
               <span className="font-semibold">Status:</span>{" "}
-              <span
-                className={`px-2 py-1 rounded text-sm font-medium ${selectedPatient.status === "ATIVO" ? "bg-green-100 text-green-700" : "bg-slate-100 text-slate-500"}`}
-              >
+              <span className="px-2 py-1 bg-neutral-100 rounded text-sm">
                 {selectedPatient.status}
               </span>
             </p>
           </div>
         ) : (
-          <p className="mt-3 text-neutral-500">
-            Selecione um paciente para visualizar.
-          </p>
+          <p className="text-neutral-400">Selecione um paciente.</p>
         )}
       </div>
 
+      {/* Calendário */}
       <div className="col-span-4 p-5 md:col-span-12 space-y-4">
-        <h2 className="text-xl font-bold pt-6">
-          Calendário do Paciente Selecionado
+        <h2 className="text-xl font-bold pt-6 border-t border-neutral-200">
+          Calendário do Paciente
         </h2>
-
         <div className="flex gap-2 mt-4 flex-wrap">
           {daysOfWeek.map((day) => (
             <button
               key={day}
-              type="button"
               onClick={() => setSelectedDay(day)}
-              className={`py-2 px-4 rounded-md border cursor-pointer transition-colors duration-300 ${
-                selectedDay === day
-                  ? "bg-blue text-neutral border-blue"
-                  : "bg-neutral border-light-blue hover:bg-neutral-200"
-              }`}
+              className={`py-2 px-4 rounded-md border transition-all ${selectedDay === day ? "bg-blue text-white border-blue" : "bg-white border-neutral-200 hover:bg-neutral-50"}`}
             >
               {day}
             </button>
           ))}
         </div>
 
+        {/* Formulário de Exercício */}
         <form
           onSubmit={addExerciseToTempList}
-          className="mt-6 grid grid-cols-4 gap-3 md:grid-cols-12 p-4 rounded-md border border-slate-200"
+          className="mt-6 grid grid-cols-12 gap-3 p-4 rounded-md border border-neutral-200"
         >
-          <Select
-            options={exercises.map((exercise) => ({
-              value: getExerciseId(exercise),
-              label: exercise.title,
-            }))}
-            onChange={(selectedOption) =>
-              setScheduleForm((prev) => ({
-                ...prev,
-                exerciseName: selectedOption ? selectedOption.value : "",
-              }))
-            }
-            placeholder="Selecione um exercício"
-            className="col-span-4 md:col-span-5 [&_span]:py-2"
-            value={
-              scheduleForm.exerciseName
-                ? {
-                    value: scheduleForm.exerciseName,
-                    label: exercises.find(
-                      (e) =>
-                        String(e.exercise_id) === scheduleForm.exerciseName,
-                    )?.title,
-                  }
-                : null
-            }
-            isSearchable
-          />
+          <div className="col-span-12 md:col-span-5">
+            <Select
+              unstyled
+              classNames={{
+                control: ({ isFocused }) =>
+                  `p-1 border rounded-md transition-all ${
+                    isFocused
+                      ? "border-blue ring-1 ring-blue"
+                      : "border-black/60"
+                  }`,
+                menu: () =>
+                  "mt-2 border border-neutral-200 bg-white rounded-md shadow-lg",
+                option: ({ isFocused, isSelected }) =>
+                  `px-4 py-2 cursor-pointer ${
+                    isSelected
+                      ? "bg-blue text-white"
+                      : isFocused
+                        ? "bg-blue/10 text-dark-blue"
+                        : "text-neutral-700"
+                  }`,
+                valueContainer: () => "gap-1",
+                input: () => "text-neutral-800",
+              }}
+              options={exercises.map((e) => ({
+                value: String(e.exercise_id),
+                label: e.title,
+              }))}
+              onChange={(opt) =>
+                setScheduleForm((prev) => ({
+                  ...prev,
+                  exerciseName: opt?.value || "",
+                }))
+              }
+              value={
+                scheduleForm.exerciseName
+                  ? {
+                      value: scheduleForm.exerciseName,
+                      label: exercises.find(
+                        (e) =>
+                          String(e.exercise_id) === scheduleForm.exerciseName,
+                      )?.title,
+                    }
+                  : null
+              }
+              placeholder="Escolha um exercício"
+            />
+          </div>
           <input
             type="number"
-            min="1"
+            placeholder="Séries"
+            className="col-span-6 md:col-span-2 px-3 py-1 border border-black/60 rounded-md outline-none focus:border-blue"
             value={scheduleForm.serie}
             onChange={(e) =>
               setScheduleForm((prev) => ({ ...prev, serie: e.target.value }))
             }
-            placeholder="Séries (ex: 3)"
-            className="col-span-2 rounded-md border border-neutral-300 px-3 md:col-span-2 outline-none focus:border-blue"
             required
           />
           <input
             type="number"
-            min="1"
+            placeholder="Reps"
+            className="col-span-6 md:col-span-2 px-3 py-1 border rounded-md outline-none focus:border-blue"
             value={scheduleForm.repetitions}
             onChange={(e) =>
               setScheduleForm((prev) => ({
@@ -253,105 +214,107 @@ export default function PatientsPage() {
                 repetitions: e.target.value,
               }))
             }
-            placeholder="Repetições (ex: 10)"
-            className="col-span-2 rounded-md border border-neutral-300 px-3 md:col-span-2 outline-none focus:border-blue"
             required
           />
           <button
             type="submit"
-            className="col-span-4 rounded-md bg-dark-blue px-4 py-2 font-semibold text-white md:col-span-3 hover:bg-blue transition duration-300"
+            className="col-span-12 md:col-span-3 bg-dark-blue text-white rounded-md font-bold hover:bg-blue transition-all"
           >
             + Adicionar à Lista
           </button>
         </form>
 
+        {/* Lista Temporária */}
         {tempExercises.length > 0 && (
-          <div className="mt-6 p-4 border border-dashed border-blue/30 rounded-md">
-            <h3 className="mb-2 text-black">
-              Treino de {selectedDay} (Não Salvo)
+          <div className="flex flex-col mt-6 p-4 border border-dashed border-blue/30 rounded-md">
+            <h3 className="mb-3 font-semibold text-dark-blue">
+              Treino de {selectedDay} (Temporário)
             </h3>
             <div className="space-y-2 mb-4">
               {tempExercises.map((ex, i) => (
                 <div
                   key={i}
-                  className="flex justify-between items-center bg-white p-3 rounded border border-slate-200"
+                  className="flex justify-between items-center p-3 rounded border border-slate-200 shadow-sm"
                 >
-                  <div>
-                    <span className="font-semibold">{ex.exerciseTitle}</span> |{" "}
-                    <span>
-                      {ex.serie} x {ex.repetitions}
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <button
-                      onClick={() => removeTempExercise(i)}
-                      className="text-red-400 hover:text-red-700 text-sm border border-red-400 rounded-full px-2 py-1"
-                    >
-                      X
-                    </button>
-                  </div>
+                  <span>
+                    <span className="font-bold">{ex.exerciseTitle}</span> |{" "}
+                    {ex.serie} x {ex.repetitions}
+                  </span>
+                  <button
+                    onClick={() => removeTempExercise(i)}
+                    className="text-sm font-bold py-1 hover:opacity-60 px-2 border rounded-full"
+                  >
+                    X
+                  </button>
                 </div>
               ))}
             </div>
             <button
               onClick={saveFullWorkoutToDatabase}
               disabled={isSaving}
-              className="w-full bg-dark-blue text-white py-3 rounded-md font-bold text-lg hover:bg-blue disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              className="self-end w-fit bg-dark-blue text-white px-5 py-3 rounded-md font-bold hover:bg-blue shadow-md transition-all"
             >
-              {isSaving ? "Salvando..." : `Salvar Treino de ${selectedDay}`}
+              {isSaving
+                ? "Gravando no Banco..."
+                : `Confirmar e Salvar Treino de ${selectedDay}`}
             </button>
           </div>
         )}
 
+        {/* Treinos já Salvos */}
         <div className="mt-8">
-          <div className="grid grid-cols-4 gap-3 md:grid-cols-12">
-            {workoutSessions
-              .filter(
-                (ws) =>
-                  String(ws.patient_ID) ===
-                    String(
-                      (selectedPatient as any)?.patient_id ||
-                        selectedPatient?.patient_ID,
-                    ) && ws.weekDay === selectedDay,
-              )
-              .map((workoutSession) => (
-                <div
-                  key={workoutSession.workoutSession_ID}
-                  className="col-span-4 md:col-span-6 lg:col-span-4"
-                >
-                  {exerciseSessions
-                    .filter(
-                      (es) =>
-                        String(es.workoutSession_ID) ===
-                        String(workoutSession.workoutSession_ID),
-                    )
-                    .map((exerciseSession) => {
-                      const exerciseMatch = exercises.find(
-                        (e) =>
-                          String(e.exercise_id) === exerciseSession.exercise_ID,
-                      );
-                      return (
-                        <article
-                          key={exerciseSession.exerciseSession_ID}
-                          className="rounded-md border-l-4 border-l-green-500 border border-neutral-200 bg-white shadow-sm p-4 mb-2"
-                        >
-                          <p className="font-semibold text-neutral-800">
-                            {exerciseMatch
-                              ? exerciseMatch.title
-                              : "Desconhecido"}
-                          </p>
-                          <p className="text-neutral-500 mt-1">
-                            Série:{" "}
-                            <span className="font-medium">
-                              {exerciseSession.serie}
-                            </span>
-                          </p>
-                        </article>
-                      );
-                    })}
-                </div>
-              ))}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {exerciseSessions
+              .filter((es) => {
+                const parentWorkout = workoutSessions.find(
+                  (ws) =>
+                    String(ws.workoutSession_ID) ===
+                    String(es.workoutSession_ID),
+                );
+                return parentWorkout?.weekDay === selectedDay;
+              })
+              .map((es, i) => {
+                const exerciseMatch = exercises.find(
+                  (e) => String(e.exercise_id) === es.exercise_ID,
+                );
+
+                return (
+                  <article
+                    key={i}
+                    className="rounded-md border border-neutral-200 p-4"
+                  >
+                    <div className="flex items-start justify-between">
+                      <div>
+                        <p className="font-semibold text-black">
+                          {exerciseMatch?.title || "Exercício"}
+                        </p>
+                        <p className="text-black/60 text-sm mt-1">
+                          Configuração:{" "}
+                          <span className="font-medium text-black">
+                            {es.serie}
+                          </span>
+                        </p>
+                      </div>
+                      <div>
+                        ✓
+                      </div>
+                    </div>
+                  </article>
+                );
+              })}
           </div>
+
+          {exerciseSessions.filter(
+            (es) =>
+              workoutSessions.find(
+                (ws) =>
+                  String(ws.workoutSession_ID) === String(es.workoutSession_ID),
+              )?.weekDay === selectedDay,
+          ).length === 0 && (
+            <p className="text-neutral-400">
+              Nenhum exercício adicionado a este dia.
+            </p>
+          )}
         </div>
       </div>
     </section>
