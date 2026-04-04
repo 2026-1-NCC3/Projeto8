@@ -4,6 +4,7 @@ import static com.example.projeto8.UI.CalendarUtils.daysInWeekArray;
 import static com.example.projeto8.UI.CalendarUtils.monthYearFromDate;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -44,6 +45,23 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
     private ArrayList<Task> tasksParaExibir;
     private ImageView iconHome, iconExercise, iconProfile; // menu
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        SharedPreferences prefs = getSharedPreferences("STORAGE", MODE_PRIVATE);
+
+        String idRecebido = prefs.getString("patient_id", null);
+        String nomeRecebido = prefs.getString("patient_name", null);
+
+        if (nomeRecebido != null) {
+            txtName.setText(nomeRecebido);
+        }
+
+        if (idRecebido != null) {
+            WorkoutSeshData(idRecebido);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,17 +97,10 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
 
         // Busca os dados na API
 
-        //Mecânismo de buscar os dados que vieram da intent de login
-        String idRecebido = getIntent().getStringExtra("PATIENT_ID");
-        String nomeRecebido = getIntent().getStringExtra("PATIENT_NAME");
+        //Mecânismo de buscar os dados que vieram da intent de login, nao funciona se nao vier da login, testando o onResume()
+        //String idRecebido = getIntent().getStringExtra("PATIENT_ID");
+        //String nomeRecebido = getIntent().getStringExtra("PATIENT_NAME");
 
-        //Assim que recebe o nome e id do paciente, muda o txtName na tela e faz a lógica de WorkoutSeshData
-        if (nomeRecebido != null) {
-            txtName.setText(nomeRecebido);
-        }
-        if (idRecebido != null) {
-            WorkoutSeshData(idRecebido);
-        }
     }
 
     private void initWidgets() {
@@ -106,9 +117,17 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
     }
 
     private void setupMenuClicks() {
-        iconHome.setOnClickListener(v -> startActivity(new Intent(this, MainActivity.class)));
-        iconExercise.setOnClickListener(v -> startActivity(new Intent(this, ExercisesActivity.class)));
-        iconProfile.setOnClickListener(v -> startActivity(new Intent(this, ProfileActivity.class)));
+        iconHome.setOnClickListener(v -> {
+
+        });
+        iconExercise.setOnClickListener(v -> {
+            startActivity(new Intent(this, ExercisesActivity.class));
+            finish();
+        });
+        iconProfile.setOnClickListener(v -> {
+            startActivity(new Intent(this, ProfileActivity.class));
+            finish();
+        });
     }
 
     // Monta o calendário semanal

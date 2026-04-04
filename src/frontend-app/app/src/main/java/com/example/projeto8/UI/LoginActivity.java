@@ -71,16 +71,17 @@ public class LoginActivity extends AppCompatActivity {
         service.login(loginInfo).enqueue(new Callback<PatientLoginResponseDTO>() {
             @Override
             public void onResponse(Call<PatientLoginResponseDTO> call, Response<PatientLoginResponseDTO> response) {
-                if (response.isSuccessful() && response.body() != null){
+                if (response.isSuccessful() && response.body() != null) {
                     String tokenGerado = response.body().getToken();
-                    getSharedPreferences("STORAGE", MODE_PRIVATE)
-                            .edit()
-                            .putString("token", tokenGerado)
-                            .apply();
-
                     String patientID = response.body().getId();
                     String patientName = response.body().getName();
                     String patientEmail = response.body().getEmail();
+                    getSharedPreferences("STORAGE", MODE_PRIVATE)
+                            .edit()
+                            .putString("token", tokenGerado)
+                            .putString("patient_id", patientID)
+                            .putString("patient_name", patientName)
+                            .apply();
 
                     Log.d("JSON_REAL", new com.google.gson.Gson().toJson(response.body())); //Log para ver o que está retornando no login
                     Toast.makeText(LoginActivity.this, "Login realizado com sucesso!", Toast.LENGTH_SHORT).show();
