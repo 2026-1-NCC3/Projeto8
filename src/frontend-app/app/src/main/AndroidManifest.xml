@@ -15,14 +15,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Projeto8">
 
+        <activity android:name=".UI.LgpdPopUpScreen"/>
         <activity android:name=".UI.ExercisesActivity"/>
-        <activity android:name=".UI.LoadScreen"/>
+        <activity android:name=".UI.LoginActivity"/>
         <activity android:name=".UI.MainActivity"/>
         <activity android:name=".UI.MayaChatActivity"/>
         <activity android:name=".UI.MonthCalendarActivity"/>
         <activity android:name=".UI.ProfileActivity"/>
 
-        <activity android:name=".UI.LoginActivity"
+        <activity android:name=".UI.LoadScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

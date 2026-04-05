@@ -13,7 +13,8 @@ public record PatientResponseDTO(
         String cellPhone,
         String gender,
         Double height,
-        Double weight
+        Double weight,
+        boolean lgpdCheck
 
 ) {
 }

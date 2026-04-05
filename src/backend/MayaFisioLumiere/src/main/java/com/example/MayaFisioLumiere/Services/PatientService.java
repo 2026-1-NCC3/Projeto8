@@ -40,7 +40,8 @@ public class PatientService {
                         patient.getCellPhone(),
                         patient.getGender(),
                         patient.getHeight(),
-                        patient.getWeight()
+                        patient.getWeight(),
+                        patient.isLgpdCheck()
                 ))
                 .toList();
     }
@@ -61,8 +62,8 @@ public class PatientService {
                 patient.getCellPhone(),
                 patient.getGender(),
                 patient.getHeight(),
-                patient.getWeight()
-
+                patient.getWeight(),
+                patient.isLgpdCheck()
         )).toList();
     }
     //cria novo paciente dentro do banco de dados
@@ -79,8 +80,7 @@ public class PatientService {
         newPatient.setHeight(data.height());
         newPatient.setWeight(data.weight());
         newPatient.setPatientAge(data.patientAge()); //remover? tirar?
-
-        newPatient.setRole(UserRole.PATIENT);
+        newPatient.setRole(UserRole.Patient);
         newPatient.setTotalMinutesUsedToday(0);
         newPatient.setLastAccessDate(java.time.LocalDate.now());
         newPatient.setPassword(data.birthDate());
@@ -103,8 +103,16 @@ public class PatientService {
         response.put("email", patient.getEmail());
         response.put("patient_id", patient.getPatient_ID());
         response.put("name", patient.getName());
+        response.put("lgpd_check", patient.isLgpdCheck());
 
         return response;
+    }
+
+    // atualiza o status lgpd do paciente
+    public void updateLgpdStatus(UUID id, boolean lgpdCheck){
+        PatientEntity patient = patientRepository.findById(id).orElseThrow(() -> new RuntimeException("Paciente não encontrado"));
+        patient.setLgpdCheck(lgpdCheck);
+        patientRepository.save(patient);
     }
 
     //deleta paciente pela uuid dele

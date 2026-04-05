@@ -44,7 +44,7 @@ public class ExercisesActivity extends AppCompatActivity {
         }
 
         if (currentVideoUrl != null && !currentVideoUrl.isEmpty()) {
-            carregarThumbnail(currentVideoUrl);
+            carregarMidia(currentVideoUrl);
         } else {
             // Se o backend não enviou URL de vídeo
             Toast.makeText(this, "Nenhum vídeo disponível para este exercício.", Toast.LENGTH_SHORT).show();
@@ -62,21 +62,25 @@ public class ExercisesActivity extends AppCompatActivity {
         setupMenu();
     }
 
-    //TESTAR ISSO!! NAO CONSIDERAR AINDA
-    // Método que recorta a URL do youtube para pegar só o ID da imagem
-    private void carregarThumbnail(String urlDoYoutube) {
-        if (urlDoYoutube.contains("v=")) {
+    // Método que recorta a URL do youtube para pegar a thumb e mantem a imagem como um botão do link do youutube
+    private void carregarMidia(String url) {
+
+        if (url.contains("youtube.com") || url.contains("youtu.be")) {
             try {
-                // Pega o que vem depois do "v=" na URL
-                String[] splitUrl = urlDoYoutube.split("v=");
-                String videoId = splitUrl[1];
-
-                // Remove parâmetros extras que o youtube às vezes coloca (ex: &t=10s)
-                int ampersandPosition = videoId.indexOf('&');
-                if (ampersandPosition != -1) {
-                    videoId = videoId.substring(0, ampersandPosition);
+                String videoId;
+                // Pega o que vem depois do "v=" na URL do Youtube
+                if (url.contains("v=")) {
+                    videoId = url.split("v=")[1];
+                    // Remove parâmetros extras que o youtube às vezes coloca (ex: &t=10s)
+                    int amp = videoId.indexOf('&');
+                    if (amp != -1) {
+                        videoId = videoId.substring(0, amp);
+                    }
+                } else if (url.contains("youtu.be/")) {
+                    videoId = url.split("youtu.be/")[1];
+                } else {
+                    videoId = "";
                 }
-
                 // Monta o link da imagem oficial do YouTube
                 String thumbnailUrl = "https://img.youtube.com/vi/" + videoId + "/0.jpg";
 
@@ -86,11 +90,16 @@ public class ExercisesActivity extends AppCompatActivity {
                         .into(imgExercise);
 
             } catch (Exception e) {
-                Log.e("YOUTUBE_ERRO", "Erro ao extrair ID do vídeo: " + e.getMessage());
+                Log.e("ERRO", "Erro ao carregar thumbnail");
             }
+
+        } else {
+            // É imagem normal
+            Glide.with(this)
+                    .load(url)
+                    .into(imgExercise);
         }
     }
-
     private void setupMenu() {
         iconHome.setOnClickListener(v -> {
             startActivity(new Intent(this, MainActivity.class));

@@ -48,12 +48,13 @@ public class PatientEntity implements UserDetails {
     private int patientAge;
 
     @Column(nullable = false)
-    private String birthDate; //DEPOIS, COLOCAR PARA FALSE, ERRO DE POSTGRES NAO IDENTIFICANDO
+    private String birthDate;
+
+    @Column (nullable = true, name = "lgpd_check")
+    private boolean lgpdCheck;
 
     @Column(nullable = false)
     private String status = "INATIVO";
-
-    //ADICIONAR numero zap, genero, altura, peso
 
     @Column( nullable = true)
     private String cellPhone;

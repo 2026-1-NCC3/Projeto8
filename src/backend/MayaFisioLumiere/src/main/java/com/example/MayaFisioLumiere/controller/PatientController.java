@@ -54,6 +54,17 @@ public class PatientController {
         }
     }
 
+    @PutMapping("/updateLgpdStatus/{id}")
+    public ResponseEntity<?> updateLgpdStatus(@PathVariable UUID id, @RequestParam boolean lgpdCheck){
+        try{
+        patientService.updateLgpdStatus(id, lgpdCheck);
+        return ResponseEntity.ok().body("Status LGPD atualizado com sucesso.");
+        }
+        catch(RuntimeException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());        }
+
+    }
+
     @GetMapping("/getByName/{name}")
     public ResponseEntity<?> getPatientByName(@PathVariable String name, String surname) {
         try {
