@@ -1,0 +1,33 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+
+    android:padding="24dp"
+    >
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sua Privacidade é Importante"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="                      Termo de consentimento LGPD"
+        android:textStyle="bold"
+        android:textSize="15dp"
+        android:layout_marginTop="8dp"/>
+
+    <Button
+        android:id="@+id/btn_accept_lgpd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Eu Aceito e Desejo Continuar"
+        android:layout_marginTop="24dp" />
+
+</LinearLayout>
