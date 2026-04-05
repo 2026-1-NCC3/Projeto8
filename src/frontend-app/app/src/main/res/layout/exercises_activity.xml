@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -25,61 +28,61 @@
         android:id="@+id/imgExercise"
         android:layout_width="0dp"
         android:layout_height="200dp"
-        android:layout_marginTop="24dp"
         android:scaleType="centerCrop"
+        android:layout_marginTop="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textExercise"
-        tools:srcCompat="@tools:sample/backgrounds/scenic" />
+        tools:srcCompat="@drawable/ic_exercise" />
 
     <TextView
         android:id="@+id/txtDescription"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="A descrição do exercício vai aparecer aqui..."
+        android:text="Descrição do exercício"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/imgExercise" />
 
     <TextView
         android:id="@+id/txtDor"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="A descrição do exercício aparecerá aqui..."
+        android:text="Você sentiu dor fazendo esse exercício?"
         android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imgExercise" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtDescription"
+        />
 
 
     <Button
         android:id="@+id/btnPain"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:layout_marginEnd="8dp"
-        android:backgroundTint="#F44336"
-        android:text="Senti Dor"
+        android:text="Senti dor!"
         android:textColor="@color/white"
-        app:layout_constraintEnd_toStartOf="@+id/btnNext"
-        app:layout_constraintHorizontal_weight="1"
+        android:backgroundTint="@color/blue"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtDescription" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtDor"
+        />
 
     <Button
         android:id="@+id/btnNext"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
-        android:backgroundTint="#4CAF50"
+        android:backgroundTint="@color/seahorse"
         android:text="Próximo"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@+id/btnPain"
-        app:layout_constraintTop_toBottomOf="@id/txtDescription" />
+        app:layout_constraintTop_toBottomOf="@id/btnPain" />
 
     <include
         layout="@layout/menu"

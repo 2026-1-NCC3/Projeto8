@@ -44,7 +44,7 @@ public class ExercisesActivity extends AppCompatActivity {
         }
 
         if (currentVideoUrl != null && !currentVideoUrl.isEmpty()) {
-            carregarThumbnail(currentVideoUrl);
+            carregarMidia(currentVideoUrl);
         } else {
             // Se o backend não enviou URL de vídeo
             Toast.makeText(this, "Nenhum vídeo disponível para este exercício.", Toast.LENGTH_SHORT).show();
@@ -64,7 +64,7 @@ public class ExercisesActivity extends AppCompatActivity {
 
     //TESTAR ISSO!! NAO CONSIDERAR AINDA
     // Método que recorta a URL do youtube para pegar só o ID da imagem
-    private void carregarThumbnail(String urlDoYoutube) {
+   /* private void carregarThumbnail(String urlDoYoutube) {
         if (urlDoYoutube.contains("v=")) {
             try {
                 // Pega o que vem depois do "v=" na URL
@@ -89,8 +89,40 @@ public class ExercisesActivity extends AppCompatActivity {
                 Log.e("YOUTUBE_ERRO", "Erro ao extrair ID do vídeo: " + e.getMessage());
             }
         }
-    }
+    } */
+    private void carregarMidia(String url) {
 
+        if (url.contains("youtube.com") || url.contains("youtu.be")) {
+            try {
+                String videoId;
+                if (url.contains("v=")) {
+                    videoId = url.split("v=")[1];
+                    int amp = videoId.indexOf('&');
+                    if (amp != -1) {
+                        videoId = videoId.substring(0, amp);
+                    }
+                } else if (url.contains("youtu.be/")) {
+                    videoId = url.split("youtu.be/")[1];
+                } else {
+                    videoId = "";
+                }
+                String thumbnailUrl = "https://img.youtube.com/vi/" + videoId + "/0.jpg";
+
+                Glide.with(this)
+                        .load(thumbnailUrl)
+                        .into(imgExercise);
+
+            } catch (Exception e) {
+                Log.e("ERRO", "Erro ao carregar thumbnail");
+            }
+
+        } else {
+            // É imagem normal
+            Glide.with(this)
+                    .load(url)
+                    .into(imgExercise);
+        }
+    }
     private void setupMenu() {
         iconHome.setOnClickListener(v -> {
             startActivity(new Intent(this, MainActivity.class));
