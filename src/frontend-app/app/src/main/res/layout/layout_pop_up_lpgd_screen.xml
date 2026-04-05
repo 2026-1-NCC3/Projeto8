@@ -10,8 +10,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sua Privacidade é Importante"
-        android:textSize="20sp"
+        android:text="              Sua Privacidade é Importante"
+        android:textSize="20dp"
         android:textStyle="bold"
         android:layout_marginTop="16dp"/>
 
@@ -23,11 +23,23 @@
         android:textSize="15dp"
         android:layout_marginTop="8dp"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Este aplicativo coleta e trata dados pessoais e dados sensíveis relacionados à saúde do usuário com a finalidade de acompanhamento fisioterapêutico, gestão de exercícios e monitoramento da evolução do tratamento."
+        android:contentDescription="Termo LGPD"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        />
     <Button
         android:id="@+id/btn_accept_lgpd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Eu Aceito e Desejo Continuar"
+        android:backgroundTint="@color/darkBlue"
         android:layout_marginTop="24dp" />
 
 </LinearLayout>
