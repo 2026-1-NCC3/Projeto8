@@ -33,7 +33,14 @@ export function usePatients() {
   const [patients, setPatients] = useState<PatientResponse[]>([]);
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
-  const token = localStorage.getItem("token");
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const normalizePatientsData = (rawData: any[]): PatientResponse[] => {
+    return rawData.map((item) => ({
+      ...item,
+      patient_ID: String(item.patient_ID ?? item.patient_id ?? ""),
+    }));
+  };
 
   const fetchPatients = useCallback(async () => {
     try {
@@ -44,8 +51,8 @@ export function usePatients() {
         },
       });
       if (res.ok) {
-        const data: PatientResponse[] = await res.json();
-        setPatients(data);
+        const rawData = await res.json();
+        setPatients(normalizePatientsData(rawData));
       }
     } catch (error) {
       console.error("Erro ao buscar pacientes:", error);
@@ -64,8 +71,8 @@ export function usePatients() {
           },
         });
         if (res.ok) {
-          const data: PatientResponse[] = await res.json();
-          if (isMounted) setPatients(data);
+          const rawData = await res.json();
+          if (isMounted) setPatients(normalizePatientsData(rawData));
         }
       } catch (error) {
         console.error("Erro ao buscar pacientes:", error);
@@ -73,16 +80,21 @@ export function usePatients() {
     }
 
     load();
-    return () => { isMounted = false; };
+    return () => {
+      isMounted = false;
+    };
   }, [API_URL]);
 
   const addPatient = async (newPatient: PatientRequest): Promise<boolean> => {
     try {
+      const token =
+        typeof window !== "undefined" ? localStorage.getItem("token") : "";
+
       const res = await fetch(`${API_URL}/api/patient/createPatient`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(newPatient),
       });
@@ -90,7 +102,7 @@ export function usePatients() {
       if (res.ok) {
         const data = await res.json();
         const formatted: PatientResponse = {
-          patient_ID: data.patient_ID ?? data.patient_id,
+          patient_ID: String(data.patient_ID ?? data.patient_id),
           name: data.name,
           surname: data.surname,
           email: data.email,

@@ -10,9 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.projeto8.R;
 
 public class ProfileActivity extends AppCompatActivity {
-    ImageView iconHome;
-    ImageView iconExercise;
-    ImageView iconProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,14 +24,16 @@ public class ProfileActivity extends AppCompatActivity {
 
         iconHome.setOnClickListener(v -> {
             startActivity(new Intent(this, MainActivity.class));
+            finish();
         });
 
         iconExercise.setOnClickListener(v -> {
             startActivity(new Intent(this, ExercisesActivity.class));
+            finish();
         });
 
         iconProfile.setOnClickListener(v -> {
-            startActivity(new Intent(this, ProfileActivity.class));
+            // Não faz nada porque já estamos no profile
         });
 
     }

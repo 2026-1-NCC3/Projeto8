@@ -17,14 +17,14 @@ const items: NavItem[] = [
     icon: "/exercises.png",
   },
   {
+    href: "/patients",
+    label: "Pacientes",
+    icon: "/users.png",
+  },
+  {
     href: "/patients/new",
     label: "Adicionar Paciente",
     icon: "/edit-user.png",
-  },
-  {
-    href: "/patients",
-    label: "Acompanhar Pacientes",
-    icon: "/users.png",
   },
 ];
 

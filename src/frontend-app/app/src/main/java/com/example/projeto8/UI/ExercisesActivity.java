@@ -92,8 +92,16 @@ public class ExercisesActivity extends AppCompatActivity {
     }
 
     private void setupMenu() {
-        iconHome.setOnClickListener(v -> startActivity(new Intent(this, MainActivity.class)));
-        iconExercise.setOnClickListener(v -> startActivity(new Intent(this, ExercisesActivity.class)));
-        iconProfile.setOnClickListener(v -> startActivity(new Intent(this, ProfileActivity.class)));
+        iconHome.setOnClickListener(v -> {
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+        });
+        iconExercise.setOnClickListener(v -> {
+            // Já estamos na tela de exercícios
+        });
+        iconProfile.setOnClickListener(v -> {
+            startActivity(new Intent(this, ProfileActivity.class));
+            finish();
+        });
     }
 }

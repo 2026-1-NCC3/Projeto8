@@ -4,6 +4,7 @@ import static com.example.projeto8.UI.CalendarUtils.daysInWeekArray;
 import static com.example.projeto8.UI.CalendarUtils.monthYearFromDate;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -44,6 +45,23 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
     private ArrayList<Task> tasksParaExibir;
     private ImageView iconHome, iconExercise, iconProfile; // menu
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        SharedPreferences prefs = getSharedPreferences("STORAGE", MODE_PRIVATE);
+
+        String idRecebido = prefs.getString("patient_id", null);
+        String nomeRecebido = prefs.getString("patient_name", null);
+
+        if (nomeRecebido != null) {
+            txtName.setText(nomeRecebido);
+        }
+
+        if (idRecebido != null) {
+            WorkoutSeshData(idRecebido);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,17 +97,10 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
 
         // Busca os dados na API
 
-        //Mecânismo de buscar os dados que vieram da intent de login
-        String idRecebido = getIntent().getStringExtra("PATIENT_ID");
-        String nomeRecebido = getIntent().getStringExtra("PATIENT_NAME");
+        //Mecânismo de buscar os dados que vieram da intent de login, nao funciona se nao vier da login, testando o onResume()
+        //String idRecebido = getIntent().getStringExtra("PATIENT_ID");
+        //String nomeRecebido = getIntent().getStringExtra("PATIENT_NAME");
 
-        //Assim que recebe o nome e id do paciente, muda o txtName na tela e faz a lógica de WorkoutSeshData
-        if (nomeRecebido != null) {
-            txtName.setText(nomeRecebido);
-        }
-        if (idRecebido != null) {
-            WorkoutSeshData(idRecebido);
-        }
     }
 
     private void initWidgets() {
@@ -106,9 +117,17 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
     }
 
     private void setupMenuClicks() {
-        iconHome.setOnClickListener(v -> startActivity(new Intent(this, MainActivity.class)));
-        iconExercise.setOnClickListener(v -> startActivity(new Intent(this, ExercisesActivity.class)));
-        iconProfile.setOnClickListener(v -> startActivity(new Intent(this, ProfileActivity.class)));
+        iconHome.setOnClickListener(v -> {
+
+        });
+        iconExercise.setOnClickListener(v -> {
+            startActivity(new Intent(this, ExercisesActivity.class));
+            finish();
+        });
+        iconProfile.setOnClickListener(v -> {
+            startActivity(new Intent(this, ProfileActivity.class));
+            finish();
+        });
     }
 
     // Monta o calendário semanal
@@ -148,9 +167,29 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         if (date != null) {
             CalendarUtils.selectedDate = date;
             setWeekView();
+
+            SharedPreferences prefs = getSharedPreferences("STORAGE", MODE_PRIVATE);
+            String id = prefs.getString("patient_id", null);
+
+            if (id != null) {
+                WorkoutSeshData(id);
+            }
         }
     }
 
+    //Para associar o dia do exercicio com o dia da semana
+    private String getDiaSemanaAbreviado(int diaSemana) {
+        switch (diaSemana) {
+            case 1: return "SEG";
+            case 2: return "TER";
+            case 3: return "QUA";
+            case 4: return "QUI";
+            case 5: return "SEX";
+            case 6: return "SAB";
+            case 7: return "DOM";
+            default: return "";
+        }
+    }
 
     //Mostrar a Workout do dia
     private void WorkoutSeshData(String patientId) {
@@ -172,39 +211,54 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
                             try {
                                 tasksParaExibir.clear();
 
+                                int diaSemana = CalendarUtils.selectedDate.getDayOfWeek().getValue();
+                                String diaAtual = getDiaSemanaAbreviado(diaSemana);
+
                                 for (WorkoutSession treino : listaDeTreinos) {
-                                    if (treino.getExercises() != null) {
-                                        for (ExerciseSession session : treino.getExercises()) {
 
-                                            int serie = session.getSerie();
-                                            int reps = session.getRepetitions();
+                                    if (treino.getWeekDay() != null &&
+                                            treino.getWeekDay().trim().toUpperCase().equals(diaAtual)) {
 
-                                            String titulo = "Exercício s/ nome";
-                                            Long exercise_id = -1L;
-                                            String midiaURL = "";
-                                            String description = "";
+                                        if (treino.getExercises() != null) {
+                                            for (ExerciseSession session : treino.getExercises()) {
 
-                                            if (session.getExercise() != null) {
-                                                if (session.getExercise().getTitle() != null) titulo = session.getExercise().getTitle();
-                                                if (session.getExercise().getExercise_id() != null) exercise_id = session.getExercise().getExercise_id();
-                                                if (session.getExercise().getMidiaURL() != null) midiaURL = session.getExercise().getMidiaURL();
-                                                if (session.getExercise().getDescription() != null) description = session.getExercise().getDescription();
+                                                int serie = session.getSerie();
+                                                int reps = session.getRepetitions();
+
+                                                String titulo = "Exercício s/ nome";
+                                                Long exercise_id = -1L;
+                                                String midiaURL = "";
+                                                String description = "";
+
+                                                if (session.getExercise() != null) {
+                                                    if (session.getExercise().getTitle() != null)
+                                                        titulo = session.getExercise().getTitle();
+                                                    if (session.getExercise().getExercise_id() != null)
+                                                        exercise_id = session.getExercise().getExercise_id();
+                                                    if (session.getExercise().getMidiaURL() != null)
+                                                        midiaURL = session.getExercise().getMidiaURL();
+                                                    if (session.getExercise().getDescription() != null)
+                                                        description = session.getExercise().getDescription();
+                                                }
+
+                                                tasksParaExibir.add(new Task(exercise_id, titulo, serie, reps, midiaURL, description));
                                             }
-
-                                            tasksParaExibir.add(new Task(exercise_id, titulo, serie, reps, midiaURL, description));
                                         }
                                     }
                                 }
 
                                 if (tasksParaExibir.isEmpty()) {
-                                    tasksParaExibir.add(new Task(-1L, "Nenhum exercício para hoje", 0, 0, "", ""));                                }
-
+                                    tasksParaExibir.add(
+                                            new Task(-1L, "Nenhum exercício para hoje! Descanse.", 0, 0, "", "")
+                                    );
+                                }
                                 adapter.notifyDataSetChanged();
                                 Log.d("TESTE_API", "Exercícios carregados: " + tasksParaExibir.size());
 
                             } catch (Exception e) {
                                 Log.e("TESTE_API", "Erro ao atualizar interface: " + e.getMessage());
                             }
+
                         }
                     });
                 }

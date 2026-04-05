@@ -39,9 +39,19 @@
         android:layout_marginTop="20dp"
         android:text="A descrição do exercício vai aparecer aqui..."
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/imgExercise" />
+
+    <TextView
+        android:id="@+id/txtDor"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="A descrição do exercício aparecerá aqui..."
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imgExercise" />
+
 
     <Button
         android:id="@+id/btnPain"
