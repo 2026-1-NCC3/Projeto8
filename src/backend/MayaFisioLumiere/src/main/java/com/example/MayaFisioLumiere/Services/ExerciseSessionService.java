@@ -3,14 +3,14 @@ package com.example.MayaFisioLumiere.Services;
 import com.example.MayaFisioLumiere.Domain.ExerciseSession.ExerciseSessionRequestDTO;
 import com.example.MayaFisioLumiere.Domain.ExerciseSession.ExerciseSessionResponseDTO;
 import com.example.MayaFisioLumiere.Domain.Exercises.ExerciseResponseDTO;
-import com.example.MayaFisioLumiere.entity.ExerciseEntity;
-import com.example.MayaFisioLumiere.entity.ExerciseSessionEntity;
-import com.example.MayaFisioLumiere.entity.PatientEntity;
-import com.example.MayaFisioLumiere.entity.WorkoutSessionEntity;
-import com.example.MayaFisioLumiere.repository.ExerciseSessionRepository;
-import com.example.MayaFisioLumiere.repository.ExercisesRepository;
-import com.example.MayaFisioLumiere.repository.PatientRepository;
-import com.example.MayaFisioLumiere.repository.WorkoutSessionRepository;
+import com.example.MayaFisioLumiere.Entity.ExerciseEntity;
+import com.example.MayaFisioLumiere.Entity.ExerciseSessionEntity;
+import com.example.MayaFisioLumiere.Entity.PatientEntity;
+import com.example.MayaFisioLumiere.Entity.WorkoutSessionEntity;
+import com.example.MayaFisioLumiere.Repository.ExerciseSessionRepository;
+import com.example.MayaFisioLumiere.Repository.ExercisesRepository;
+import com.example.MayaFisioLumiere.Repository.PatientRepository;
+import com.example.MayaFisioLumiere.Repository.WorkoutSessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,7 +40,7 @@ public class ExerciseSessionService {
                         entity.getExercise().getMidiaURL(),
                         entity.getExercise().getTags(),
                         entity.getExercise().getDescription()
-                ),
+                ).exercise_id(),
                 entity.getWorkoutSession().getWorkoutSession_id(),
                 entity.getPatient().getPatient_ID(),
                 entity.getSerie(),

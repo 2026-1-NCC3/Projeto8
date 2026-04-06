@@ -1,4 +1,4 @@
-package com.example.MayaFisioLumiere.entity.role;
+package com.example.MayaFisioLumiere.Entity.role;
 
 // aqui a gente define qual o papel dos nossos usuários como visto no doc abaixo pus como admin(maya ou mais fisioterapeutas) e paciente
 public enum UserRole {

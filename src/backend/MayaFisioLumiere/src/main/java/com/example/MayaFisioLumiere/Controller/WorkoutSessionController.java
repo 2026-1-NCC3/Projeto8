@@ -1,10 +1,10 @@
-package com.example.MayaFisioLumiere.controller;
+package com.example.MayaFisioLumiere.Controller;
 
 
 import com.example.MayaFisioLumiere.Domain.WorkoutSession.WorkoutSesRequestDTO;
 import com.example.MayaFisioLumiere.Domain.WorkoutSession.WorkoutSesResponseDTO;
-import com.example.MayaFisioLumiere.entity.PatientEntity;
-import com.example.MayaFisioLumiere.entity.WorkoutSessionEntity;
+import com.example.MayaFisioLumiere.Entity.PatientEntity;
+import com.example.MayaFisioLumiere.Entity.WorkoutSessionEntity;
 import com.example.MayaFisioLumiere.Services.WorkoutSessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

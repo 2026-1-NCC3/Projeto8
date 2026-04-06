@@ -2,20 +2,18 @@ package com.example.MayaFisioLumiere.Services;
 
 import com.example.MayaFisioLumiere.Domain.Admin.AdminRequestDTO;
 import com.example.MayaFisioLumiere.Domain.Admin.AdminResponseDTO;
-import com.example.MayaFisioLumiere.entity.AdminEntity;
-import com.example.MayaFisioLumiere.entity.role.UserRole;
-import com.example.MayaFisioLumiere.repository.AdminRepository;
+import com.example.MayaFisioLumiere.Entity.AdminEntity;
+import com.example.MayaFisioLumiere.Entity.role.UserRole;
+import com.example.MayaFisioLumiere.Repository.AdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 //remover a password do admin da response, fazer a parte de terminar a autenticação por meio das entities que
 @Service

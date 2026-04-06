@@ -3,8 +3,8 @@ package com.example.MayaFisioLumiere.Services;
 
 import com.example.MayaFisioLumiere.Domain.Exercises.ExerciseRequestDTO;
 import com.example.MayaFisioLumiere.Domain.Exercises.ExerciseResponseDTO;
-import com.example.MayaFisioLumiere.entity.ExerciseEntity;
-import com.example.MayaFisioLumiere.repository.ExercisesRepository;
+import com.example.MayaFisioLumiere.Entity.ExerciseEntity;
+import com.example.MayaFisioLumiere.Repository.ExercisesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

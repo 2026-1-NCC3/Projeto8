@@ -1,8 +1,8 @@
 package com.example.MayaFisioLumiere.Configurations.Filter;
 
 import com.example.MayaFisioLumiere.Services.TokenService;
-import com.example.MayaFisioLumiere.repository.AdminRepository;
-import com.example.MayaFisioLumiere.repository.PatientRepository;
+import com.example.MayaFisioLumiere.Repository.AdminRepository;
+import com.example.MayaFisioLumiere.Repository.PatientRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

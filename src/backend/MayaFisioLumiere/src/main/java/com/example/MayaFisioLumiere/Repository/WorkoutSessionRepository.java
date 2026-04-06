@@ -1,7 +1,7 @@
-package com.example.MayaFisioLumiere.repository;
+package com.example.MayaFisioLumiere.Repository;
 
-import com.example.MayaFisioLumiere.entity.PatientEntity;
-import com.example.MayaFisioLumiere.entity.WorkoutSessionEntity;
+import com.example.MayaFisioLumiere.Entity.PatientEntity;
+import com.example.MayaFisioLumiere.Entity.WorkoutSessionEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;

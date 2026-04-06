@@ -2,11 +2,10 @@ package com.example.MayaFisioLumiere.Services;
 
 import com.example.MayaFisioLumiere.Domain.Patient.PatientRequestDTO;
 import com.example.MayaFisioLumiere.Domain.Patient.PatientResponseDTO;
-import com.example.MayaFisioLumiere.entity.PatientEntity;
-import com.example.MayaFisioLumiere.entity.role.UserRole;
-import com.example.MayaFisioLumiere.repository.PatientRepository;
+import com.example.MayaFisioLumiere.Entity.PatientEntity;
+import com.example.MayaFisioLumiere.Entity.role.UserRole;
+import com.example.MayaFisioLumiere.Repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -107,6 +106,42 @@ public class PatientService {
 
         return response;
     }
+
+    // atualiza dados do paciente
+    public PatientResponseDTO updatePatientData(PatientRequestDTO body, UUID id) {
+        PatientEntity patient = patientRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Paciente não encontrado"));
+
+        if (body.name() != null) patient.setName(body.name());
+        if (body.surname() != null) patient.setSurname(body.surname());
+        if (body.cpf() != null) patient.setCpf(body.cpf());
+        if (body.email() != null) patient.setEmail(body.email());
+        if (body.password() != null) patient.setPassword(body.password());
+        if (body.patientAge() != null) patient.setPatientAge(body.patientAge());
+        if (body.birthDate() != null) patient.setBirthDate(body.birthDate());
+        if (body.cellPhone() != null) patient.setCellPhone(body.cellPhone());
+        if (body.gender() != null) patient.setGender(body.gender());
+        if (body.height() != null) patient.setHeight(body.height());
+        if (body.weight() != null) patient.setWeight(body.weight());
+
+        patientRepository.save(patient);
+
+        return new PatientResponseDTO(
+                patient.getPatient_ID(),
+                patient.getPassword(),
+                patient.getStatus(),
+                patient.getName(),
+                patient.getSurname(),
+                patient.getEmail(),
+                patient.getBirthDate(),
+                patient.getCellPhone(),
+                patient.getGender(),
+                patient.getHeight(),
+                patient.getWeight(),
+                patient.isLgpdCheck()
+        );
+    }
+
 
     // atualiza o status lgpd do paciente
     public void updateLgpdStatus(UUID id, boolean lgpdCheck){

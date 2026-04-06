@@ -1,4 +1,4 @@
-package com.example.MayaFisioLumiere.entity;
+package com.example.MayaFisioLumiere.Entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;

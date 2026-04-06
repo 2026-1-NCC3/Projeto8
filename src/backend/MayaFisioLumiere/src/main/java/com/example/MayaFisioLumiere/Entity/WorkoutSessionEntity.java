@@ -1,6 +1,5 @@
-package com.example.MayaFisioLumiere.entity;
+package com.example.MayaFisioLumiere.Entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

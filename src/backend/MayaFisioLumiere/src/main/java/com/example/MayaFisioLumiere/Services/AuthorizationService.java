@@ -1,7 +1,7 @@
 package com.example.MayaFisioLumiere.Services;
 
-import com.example.MayaFisioLumiere.repository.AdminRepository;
-import com.example.MayaFisioLumiere.repository.PatientRepository;
+import com.example.MayaFisioLumiere.Repository.AdminRepository;
+import com.example.MayaFisioLumiere.Repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

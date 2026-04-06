@@ -1,9 +1,8 @@
-package com.example.MayaFisioLumiere.controller;
+package com.example.MayaFisioLumiere.Controller;
 
 import com.example.MayaFisioLumiere.Domain.Admin.AdminRequestDTO;
 import com.example.MayaFisioLumiere.Domain.Admin.AdminResponseDTO;
 import com.example.MayaFisioLumiere.Services.AdminService;
-import com.example.MayaFisioLumiere.entity.AdminEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

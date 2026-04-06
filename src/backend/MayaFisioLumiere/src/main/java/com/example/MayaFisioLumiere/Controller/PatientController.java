@@ -1,20 +1,21 @@
-package com.example.MayaFisioLumiere.controller;
+package com.example.MayaFisioLumiere.Controller;
 
 import com.example.MayaFisioLumiere.Domain.Patient.PatientRequestDTO;
 import com.example.MayaFisioLumiere.Domain.Patient.PatientResponseDTO;
 import com.example.MayaFisioLumiere.Services.PatientService;
-import com.example.MayaFisioLumiere.entity.PatientEntity;
-import com.example.MayaFisioLumiere.repository.PatientRepository; // importando para poder usar o auto-wired
+import com.example.MayaFisioLumiere.Entity.PatientEntity;
+import com.example.MayaFisioLumiere.Repository.PatientRepository; // importando para poder usar o auto-wired
 import org.springframework.beans.factory.annotation.Autowired; // necessário para salvar as coisas dentro do banco de dados
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
+
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @RestController //tipo da classe que vamos fazer
-@RequestMapping("/api/patient")  //rota principal desse controller, sempre que formos adicionar uma rota nesse controle vai ser esse caminho +/nomeDaRota
+@RequestMapping("/api/patient")
+//rota principal desse controller, sempre que formos adicionar uma rota nesse controle vai ser esse caminho +/nomeDaRota
 public class PatientController {
 
     @Autowired
@@ -51,6 +52,16 @@ public class PatientController {
             return ResponseEntity.ok(response);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/updatePatient/{id}")
+    public ResponseEntity<?> updatePatientData(@PathVariable UUID id, @RequestBody PatientRequestDTO body) {
+        try {
+            PatientResponseDTO response = patientService.updatePatientData(body, id);
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
