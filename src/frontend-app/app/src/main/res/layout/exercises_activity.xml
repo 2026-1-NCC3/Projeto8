@@ -10,6 +10,7 @@
     android:padding="30dp"
     android:background="@color/white"
     tools:context=".UI.ExercisesActivity">
+    
 
     <TextView
         android:id="@+id/textExercise"
@@ -67,7 +68,8 @@
         android:layout_marginTop="32dp"
         android:text="Senti dor!"
         android:textColor="@color/white"
-        android:backgroundTint="@color/blue"
+        android:textStyle="bold"
+        android:backgroundTint="@color/choc"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txtDor"
@@ -78,7 +80,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:backgroundTint="@color/seahorse"
+        android:backgroundTint="@color/tangerine"
         android:text="Próximo"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
