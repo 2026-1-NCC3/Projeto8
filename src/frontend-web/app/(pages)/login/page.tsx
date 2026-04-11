@@ -40,7 +40,7 @@ export default function LoginPage() {
             id="email"
             name="email"
             type="email"
-            className="w-full rounded-md border border-gray-300 p-3 text-base outline-none transition-all focus:border-dark-blue focus:ring-1 focus:ring-dark-blue placeholder-gray-500"
+            className="w-full rounded-md border border-gray-300 p-3 text-base outline-none transition-all focus:border-dark-blue focus:ring-1 focus:ring-dark-blue placeholder:text-gray-600!"
             placeholder="admin@lumiere.com"
             required
           />
@@ -57,7 +57,7 @@ export default function LoginPage() {
             id="password"
             name="password"
             type="password"
-            className="w-full rounded-md border border-gray-300 p-3 text-base outline-none transition-all focus:border-dark-blue focus:ring-1 focus:ring-dark-blue placeholder-gray-500"
+            className="w-full rounded-md border border-gray-300 p-3 text-base outline-none transition-all focus:border-dark-blue focus:ring-1 focus:ring-dark-blue placeholder:text-gray-600!"
             placeholder="••••••••"
             required
           />
