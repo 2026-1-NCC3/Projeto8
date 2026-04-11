@@ -47,9 +47,10 @@ public class ExerciseSessionController {
     }
 
 
-    @PutMapping("/updateExerciseSession")
-    public ResponseEntity<?> updateExerciseSession( @PathVariable Long id,
-                                                    @RequestBody ExerciseSessionRequestDTO data){
+    @PutMapping("/updateExerciseSession/{id}")
+    public ResponseEntity<?> updateExerciseSession( 
+        @PathVariable Long id, 
+        @RequestBody ExerciseSessionRequestDTO data) {
         try {
             ExerciseSessionEntity updatedSession = exerciseSessionService.updateExerciseSession(id, data);
             return ResponseEntity.ok(updatedSession); //retorna ok com sessão atualizada
@@ -79,8 +80,9 @@ public class ExerciseSessionController {
 
 
 
-    @DeleteMapping("/deleteExerciseSession")
-    public  ResponseEntity<?> deleteExerciseSession(Long exerciseSession_id){
+    @DeleteMapping("/deleteExerciseSession/{exerciseSession_id}")
+    public ResponseEntity<?> deleteExerciseSession(
+        @PathVariable Long exerciseSession_id) {
         try{
             exerciseSessionRepository.deleteById(exerciseSession_id);
             return ResponseEntity.ok("Sessão de exercícios deletada com sucesso");

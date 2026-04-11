@@ -1,17 +1,19 @@
 import { useState, useEffect, useCallback } from "react";
 
 export type PatientResponse = {
-  patient_ID: string;
+  patient_id: string;
   name: string;
   surname: string;
   email: string;
   cpf: string;
   status: string;
-  birthDate?: string;
+  birthDate: string;
   cellPhone?: string | null;
   gender?: string | null;
   height?: number | null;
   weight?: number | null;
+  description?: string | null;
+  lgpdCheck: boolean;
 };
 
 export type PatientRequest = {
@@ -20,25 +22,24 @@ export type PatientRequest = {
   cpf: string;
   email: string;
   patientAge: number | null;
-  password: string;
+  password?: string;
   birthDate: string;
   status: string;
   cellPhone?: string | null;
   gender?: string | null;
   height?: number | null;
   weight?: number | null;
+  description?: string | null;
 };
 
 export function usePatients() {
   const [patients, setPatients] = useState<PatientResponse[]>([]);
-
   const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const normalizePatientsData = (rawData: any[]): PatientResponse[] => {
     return rawData.map((item) => ({
       ...item,
-      patient_ID: String(item.patient_ID ?? item.patient_id ?? ""),
+      patient_id: String(item.patient_id ?? item.patient_ID ?? ""),
     }));
   };
 
@@ -46,9 +47,7 @@ export function usePatients() {
     try {
       const res = await fetch(`${API_URL}/api/patient/getAllPatients`, {
         method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
       });
       if (res.ok) {
         const rawData = await res.json();
@@ -60,69 +59,44 @@ export function usePatients() {
   }, [API_URL]);
 
   useEffect(() => {
-    let isMounted = true;
-
-    async function load() {
-      try {
-        const res = await fetch(`${API_URL}/api/patient/getAllPatients`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        if (res.ok) {
-          const rawData = await res.json();
-          if (isMounted) setPatients(normalizePatientsData(rawData));
-        }
-      } catch (error) {
-        console.error("Erro ao buscar pacientes:", error);
-      }
-    }
-
-    load();
-    return () => {
-      isMounted = false;
-    };
-  }, [API_URL]);
+    fetchPatients();
+  }, [fetchPatients]);
 
   const addPatient = async (newPatient: PatientRequest): Promise<boolean> => {
     try {
-      const token =
-        typeof window !== "undefined" ? localStorage.getItem("token") : "";
-
       const res = await fetch(`${API_URL}/api/patient/createPatient`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newPatient),
       });
-
       if (res.ok) {
-        const data = await res.json();
-        const formatted: PatientResponse = {
-          patient_ID: String(data.patient_ID ?? data.patient_id),
-          name: data.name,
-          surname: data.surname,
-          email: data.email,
-          cpf: data.cpf,
-          status: data.status,
-          birthDate: data.birthDate,
-          cellPhone: data.cellPhone ?? null,
-          gender: data.gender ?? null,
-          height: data.height ?? null,
-          weight: data.weight ?? null,
-        };
-        setPatients((prev) => [formatted, ...prev]);
+        await fetchPatients();
         return true;
       }
-
-      const err = await res.text();
-      alert("Erro ao criar paciente: " + err);
       return false;
     } catch (error) {
-      console.error("Erro na requisição:", error);
+      console.error("Erro ao criar paciente:", error);
+      return false;
+    }
+  };
+
+  const updatePatient = async (
+    id: string,
+    body: PatientRequest
+  ): Promise<boolean> => {
+    try {
+      const res = await fetch(`${API_URL}/api/patient/updatePatient/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      if (res.ok) {
+        await fetchPatients();
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error("Erro ao atualizar paciente:", error);
       return false;
     }
   };
@@ -133,7 +107,7 @@ export function usePatients() {
         method: "DELETE",
       });
       if (res.ok) {
-        setPatients((prev) => prev.filter((p) => p.patient_ID !== id));
+        setPatients((prev) => prev.filter((p) => p.patient_id !== id));
         return true;
       }
       return false;
@@ -143,5 +117,5 @@ export function usePatients() {
     }
   };
 
-  return { patients, fetchPatients, addPatient, removePatient };
+  return { patients, fetchPatients, addPatient, updatePatient, removePatient };
 }

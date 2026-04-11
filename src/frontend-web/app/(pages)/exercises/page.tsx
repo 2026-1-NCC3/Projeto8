@@ -41,12 +41,12 @@ export default function ExercisesPage() {
 
   return (
     <section className="grid grid-cols-4 items-start gap-4 md:grid-cols-12">
-      <header className="col-span-full pt-6 px-4">
-        <h1 className="font-display text-4xl">Cadastro de Exercícios</h1>
+      <header className="col-span-full">
+        <h1 className="font-display text-4xl pt-6">Cadastro de Exercícios</h1>
       </header>
 
       {/* Cadastrar exercício */}
-      <div className="panel col-span-4 self-start md:col-span-8 p-5">
+      <div className="panel col-span-4 self-start md:col-span-8">
         <h2 className="text-xl">Adicionar um novo exercício</h2>
         <form
           onSubmit={submitExercise}
@@ -98,7 +98,7 @@ export default function ExercisesPage() {
       </div>
 
       {/* Busca no banco de exercícios */}
-      <div className="col-span-4 p-5 md:col-span-4">
+      <div className="col-span-4 md:col-span-4">
         <h2 className="text-xl">Buscar exercícios</h2>
         <input
           value={search}

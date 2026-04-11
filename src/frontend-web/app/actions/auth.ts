@@ -36,7 +36,7 @@ export async function authenticateAdmin(_: unknown, formData: FormData) {
       maxAge: 60 * 60 * 24 * 7,
     });
   } catch (error) {
-    return { error: `Failed to connect to the server: ${error}` };
+    return { error: "Falha ao conectar com o servidor." };
   }
 
   redirect("/exercises");

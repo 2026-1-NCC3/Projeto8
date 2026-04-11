@@ -13,6 +13,7 @@ type FormState = {
   height: string;
   weight: string;
   patientAge: string;
+  description: string;
 };
 
 const emptyForm: FormState = {
@@ -25,22 +26,31 @@ const emptyForm: FormState = {
   height: "",
   weight: "",
   patientAge: "",
+  description: "",
 };
 
 export default function AddPatientPage() {
   const { addPatient } = usePatients();
   const [form, setForm] = useState<FormState>(emptyForm);
+  const [isLoading, setIsLoading] = useState(false);
 
   function handleChange(field: keyof FormState) {
-    return (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
-      setForm((prev) => ({ ...prev, [field]: event.target.value }));
+    return (
+      event: React.ChangeEvent<
+        HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+      >
+    ) => setForm((prev) => ({ ...prev, [field]: event.target.value }));
   }
 
   async function submitPatient(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setIsLoading(true);
 
-    if (!form.firstName || !form.lastName || !form.birthDate || !form.cpf)
+    if (!form.firstName || !form.lastName || !form.birthDate || !form.cpf) {
+      alert("Por favor, preencha os campos obrigatórios.");
+      setIsLoading(false);
       return;
+    }
 
     const email = `${form.firstName.toLowerCase()}.${form.lastName.toLowerCase()}@lumiere.com`;
     const password = form.birthDate.split("-").reverse().join("");
@@ -58,69 +68,70 @@ export default function AddPatientPage() {
       gender: form.gender || null,
       height: form.height ? parseFloat(form.height) : null,
       weight: form.weight ? parseFloat(form.weight) : null,
+      description: form.description || null,
     });
 
     if (isSuccess) {
+      alert("Paciente cadastrado com sucesso!");
       setForm(emptyForm);
     }
+    setIsLoading(false);
   }
 
   return (
-    <section className="grid grid-cols-4 gap-4 md:h-[calc(100dvh-2rem)] md:grid-cols-12 md:grid-rows-[auto_auto_minmax(0,1fr)] md:overflow-hidden">
-      <header className="col-span-full pt-6 px-4">
-        <h1 className="font-display text-4xl">Adicionar Paciente</h1>
+    <section className="grid grid-cols-12 gap-4 min-h-screen">
+      <header className="col-span-full">
+        <h1 className="font-display text-4xl pt-6">Adicionar Paciente</h1>
       </header>
 
-      <div className="col-span-4 p-5 md:col-span-8">
-        <h2 className="text-xl">Adicionar um novo paciente</h2>
-        <form
-          onSubmit={submitPatient}
-          className="grid grid-cols-4 gap-3 md:grid-cols-12 mt-3"
-        >
-          {/* Inputs omitidos para brevidade, mas permanecem iguais */}
+      <div className="col-span-12 md:col-span-8 bg-white rounded-lg border border-neutral-200 p-6">
+        <h2 className="text-xl font-semibold mb-4 text-neutral-800">
+          Novo Cadastro
+        </h2>
+        <form onSubmit={submitPatient} className="grid grid-cols-12 gap-4">
           <input
             value={form.firstName}
             onChange={handleChange("firstName")}
-            placeholder="Nome"
-            className="col-span-4 rounded-md border border-slate-300 px-3 py-2 md:col-span-6"
+            placeholder="Nome*"
+            className="col-span-6 rounded-md border p-3 border-neutral-300 outline-none focus:border-blue transition-all"
             required
           />
           <input
             value={form.lastName}
             onChange={handleChange("lastName")}
-            placeholder="Sobrenome"
-            className="col-span-4 rounded-md border border-slate-300 px-3 py-2 md:col-span-6"
+            placeholder="Sobrenome*"
+            className="col-span-6 rounded-md border p-3 border-neutral-300 outline-none focus:border-blue transition-all"
             required
           />
           <input
             type="date"
             value={form.birthDate}
             onChange={handleChange("birthDate")}
-            className="col-span-4 rounded-md border border-slate-300 px-3 py-2 md:col-span-5"
+            className="col-span-5 rounded-md border p-3 border-neutral-300 outline-none focus:border-blue transition-all"
             required
           />
           <input
             value={form.cpf}
             onChange={handleChange("cpf")}
-            placeholder="CPF"
-            className="col-span-4 rounded-md border border-slate-300 px-3 py-2 md:col-span-7"
+            placeholder="CPF*"
+            className="col-span-7 rounded-md border p-3 border-neutral-300 outline-none focus:border-blue transition-all"
             required
           />
           <input
             value={form.cellPhone}
             onChange={handleChange("cellPhone")}
-            placeholder="Celular (WhatsApp)"
-            className="col-span-full rounded-md border border-slate-300 px-3 py-2"
+            placeholder="Telemóvel / WhatsApp"
+            className="col-span-full rounded-md border p-3 border-neutral-300 outline-none focus:border-blue transition-all"
           />
+
           <select
             value={form.gender}
             onChange={handleChange("gender")}
-            className="col-span-4 rounded-md border border-slate-300 px-3 py-2 md:col-span-6 text-slate-500"
+            className="col-span-4 rounded-md border p-3 bg-white border-neutral-300 outline-none focus:border-blue transition-all"
           >
             <option value="">Gênero</option>
             <option value="MASCULINO">Masculino</option>
             <option value="FEMININO">Feminino</option>
-            <option value="OUTRO">Outro</option>
           </select>
           <input
             type="number"
@@ -128,7 +139,7 @@ export default function AddPatientPage() {
             value={form.height}
             onChange={handleChange("height")}
             placeholder="Altura (m)"
-            className="col-span-4 rounded-md border border-slate-300 px-3 py-2 md:col-span-6"
+            className="col-span-4 rounded-md border p-3 border-neutral-300 outline-none focus:border-blue transition-all"
           />
           <input
             type="number"
@@ -136,35 +147,37 @@ export default function AddPatientPage() {
             value={form.weight}
             onChange={handleChange("weight")}
             placeholder="Peso (kg)"
-            className="col-span-4 rounded-md border border-slate-300 px-3 py-2 md:col-span-6"
+            className="col-span-4 rounded-md border p-3 border-neutral-300 outline-none focus:border-blue transition-all"
           />
-          <input
-            type="number"
-            value={form.patientAge}
-            onChange={handleChange("patientAge")}
-            placeholder="Idade"
-            className="col-span-4 rounded-md border border-slate-300 px-3 py-2 md:col-span-6"
+
+          <textarea
+            value={form.description}
+            onChange={handleChange("description")}
+            placeholder="Anamnese inicial ou descrição do caso clínico..."
+            className="col-span-full rounded-md border p-3 border-neutral-300 outline-none focus:border-blue h-28 resize-none transition-all"
           />
 
           <button
             type="submit"
-            className="col-span-full mt-3 rounded-md bg-blue p-4 font-semibold text-white hover:opacity-70 transition duration-300 ease-in-out"
+            disabled={isLoading}
+            className="col-span-full bg-dark-blue text-white p-4 rounded-md font-bold hover:bg-blue transition-all disabled:opacity-50 shadow-md"
           >
-            Cadastrar paciente
+            {isLoading ? "A processar..." : "Confirmar Registo"}
           </button>
         </form>
       </div>
 
-      <aside className="col-span-4 p-5 md:col-span-4">
-        <h2 className="text-xl">Credenciais geradas</h2>
-        <p className="mt-3 leading-relaxed">
-          <span className="font-semibold">Login (Email)</span>:
-          nome.sobrenome@lumiere.com
+      <aside className="col-span-12 md:col-span-4 bg-blue/5 p-6 rounded-lg border border-blue/10 h-fit">
+        <h2 className="text-lg font-bold text-dark-blue">
+          Informação de Acesso
+        </h2>
+        <p className="mt-4 text-black">
+          As credenciais do paciente são geradas automaticamente da seguinte forma:
           <br />
-          <span className="font-semibold">Senha</span>: DDMMYYYY (data de
-          nascimento)
           <br />
-          <span className="font-semibold">Status inicial</span>: INATIVO
+          <strong>Login:</strong> nome.sobrenome@lumiere.com
+          <br />
+          <strong>Senha:</strong> Data de nascimento (Ddmmyyyy)
         </p>
       </aside>
     </section>
