@@ -17,9 +17,16 @@ import com.example.projeto8.remote.RetrofitClient;
 
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class ProfileActivity extends AppCompatActivity {
-/*
+
     private ImageView iconHome, iconExercise, iconProfile;
+
+    private TextView txtName, txtStatus, txtEmail, txtCpf, txtBirthDate,
+            txtGender, txtHeight, txtWeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,32 +34,38 @@ public class ProfileActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.profile_activity);
 
-        TextView edName = findViewById(R.id.edName);
-        TextView edEmail = findViewById(R.id.edEmail);
+        // ====== INICIALIZA VIEWS ======
+        txtName = findViewById(R.id.txtName);
+        txtStatus = findViewById(R.id.txtStatus);
+        txtEmail = findViewById(R.id.txtEmail);
+        txtCpf = findViewById(R.id.txtCpf);
+        txtBirthDate = findViewById(R.id.txtBirthDate);
+        txtGender = findViewById(R.id.txtGender);
+        txtHeight = findViewById(R.id.txtHeight);
+        txtWeight = findViewById(R.id.txtWeight);
 
-        // MENU
+        // ====== MENU ======
         iconHome = findViewById(R.id.iconHome);
         iconExercise = findViewById(R.id.iconExercise);
         iconProfile = findViewById(R.id.iconProfile);
         setupMenuClicks();
 
-        //Para pegar os dados a partir do que veio no Login
+        // ====== PEGAR NOME DO LOGIN ======
         SharedPreferences prefs = getSharedPreferences("STORAGE", MODE_PRIVATE);
-        String name = prefs.getString("patient_name", "Sem nome");
-        String email = prefs.getString("patient_email", "Sem email");
+        String name = prefs.getString("patient_name", null);
 
-        if (name != null && surname != null) {
-            loadPatient(name, surname);
+        if (name != null) {
+            loadPatient(name);
+        } else {
+            Log.e("PROFILE", "Nome não encontrado no SharedPreferences");
         }
-
-        edName.setText(name);
-        edEmail.setText(email);
     }
 
-    private void loadPatient(String name, String surname) {
+    // ====== BUSCAR PACIENTE PELO NOME ======
+    private void loadPatient(String name) {
         PatientService service = RetrofitClient.getPatientService();
 
-        service.getPatientByFullName(name, surname)
+        service.getPatientByFullName(name, null) // surname = null
                 .enqueue(new Callback<List<Patient>>() {
 
                     @Override
@@ -71,16 +84,20 @@ public class ProfileActivity extends AppCompatActivity {
                             txtGender.setText(p.getGender());
                             txtHeight.setText(p.getHeight());
                             txtWeight.setText(p.getWeight());
+
+                        } else {
+                            Log.e("API_ERROR", "Resposta vazia");
                         }
                     }
 
                     @Override
                     public void onFailure(Call<List<Patient>> call, Throwable t) {
-                        Log.e("API_ERROR", t.getMessage());
+                        Log.e("API_ERROR", "Erro: " + t.getMessage());
                     }
                 });
     }
 
+    // ====== MENU ======
     private void setupMenuClicks() {
         iconHome.setOnClickListener(v -> {
             startActivity(new Intent(this, MainActivity.class));
@@ -93,7 +110,7 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
         iconProfile.setOnClickListener(v -> {
-            // já está na pag
+            // já está aqui
         });
-    }*/
+    }
 }
