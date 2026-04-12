@@ -1,6 +1,7 @@
 package com.example.MayaFisioLumiere.Services;
 
 import com.example.MayaFisioLumiere.Domain.ExerciseSession.ExerciseSessionResponseDTO;
+import com.example.MayaFisioLumiere.Domain.Exercises.ExerciseResponseDTO;
 import com.example.MayaFisioLumiere.Domain.WorkoutSession.WorkoutSesRequestDTO;
 import com.example.MayaFisioLumiere.Domain.WorkoutSession.WorkoutSesResponseDTO;
 import com.example.MayaFisioLumiere.Entity.PatientEntity;
@@ -119,7 +120,13 @@ public class WorkoutSessionService {
                 // Mapeando a lista de exercícios que está dentro do treino
                 entity.getExerciseSessions().stream().map(ex -> new ExerciseSessionResponseDTO(
                         Math.toIntExact(ex.getExercisesession_id()),
-                        ex.getExercise().getExercise_ID(),
+                        new ExerciseResponseDTO(
+                                ex.getExercise().getExercise_ID(),
+                                ex.getExercise().getTitle(),
+                                ex.getExercise().getMidiaURL(),
+                                ex.getExercise().getTags(),
+                                ex.getExercise().getDescription()
+                        ),
                         ex.getWorkoutSession().getWorkoutSession_id(),
                         ex.getPatient().getPatient_ID(),
                         ex.getSerie(),
