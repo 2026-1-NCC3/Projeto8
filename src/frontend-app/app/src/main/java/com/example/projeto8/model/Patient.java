@@ -10,14 +10,19 @@ public class Patient {
     private String name;
     private String surname;
     private String email;
+    private String cellPhone;
+
     private String cpf;
     private String password;
+    private int patientAge;
     private String birthDate;
     private String status;
     private String gender;
     private String height;
-
     private String weight;
+    private boolean lgpdCheck;
+    private String description;
+
 
     public String getName() {
         return name;
@@ -49,6 +54,22 @@ public class Patient {
 
     public String getGender() {
         return gender;
+    }
+
+    public int getPatientAge() {
+        return patientAge;
+    }
+
+    public boolean isLgpdCheck() {
+        return lgpdCheck;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getCellPhone() {
+        return cellPhone;
     }
 
     public String getHeight() {
