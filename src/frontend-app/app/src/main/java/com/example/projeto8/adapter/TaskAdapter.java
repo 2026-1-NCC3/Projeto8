@@ -32,7 +32,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder {
         CardView cardTask;
         LinearLayout expandArea, container;
-        ImageView btnCheck;
         TextView txtTitle;
 
         public ViewHolder(View itemView) {
@@ -41,7 +40,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
             // Se o seu XML for um ConstraintLayout, use isso:
             cardTask = itemView.findViewById(R.id.cardTask);
             expandArea = itemView.findViewById(R.id.expandArea);
-            btnCheck = itemView.findViewById(R.id.btnCheck);
             txtTitle = itemView.findViewById(R.id.txtTodayE);
             container = itemView.findViewById(R.id.container);
         }
@@ -64,21 +62,10 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         String textoExibicao = task.getTitle() + " | " + task.getSerie() + "x" + task.getReps();
         holder.txtTitle.setText(textoExibicao);
         holder.expandArea.setVisibility(task.isExpanded ? View.VISIBLE : View.GONE);
-
-        if (task.isDone) {
-            holder.container.setBackgroundResource(R.drawable.task_bg_done);
-            holder.btnCheck.setImageResource(R.drawable.ic_done);
-            holder.cardTask.setBackgroundColor(
-                    holder.itemView.getContext().getColor(android.R.color.holo_green_light)
-            );
-
-        } else {
-            holder.container.setBackgroundResource(R.drawable.task_bg);
-            holder.btnCheck.setImageResource(R.drawable.ic_empty);
-            holder.cardTask.setBackgroundColor(
-                    holder.itemView.getContext().getColor(android.R.color.white)
-            );
-        }
+        holder.container.setBackgroundResource(R.drawable.task_bg);
+        holder.cardTask.setBackgroundColor(
+                holder.itemView.getContext().getColor(android.R.color.black)
+        );
 
         // Clique para expandir
         holder.cardTask.setOnClickListener(v -> {
@@ -87,11 +74,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
             }
         });
 
-        // Clique para marcar/desmarcar
-        holder.btnCheck.setOnClickListener(v -> {
-            task.isDone = !task.isDone;
-            notifyItemChanged(position);
-        });
     }
 
     @Override
