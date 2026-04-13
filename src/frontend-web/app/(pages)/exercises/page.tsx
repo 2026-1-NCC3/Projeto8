@@ -1,23 +1,23 @@
-"use client";
+'use client';
 
-import { useMemo, useState } from "react";
+import { useMemo, useState } from 'react';
 import {
   useExercises,
   type ExerciseRequest,
-} from "@/app/hooks/useGetExercises";
-import { Exercise } from "@/app/hooks/useGetExercises";
+} from '@/app/hooks/useGetExercises';
+import { Exercise } from '@/app/hooks/useGetExercises';
 
 const emptyForm: ExerciseRequest = {
-  title: "",
-  description: "",
-  tags: "",
-  midiaURL: "",
+  title: '',
+  description: '',
+  tags: '',
+  midiaURL: '',
 };
 
 export default function ExercisesPage() {
   const { exercises, addExercise, removeExercise } = useExercises();
 
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const [form, setForm] = useState<ExerciseRequest>(emptyForm);
 
   const filtered = useMemo(() => {
@@ -127,7 +127,7 @@ export default function ExercisesPage() {
               </a>
               <button
                 onClick={() => removeExercise(exercise.exercise_id)}
-                className="absolute right-3 bottom-4 rounded-md bg-neutral-200 px-3 py-1 hover:opacity-70 transition duration-300 ease-in-out text-neutral-800"
+                className="absolute right-3 bottom-4 rounded-md bg-neutral-100 text-red-600 hover:bg-red-600 hover:text-white px-3 py-1 transition duration-300 ease-in-out"
               >
                 Excluir
               </button>

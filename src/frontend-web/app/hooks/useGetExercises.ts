@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo } from 'react';
 
 export type Exercise = {
   exercise_id: number;
@@ -8,7 +8,7 @@ export type Exercise = {
   midiaURL: string;
 };
 
-export type ExerciseRequest = Omit<Exercise, "exercise_id">;
+export type ExerciseRequest = Omit<Exercise, 'exercise_id'>;
 
 export function useExercises() {
   const [exercises, setExercises] = useState<Exercise[]>([]);
@@ -20,9 +20,9 @@ export function useExercises() {
     async function fetchExercises() {
       try {
         const res = await fetch(`${API_URL}/api/exercise/all?page=0&size=100`, {
-          method: "GET",
+          method: 'GET',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
         });
         if (res.ok) {
@@ -30,20 +30,19 @@ export function useExercises() {
           setExercises(data);
         }
       } catch (error) {
-        console.error("Erro ao buscar exercícios:", error);
+        console.error('Erro ao buscar exercícios:', error);
       }
     }
 
     fetchExercises();
-
   }, [API_URL, reload]);
 
   const addExercise = async (newExerciseData: ExerciseRequest) => {
     try {
       const res = await fetch(`${API_URL}/api/exercise/create-exercise`, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(newExerciseData),
       });
@@ -57,14 +56,14 @@ export function useExercises() {
         };
 
         setExercises((prev) => [newExercise, ...prev]);
-        setReload(prev => !prev);
+        setReload((prev) => !prev);
         return true;
       } else {
-        alert("Erro ao criar exercício.");
+        alert('Erro ao criar exercício.');
         return false;
       }
     } catch (error) {
-      console.error("Erro na requisição:", error);
+      console.error('Erro na requisição:', error);
       return false;
     }
   };
@@ -74,17 +73,17 @@ export function useExercises() {
       const res = await fetch(
         `${API_URL}/api/exercise/deleteExerciseId/${id}`,
         {
-          method: "DELETE"
+          method: 'DELETE',
         },
       );
       if (res.ok) {
         setExercises((prev) =>
           prev.filter((exercise) => exercise.exercise_id !== id),
         );
-        setReload(prev => !prev);
+        setReload((prev) => !prev);
       }
     } catch (error) {
-      console.error("Erro ao deletar exercício:", error);
+      console.error('Erro ao deletar exercício:', error);
     }
   };
 

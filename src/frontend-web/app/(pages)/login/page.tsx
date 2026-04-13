@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { useActionState } from "react";
-import { authenticateAdmin } from "@/app/actions/auth";
+import { useActionState } from 'react';
+import { authenticateAdmin } from '@/app/actions/auth';
 
 const initialState = {
-  error: "",
+  error: '',
 };
 
 export default function LoginPage() {
@@ -68,7 +68,7 @@ export default function LoginPage() {
           disabled={isPending}
           className="w-full rounded-md bg-dark-blue p-3.5 text-base font-semibold text-white transition-colors duration-200 hover:bg-blue disabled:cursor-not-allowed disabled:bg-blue/30"
         >
-          {isPending ? "Signing in..." : "Sign in"}
+          {isPending ? 'Signing in...' : 'Sign in'}
         </button>
       </form>
     </div>

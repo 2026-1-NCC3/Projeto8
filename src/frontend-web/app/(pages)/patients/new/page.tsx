@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { usePatients } from "@/app/hooks/useGetPatients";
+import { useState } from 'react';
+import { usePatients } from '@/app/hooks/useGetPatients';
 
 type FormState = {
   firstName: string;
@@ -17,16 +17,16 @@ type FormState = {
 };
 
 const emptyForm: FormState = {
-  firstName: "",
-  lastName: "",
-  birthDate: "",
-  cpf: "",
-  cellPhone: "",
-  gender: "",
-  height: "",
-  weight: "",
-  patientAge: "",
-  description: "",
+  firstName: '',
+  lastName: '',
+  birthDate: '',
+  cpf: '',
+  cellPhone: '',
+  gender: '',
+  height: '',
+  weight: '',
+  patientAge: '',
+  description: '',
 };
 
 export default function AddPatientPage() {
@@ -38,7 +38,7 @@ export default function AddPatientPage() {
     return (
       event: React.ChangeEvent<
         HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-      >
+      >,
     ) => setForm((prev) => ({ ...prev, [field]: event.target.value }));
   }
 
@@ -47,13 +47,13 @@ export default function AddPatientPage() {
     setIsLoading(true);
 
     if (!form.firstName || !form.lastName || !form.birthDate || !form.cpf) {
-      alert("Por favor, preencha os campos obrigatórios.");
+      alert('Por favor, preencha os campos obrigatórios.');
       setIsLoading(false);
       return;
     }
 
     const email = `${form.firstName.toLowerCase()}.${form.lastName.toLowerCase()}@lumiere.com`;
-    const password = form.birthDate.split("-").reverse().join("");
+    const password = form.birthDate.split('-').reverse().join('');
 
     const isSuccess = await addPatient({
       name: form.firstName,
@@ -63,7 +63,7 @@ export default function AddPatientPage() {
       email,
       password,
       birthDate: form.birthDate,
-      status: "INATIVO",
+      status: 'INATIVO',
       cellPhone: form.cellPhone || null,
       gender: form.gender || null,
       height: form.height ? parseFloat(form.height) : null,
@@ -72,7 +72,7 @@ export default function AddPatientPage() {
     });
 
     if (isSuccess) {
-      alert("Paciente cadastrado com sucesso!");
+      alert('Paciente cadastrado com sucesso!');
       setForm(emptyForm);
     }
     setIsLoading(false);
@@ -91,14 +91,14 @@ export default function AddPatientPage() {
         <form onSubmit={submitPatient} className="grid grid-cols-12 gap-4">
           <input
             value={form.firstName}
-            onChange={handleChange("firstName")}
+            onChange={handleChange('firstName')}
             placeholder="Nome*"
             className="col-span-6 rounded-md border p-3 border-neutral-300 outline-none focus:border-blue transition-all"
             required
           />
           <input
             value={form.lastName}
-            onChange={handleChange("lastName")}
+            onChange={handleChange('lastName')}
             placeholder="Sobrenome*"
             className="col-span-6 rounded-md border p-3 border-neutral-300 outline-none focus:border-blue transition-all"
             required
@@ -106,27 +106,27 @@ export default function AddPatientPage() {
           <input
             type="date"
             value={form.birthDate}
-            onChange={handleChange("birthDate")}
+            onChange={handleChange('birthDate')}
             className="col-span-5 rounded-md border p-3 border-neutral-300 outline-none focus:border-blue transition-all"
             required
           />
           <input
             value={form.cpf}
-            onChange={handleChange("cpf")}
+            onChange={handleChange('cpf')}
             placeholder="CPF*"
             className="col-span-7 rounded-md border p-3 border-neutral-300 outline-none focus:border-blue transition-all"
             required
           />
           <input
             value={form.cellPhone}
-            onChange={handleChange("cellPhone")}
+            onChange={handleChange('cellPhone')}
             placeholder="Telemóvel / WhatsApp"
             className="col-span-full rounded-md border p-3 border-neutral-300 outline-none focus:border-blue transition-all"
           />
 
           <select
             value={form.gender}
-            onChange={handleChange("gender")}
+            onChange={handleChange('gender')}
             className="col-span-4 rounded-md border p-3 bg-white border-neutral-300 outline-none focus:border-blue transition-all"
           >
             <option value="">Gênero</option>
@@ -137,7 +137,7 @@ export default function AddPatientPage() {
             type="number"
             step="0.01"
             value={form.height}
-            onChange={handleChange("height")}
+            onChange={handleChange('height')}
             placeholder="Altura (m)"
             className="col-span-4 rounded-md border p-3 border-neutral-300 outline-none focus:border-blue transition-all"
           />
@@ -145,14 +145,14 @@ export default function AddPatientPage() {
             type="number"
             step="0.1"
             value={form.weight}
-            onChange={handleChange("weight")}
+            onChange={handleChange('weight')}
             placeholder="Peso (kg)"
             className="col-span-4 rounded-md border p-3 border-neutral-300 outline-none focus:border-blue transition-all"
           />
 
           <textarea
             value={form.description}
-            onChange={handleChange("description")}
+            onChange={handleChange('description')}
             placeholder="Anamnese inicial ou descrição do caso clínico..."
             className="col-span-full rounded-md border p-3 border-neutral-300 outline-none focus:border-blue h-28 resize-none transition-all"
           />
@@ -162,7 +162,7 @@ export default function AddPatientPage() {
             disabled={isLoading}
             className="col-span-full bg-dark-blue text-white p-4 rounded-md font-bold hover:bg-blue transition-all disabled:opacity-50 shadow-md"
           >
-            {isLoading ? "A processar..." : "Confirmar Registo"}
+            {isLoading ? 'A processar...' : 'Confirmar Registo'}
           </button>
         </form>
       </div>
@@ -172,7 +172,8 @@ export default function AddPatientPage() {
           Informação de Acesso
         </h2>
         <p className="mt-4 text-black">
-          As credenciais do paciente são geradas automaticamente da seguinte forma:
+          As credenciais do paciente são geradas automaticamente da seguinte
+          forma:
           <br />
           <br />
           <strong>Login:</strong> nome.sobrenome@lumiere.com
