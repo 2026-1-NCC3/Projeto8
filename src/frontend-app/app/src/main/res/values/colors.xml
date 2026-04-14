@@ -3,15 +3,15 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="gray">#B9B9B9</color>
-    <color name="blue">#5580DF</color>
-    <color name="navyBlue">#464A8C</color>
-    <color name="oceanBlue">#3C3E73</color>
-    <color name="darkBlue">#0B1957</color>
+    <color name="blue">#4666ac</color>
+    <color name="navyBlue">#0b1957</color>
+    <color name="oceanBlue">#0b1957</color>
+    <color name="darkBlue">#0b1957</color>
     <color name="tangerine">#F27329</color>
-    <color name="babyBlue">#93ABBF</color>
+    <color name="babyBlue">#4666ac</color>
     <color name="paleBeige">#F2CAB3</color>
     <color name="seahorse">#D9644A</color>
-    <color name="fitBlue">#54628C</color>
+    <color name="fitBlue">#0b1957</color>
     <color name="choc">#8C493A</color>
 
 

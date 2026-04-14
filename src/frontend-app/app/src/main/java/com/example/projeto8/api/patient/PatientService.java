@@ -21,6 +21,7 @@ public interface PatientService {
     @GET("api/patient/getByName/{name}")
     Call<List<Patient>> getPatientByFullName(@Path("name") String name, @Query("surname") String surname);
 
+    
     //Login do patient
     @Headers({"User-Agent: Mozilla/5.0", "Content-Type: application/json"})
     @POST("api/patient/login")
