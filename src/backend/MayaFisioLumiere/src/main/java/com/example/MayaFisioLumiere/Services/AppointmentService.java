@@ -7,28 +7,30 @@ import com.example.MayaFisioLumiere.Entity.PatientEntity;
 import com.example.MayaFisioLumiere.Repository.AppointmentRepository;
 import com.example.MayaFisioLumiere.Repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class AppointmentService {
 
     @Autowired
     private AppointmentRepository appointmentRepository;
 
     @Autowired
-    private AppointmentEntity appointmentEntity;
-
-    @Autowired
     private PatientRepository patientRepository;
 
     // criar horario dentro da maya
     public AppointmentEntity createAppointment(AppointmentRequestDTO data) {
+        PatientEntity patient = patientRepository.findById(data.patient_id())
+                .orElseThrow(() -> new RuntimeException("Paciente não encontrado"));
+
         AppointmentEntity newAppointment = new AppointmentEntity();
         newAppointment.setDate(data.date());
         newAppointment.setTime(data.time());
-        newAppointment.setPatient(data.patient_id());
+        newAppointment.setPatient(patient);
         newAppointment.setDescription(data.description());
 
         return appointmentRepository.save(newAppointment);
@@ -44,10 +46,10 @@ public class AppointmentService {
         }
 
         if (data.date() != null) {
-            appointment.setAppointmentDate(data.date());
+            appointment.setDate(data.date());
         }
         if (data.time() != null) {
-            appointment.setAppointmentTime(data.time());
+            appointment.setTime(data.time());
         }
         if (data.description() != null) {
             appointment.setDescription(data.description());
@@ -57,24 +59,23 @@ public class AppointmentService {
 
         return new AppointmentResponseDTO(
                 updatedAppointment.getAppointment_id(),
-                updatedAppointment.getAppointmentDate(),
-                updatedAppointment.getAppointmentTime(),
+                updatedAppointment.getDate(),
+                updatedAppointment.getTime(),
                 updatedAppointment.getDescription(),
                 updatedAppointment.getPatient().getPatient_ID()
         );
     }
 
-    // get appointments by patients
     public List<AppointmentResponseDTO> getAppointmentsByPatient(UUID patient_id) {
         PatientEntity patient = patientRepository.findById(patient_id)
                 .orElseThrow(() -> new RuntimeException("Paciente não encontrado"));
 
-        List<AppointmentEntity> appointments = appointmentRepository.findByPatient(patient_id);
+        List<AppointmentEntity> appointments = appointmentRepository.findByPatient(patient.getPatient_ID());
 
         return appointments.stream().map(entity -> new AppointmentResponseDTO(
                 entity.getAppointment_id(),
-                entity.getAppointmentDate(),
-                entity.getAppointmentTime(),
+                entity.getDate(),
+                entity.getTime(),
                 entity.getDescription(),
                 entity.getPatient().getPatient_ID()
         )).toList();
@@ -87,8 +88,8 @@ public class AppointmentService {
 
         return appointments.stream().map(entity -> new AppointmentResponseDTO(
                 entity.getAppointment_id(),
-                entity.getAppointmentDate(),
-                entity.getAppointmentTime(),
+                entity.getDate(),
+                entity.getTime(),
                 entity.getDescription(),
                 entity.getPatient().getPatient_ID()
         )).toList();
@@ -99,26 +100,25 @@ public class AppointmentService {
         List<AppointmentEntity> appointments = appointmentRepository.findAll();
 
         return appointments.stream()
-                .filter(a -> a.getAppointmentDate().getMonthValue() == month && a.getAppointmentDate().getYear() == year)
+                .filter(a -> a.getDate().getMonthValue() == month && a.getDate().getYear() == year)
                 .map(entity -> new AppointmentResponseDTO(
                         entity.getAppointment_id(),
-                        entity.getAppointmentDate(),
-                        entity.getAppointmentTime(),
+                        entity.getDate(),
+                        entity.getTime(),
                         entity.getDescription(),
                         entity.getPatient().getPatient_ID()
                 )).toList();
     }
 
-    // get appointments by year
     public List<AppointmentResponseDTO> getAppointmentsByYear(int year) {
         List<AppointmentEntity> appointments = appointmentRepository.findAll();
 
         return appointments.stream()
-                .filter(a -> a.getAppointmentDate().getYear() == year)
+                .filter(a -> a.getDate().getYear() == year)
                 .map(entity -> new AppointmentResponseDTO(
                         entity.getAppointment_id(),
-                        entity.getAppointmentDate(),
-                        entity.getAppointmentTime(),
+                        entity.getDate(),
+                        entity.getTime(),
                         entity.getDescription(),
                         entity.getPatient().getPatient_ID()
                 )).toList();
@@ -130,8 +130,8 @@ public class AppointmentService {
 
         return appointments.stream().map(entity -> new AppointmentResponseDTO(
                 entity.getAppointment_id(),
-                entity.getAppointmentDate(),
-                entity.getAppointmentTime(),
+                entity.getDate(),
+                entity.getTime(),
                 entity.getDescription(),
                 entity.getPatient().getPatient_ID()
         )).toList();
