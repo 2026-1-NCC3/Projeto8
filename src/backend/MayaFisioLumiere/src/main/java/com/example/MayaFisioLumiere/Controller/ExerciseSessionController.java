@@ -78,13 +78,15 @@ public class ExerciseSessionController {
         }
     }
 
-    @DeleteMapping("/deleteExerciseSession/{exerciseSession_id}")
+    @DeleteMapping("/deleteExerciseSession/{exercisesession_id}")
     public ResponseEntity<?> deleteExerciseSession(
-        @PathVariable Long exerciseSession_id) {
+        @PathVariable Long exercisesession_id) {
         try{
-            exerciseSessionRepository.deleteById(exerciseSession_id);
+            exerciseSessionService.deleteExerciseSession(exercisesession_id);
             return ResponseEntity.ok("Sessão de exercícios deletada com sucesso");
-        }catch(Exception e){
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar sessão de exercícios");
         }
     }

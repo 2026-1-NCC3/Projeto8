@@ -1,20 +1,20 @@
 /* eslint-disable @next/next/no-page-custom-font */
-import { Analytics } from "@vercel/analytics/next";
-import type { Metadata } from "next";
-import "./globals.css";
+import { Analytics } from '@vercel/analytics/next';
+import type { Metadata } from 'next';
+import './globals.css';
 
 export const metadata: Metadata = {
   title: {
-    default: "Lumière Admin",
-    template: "%s | Lumière Admin",
+    default: 'Lumière Admin',
+    template: '%s | Lumière Admin',
   },
   description:
-    "Aplicação web para gestao de pacientes, exercícios e acompanhamento clinico da fisioterapeuta Maya Yoshiko Yamamoto.",
-  applicationName: "Lumière Admin",
-  authors: [{ name: "Grupo Lumière - Projeto 8 - 3CCOMP" }],
-  creator: "Grupo Lumière",
-  metadataBase: new URL("https://lumiere.local"),
-  keywords: ["Lumière", "Projeto 8", "3CCOMP", "Fisioterapia", "RPG", "Admin"],
+    'Aplicação web para gestao de pacientes, exercícios e acompanhamento clinico da fisioterapeuta Maya Yoshiko Yamamoto.',
+  applicationName: 'Lumière Admin',
+  authors: [{ name: 'Grupo Lumière - Projeto 8 - 3CCOMP' }],
+  creator: 'Grupo Lumière',
+  metadataBase: new URL('https://lumiere.local'),
+  keywords: ['Lumière', 'Projeto 8', '3CCOMP', 'Fisioterapia', 'RPG', 'Admin'],
 };
 
 export default function RootLayout({
