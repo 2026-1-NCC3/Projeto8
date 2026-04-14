@@ -38,7 +38,7 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
     private RecyclerView recyclerTasks;
     private TaskAdapter taskAdapter;
     private ArrayList<Task> tasksParaExibir;
-    private ImageView iconHome, iconExercise, iconProfile;
+    ImageView iconHome, iconCalendar, iconProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +52,7 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
         if (CalendarUtils.selectedDate == null) {
             CalendarUtils.selectedDate = LocalDate.now();
         }
-
+        iconCalendar.setSelected(true);
         setMonthView();
         setupMenuClicks();
     }
@@ -61,8 +61,9 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
         monthYearText = findViewById(R.id.monthYearTV);
         calendarRecyclerView = findViewById(R.id.calendarRecyclerView);
         recyclerTasks = findViewById(R.id.recyclerTasks);
+
         iconHome = findViewById(R.id.iconHome);
-        iconExercise = findViewById(R.id.iconExercise);
+        iconCalendar = findViewById(R.id.iconCalendar);
         iconProfile = findViewById(R.id.iconProfile);
     }
 
@@ -164,9 +165,24 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
         return dias[diaSemana];
     }
 
-    private void setupMenuClicks() {
-        iconHome.setOnClickListener(v -> finish()); // Volta para a Main
-        // Adicione outros cliques se necessário
+   public void setupMenuClicks() {
+       iconHome.setOnClickListener(v -> {
+           startActivity(new Intent(this, MainActivity.class));
+           overridePendingTransition(0, 0);
+           finish();
+       });
+
+       // Clique na Agenda (Já está nela)
+       iconCalendar.setOnClickListener(v -> {
+
+       });
+
+       // Clique no Perfil
+       iconProfile.setOnClickListener(v -> {
+           startActivity(new Intent(this, ProfileActivity.class));
+           overridePendingTransition(0, 0);
+           finish();
+       });
     }
 
     // Métodos para os botões de setinha no XML

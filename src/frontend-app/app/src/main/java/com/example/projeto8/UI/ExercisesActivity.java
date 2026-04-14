@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide;
 import com.example.projeto8.R;
 
 public class ExercisesActivity extends AppCompatActivity {
-    private ImageView iconHome, iconExercise, iconProfile, imgExercise;
+    private ImageView iconHome, iconCalendar, iconProfile, imgExercise;
     private TextView textTitle, textDescription;
     private String currentVideoUrl = ""; // Guarda a URL para quando o paciente clicar na imagem
 
@@ -29,7 +29,7 @@ public class ExercisesActivity extends AppCompatActivity {
         textDescription = findViewById(R.id.txtDescription);
 
         iconHome = findViewById(R.id.iconHome);
-        iconExercise = findViewById(R.id.iconExercise);
+        iconCalendar = findViewById(R.id.iconCalendar);
         iconProfile = findViewById(R.id.iconProfile);
 
         String title = getIntent().getStringExtra("EXERCISE_TITLE");
@@ -103,13 +103,19 @@ public class ExercisesActivity extends AppCompatActivity {
     private void setupMenu() {
         iconHome.setOnClickListener(v -> {
             startActivity(new Intent(this, MainActivity.class));
+            overridePendingTransition(0, 0);
             finish();
         });
-        iconExercise.setOnClickListener(v -> {
-            // Já estamos na tela de exercícios
+
+        // Clique na Agenda (Já está nela)
+        iconCalendar.setOnClickListener(v -> {
+
         });
+
+        // Clique no Perfil
         iconProfile.setOnClickListener(v -> {
             startActivity(new Intent(this, ProfileActivity.class));
+            overridePendingTransition(0, 0);
             finish();
         });
     }

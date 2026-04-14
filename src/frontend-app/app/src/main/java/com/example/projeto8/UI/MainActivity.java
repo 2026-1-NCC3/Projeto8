@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
     private RecyclerView recyclerTasks;
     private TaskAdapter adapter;
     private ArrayList<Task> tasksParaExibir;
-    private ImageView iconHome, iconExercise, iconProfile; // menu
+    private ImageView iconHome, iconCalendar, iconProfile; // menu
 
     @Override
     protected void onResume() {
@@ -111,21 +111,30 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         recyclerTasks = findViewById(R.id.recyclerTasks);
         recyclerTasks.setLayoutManager(new LinearLayoutManager(this));
 
+        iconCalendar = findViewById(R.id.iconCalendar);
         iconHome = findViewById(R.id.iconHome);
-        iconExercise = findViewById(R.id.iconExercise);
         iconProfile = findViewById(R.id.iconProfile);
+
+        iconHome.setSelected(true);
     }
 
     private void setupMenuClicks() {
-        iconHome.setOnClickListener(v -> {
 
-        });
-        iconExercise.setOnClickListener(v -> {
+        iconCalendar.setOnClickListener(v -> {
             startActivity(new Intent(this, ExercisesActivity.class));
+            overridePendingTransition(0, 0); // Troca de tela sem "pular"
             finish();
         });
+
+        // Clique na Home (já está nela)
+        iconHome.setOnClickListener(v -> {
+            // Opcional: rolar recycler para o topo
+        });
+
+        // Clique no Perfil
         iconProfile.setOnClickListener(v -> {
             startActivity(new Intent(this, ProfileActivity.class));
+            overridePendingTransition(0, 0);
             finish();
         });
     }

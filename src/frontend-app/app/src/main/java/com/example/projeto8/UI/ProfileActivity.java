@@ -23,7 +23,7 @@ import retrofit2.Response;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private ImageView iconHome, iconExercise, iconProfile;
+    private ImageView iconHome, iconCalendar, iconProfile;
 
     private TextView txtName, txtStatus, txtEmail, txtCpf, txtBirthDate,
             txtGender, txtHeight, txtWeight;
@@ -46,9 +46,10 @@ public class ProfileActivity extends AppCompatActivity {
 
         // ====== MENU ======
         iconHome = findViewById(R.id.iconHome);
-        iconExercise = findViewById(R.id.iconExercise);
+        iconCalendar = findViewById(R.id.iconCalendar);
         iconProfile = findViewById(R.id.iconProfile);
         setupMenuClicks();
+        iconProfile.setSelected(true);
 
         // ====== PEGAR NOME DO LOGIN ======
         SharedPreferences prefs = getSharedPreferences("STORAGE", MODE_PRIVATE);
@@ -97,20 +98,22 @@ public class ProfileActivity extends AppCompatActivity {
                 });
     }
 
-    // ====== MENU ======
-    private void setupMenuClicks() {
-        iconHome.setOnClickListener(v -> {
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
-        });
 
-        iconExercise.setOnClickListener(v -> {
-            startActivity(new Intent(this, ExercisesActivity.class));
-            finish();
-        });
+        public void setupMenuClicks() {
+            iconHome.setOnClickListener(v -> {
+                startActivity(new Intent(this, MainActivity.class)); // Volta para a Home
+                overridePendingTransition(0, 0);
+                finish();
+            });
 
-        iconProfile.setOnClickListener(v -> {
-            // já está aqui
-        });
+            iconCalendar.setOnClickListener(v -> {
+                startActivity(new Intent(this, ExercisesActivity.class));
+                overridePendingTransition(0, 0);
+                finish();
+            });
+
+            iconProfile.setOnClickListener(v -> {
+                // Já está no perfil, não faz nada
+            });
+        }
     }
-}
