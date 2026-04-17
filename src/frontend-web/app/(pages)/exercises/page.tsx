@@ -89,7 +89,7 @@ export default function ExercisesPage() {
             required
           />
           <button
-            className="col-span-full rounded-md bg-blue mt-2 px-3 py-4 font-semibold text-neutral hover:opacity-70 transition duration-300 ease-in-out"
+            className="col-span-full rounded-md bg-dark-blue mt-2 px-3 py-4 font-semibold text-neutral hover:bg-blue transition duration-300 ease-in-out"
             type="submit"
           >
             Cadastrar exercício
@@ -107,7 +107,7 @@ export default function ExercisesPage() {
           className="mt-3 w-full rounded-md border border-slate-300 px-3 py-2 placeholder:text-neutral-700"
         />
 
-        <div className="mt-4 space-y-4 h-[calc(100vh-14rem)] overflow-scroll no-scrollbar">
+        <div className="mt-4 space-y-4 h-[calc(100vh-22rem)] overflow-scroll no-scrollbar">
           {filtered.map((exercise: Exercise) => (
             <article
               key={exercise.exercise_id}
@@ -134,6 +134,7 @@ export default function ExercisesPage() {
             </article>
           ))}
         </div>
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-48 bg-linear-to-t from-white via-white to-transparent" />
       </div>
     </section>
   );
