@@ -37,7 +37,7 @@ public class AppointmentService {
     }
 
     // update by patient id
-    public AppointmentResponseDTO updateByAppointment(AppointmentRequestDTO data, UUID patient_id, UUID appointment_id) {
+    public AppointmentResponseDTO updateAppointment(AppointmentRequestDTO data, UUID patient_id, UUID appointment_id) {
         AppointmentEntity appointment = appointmentRepository.findById(appointment_id)
                 .orElseThrow(() -> new RuntimeException("Agendamento não encontrado"));
 
@@ -83,7 +83,7 @@ public class AppointmentService {
 
     //get appointments by day
 
-    public List<AppointmentResponseDTO> getAppointmentsByDay(LocalDateTime date) {
+    public List<AppointmentResponseDTO> getAppointmentsByDate(LocalDateTime date) {
         List<AppointmentEntity> appointments = appointmentRepository.findByAppointmentDate(date);
 
         return appointments.stream().map(entity -> new AppointmentResponseDTO(
