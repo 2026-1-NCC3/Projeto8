@@ -3,18 +3,20 @@
 
 import { useMemo, useState, useEffect } from 'react';
 import Select from 'react-select';
-import { usePatients, PatientRequest } from '@/app/hooks/useGetPatients';
+import { usePatients } from '@/app/hooks/useGetPatients';
 import { useExercises } from '@/app/hooks/useGetExercises';
 import { useGetWorkouts } from '@/app/hooks/useGetWorkouts';
+import Image from 'next/image';
 
 export default function CalendarsPage() {
-  const { patients, updatePatient } = usePatients();
+  const { patients } = usePatients();
   const { exercises } = useExercises();
 
   const [selectedId, setSelectedId] = useState('');
 
   const [isMounted, setIsMounted] = useState(false);
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMounted(true);
   }, []);
 
@@ -54,10 +56,12 @@ export default function CalendarsPage() {
 
   return (
     <section className="grid grid-cols-4 gap-4 md:grid-cols-12">
-      <div className="col-span-4 md:col-span-12 mt-6">
-        <h2 className="text-xl font-bold border-t pt-4 border-neutral-200">
-          Calendário do Paciente
-        </h2>
+      <h1 className="font-display text-4xl text-neutral-900 col-span-full pt-6">
+        Gerenciar Calendários
+      </h1>
+
+      <div className="col-span-4 md:col-span-12">
+        <h2 className="text-xl font-bold pt-4">Selecione o Paciente</h2>
 
         {/* Dropdown de pacientes */}
         <div className="mt-4 max-w-md">
@@ -70,6 +74,9 @@ export default function CalendarsPage() {
           />
         </div>
 
+        <h2 className="text-xl font-bold mt-14 pt-4 border-t border-gray-300">
+          Calendário do Paciente Selecionado
+        </h2>
         <div className="flex gap-2 mt-4 flex-wrap">
           {daysOfWeek.map((day) => (
             <button
@@ -91,7 +98,7 @@ export default function CalendarsPage() {
           onSubmit={addExerciseToTempList}
           className="mt-6 grid grid-cols-12 gap-3 p-4 rounded-md border border-neutral-200"
         >
-          <div className="col-span-12 md:col-span-5">
+          <div className="col-span-12 md:col-span-4">
             <Select
               instanceId="exercise-select-field"
               options={exercises.map((e) => ({
@@ -110,7 +117,7 @@ export default function CalendarsPage() {
           <input
             type="number"
             placeholder="Séries"
-            className="col-span-6 md:col-span-2 px-3 py-1 border border-black/40 rounded-md placeholder:text-gray-600!"
+            className="col-span-6 md:col-span-2 px-3 py-1 border border-black/20 rounded-md placeholder:text-gray-600!"
             value={scheduleForm.serie}
             onChange={(e) =>
               setScheduleForm((prev) => ({ ...prev, serie: e.target.value }))
@@ -119,8 +126,8 @@ export default function CalendarsPage() {
           />
           <input
             type="number"
-            placeholder="Reps"
-            className="col-span-6 md:col-span-2 px-3 py-1 border border-black/40 rounded-md placeholder:text-gray-600!"
+            placeholder="Repetições por série"
+            className="col-span-6 md:col-span-3 px-3 py-1 border border-black/20 rounded-md placeholder:text-gray-600!"
             value={scheduleForm.repetitions}
             onChange={(e) =>
               setScheduleForm((prev) => ({
@@ -157,10 +164,12 @@ export default function CalendarsPage() {
                   onClick={() => removeTempExercise(i)}
                   className="flex items-center justify-center rounded-full hover:bg-light-blue p-3"
                 >
-                  <img
+                  <Image
                     src="/lixo.png"
                     alt="Deletar Exercício"
                     className="w-5 h-5 object-contain"
+                    width='20'
+                    height='20'
                   />
                 </button>
               </div>
@@ -171,7 +180,7 @@ export default function CalendarsPage() {
               className="self-end bg-dark-blue text-white px-5 py-3 rounded-md font-bold"
             >
               {isSaving
-                ? 'Gravando...'
+                ? 'Salvando...'
                 : `Criar novo treino paraa ${selectedDay}`}
             </button>
           </div>
@@ -219,10 +228,12 @@ export default function CalendarsPage() {
                             }`}
                             title="Editar"
                           >
-                            <img
+                            <Image
                               src="/edit-exercise.png"
                               alt="Editar Exercício"
                               className="w-5 h-5 object-contain"
+                              width='20'
+                              height='20'
                             />
                           </button>
                           <button
@@ -232,10 +243,12 @@ export default function CalendarsPage() {
                             className="p-1.5 bg-neutral-100 text-red-600 rounded-md hover:bg-red-600"
                             title="Excluir"
                           >
-                            <img
+                            <Image
                               src="/lixo.png"
                               alt="Deletar Exercício"
                               className="w-5 h-5 object-contain"
+                              width='20'
+                              height='20'
                             />
                           </button>
                         </div>
