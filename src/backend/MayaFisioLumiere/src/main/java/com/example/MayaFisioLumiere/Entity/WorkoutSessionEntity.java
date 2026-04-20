@@ -42,7 +42,7 @@ public class WorkoutSessionEntity {
 
     //Para permitir associar mais de um exercicio a workout do dia, isso cria uma tabela intermediaria
     @JsonManagedReference
-    @OneToMany(mappedBy = "workoutSession", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "workoutSession", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<ExerciseSessionEntity> exerciseSessions;
 
 

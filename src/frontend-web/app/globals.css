@@ -1,18 +1,18 @@
 @import url('https://fonts.googleapis.com');
-@import "tailwindcss";
+@import 'tailwindcss';
 @source inline("bg-salmon text-salmon text-blue bg-blue bg-neutral bg-light-blue text-black");
 
 :root {
   --light-blue: #d1e8ff;
-  --blue: #5979be;
+  --blue: #4770c7;
   --dark-blue: #0b1957;
   --salmon: #ff6142;
   --light-salmon: #ffbcaf;
   --neutral: #fefdfc;
   --black: #020202;
-  --font-sans: "Bitcount Grid Double Ink", "Segoe UI", sans-serif;
-  --font-display: "Stack Sans Headline", "Segoe UI", sans-serif;
-  --font-heading: "Stack Sans Headline", "Segoe UI", sans-serif;
+  --font-sans: 'Bitcount Grid Double Ink', 'Segoe UI', sans-serif;
+  --font-display: 'Stack Sans Headline', 'Segoe UI', sans-serif;
+  --font-heading: 'Stack Sans Headline', 'Segoe UI', sans-serif;
 }
 
 @theme {

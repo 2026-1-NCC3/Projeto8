@@ -76,6 +76,16 @@ public class PatientController {
 
     }
 
+    @GetMapping("/getById/{id}")
+    public ResponseEntity<PatientResponseDTO> getPatientById(@PathVariable UUID id) {
+        try {
+            PatientResponseDTO patient = patientService.getPatientById(id);
+            return ResponseEntity.ok(patient);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @GetMapping("/getByName/{name}")
     public ResponseEntity<?> getPatientByName(@PathVariable String name, String surname) {
         try {
@@ -96,5 +106,6 @@ public class PatientController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar paciente.");
         }
     }
+    
 
 }

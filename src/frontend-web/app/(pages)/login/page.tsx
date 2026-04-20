@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { useActionState } from "react";
-import { authenticateAdmin } from "@/app/actions/auth";
+import { useActionState } from 'react';
+import { authenticateAdmin } from '@/app/actions/auth';
 
 const initialState = {
-  error: "",
+  error: '',
 };
 
 export default function LoginPage() {
@@ -40,7 +40,7 @@ export default function LoginPage() {
             id="email"
             name="email"
             type="email"
-            className="w-full rounded-md border border-gray-300 p-3 text-base outline-none transition-all focus:border-dark-blue focus:ring-1 focus:ring-dark-blue placeholder-gray-500"
+            className="w-full rounded-md border border-gray-300 p-3 text-base outline-none transition-all focus:border-dark-blue focus:ring-1 focus:ring-dark-blue placeholder:text-gray-600!"
             placeholder="admin@lumiere.com"
             required
           />
@@ -57,7 +57,7 @@ export default function LoginPage() {
             id="password"
             name="password"
             type="password"
-            className="w-full rounded-md border border-gray-300 p-3 text-base outline-none transition-all focus:border-dark-blue focus:ring-1 focus:ring-dark-blue placeholder-gray-500"
+            className="w-full rounded-md border border-gray-300 p-3 text-base outline-none transition-all focus:border-dark-blue focus:ring-1 focus:ring-dark-blue placeholder:text-gray-600!"
             placeholder="••••••••"
             required
           />
@@ -68,7 +68,7 @@ export default function LoginPage() {
           disabled={isPending}
           className="w-full rounded-md bg-dark-blue p-3.5 text-base font-semibold text-white transition-colors duration-200 hover:bg-blue disabled:cursor-not-allowed disabled:bg-blue/30"
         >
-          {isPending ? "Signing in..." : "Sign in"}
+          {isPending ? 'Signing in...' : 'Sign in'}
         </button>
       </form>
     </div>
