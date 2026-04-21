@@ -13,6 +13,7 @@ import com.example.MayaFisioLumiere.Repository.PatientRepository;
 import com.example.MayaFisioLumiere.Repository.WorkoutSessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -33,19 +34,19 @@ public class ExerciseSessionService {
         List<ExerciseSessionEntity> sessions = exerciseSessionRepository.findAll();
 
         return sessions.stream().map(entity -> new ExerciseSessionResponseDTO(
-                Math.toIntExact(entity.getExercisesession_id()),
-                new ExerciseResponseDTO( // Criando o DTO do exercício com os dados da Entity, para retornar os dados deles
-                        entity.getExercise().getExercise_ID(),
-                        entity.getExercise().getTitle(),
-                        entity.getExercise().getMidiaURL(),
-                        entity.getExercise().getTags(),
-                        entity.getExercise().getDescription()
-                ),
-                entity.getWorkoutSession().getWorkoutSession_id(),
-                entity.getPatient().getPatient_ID(),
-                entity.getSerie(),
-                entity.getRepetitions(),
-                entity.getFeelPain()
+                        Math.toIntExact(entity.getExercisesession_id()),
+                        new ExerciseResponseDTO( // Criando o DTO do exercício com os dados da Entity, para retornar os dados deles
+                                entity.getExercise().getExercise_ID(),
+                                entity.getExercise().getTitle(),
+                                entity.getExercise().getMidiaURL(),
+                                entity.getExercise().getTags(),
+                                entity.getExercise().getDescription()
+                        ),
+                        entity.getWorkoutSession().getWorkoutSession_id(),
+                        entity.getPatient().getPatient_ID(),
+                        entity.getSerie(),
+                        entity.getRepetitions(),
+                        entity.getFeelPain()
                 )
         ).toList();
     }
@@ -124,16 +125,15 @@ public class ExerciseSessionService {
         return exerciseSessionRepository.save(session);
     }
 
-
+    @Transactional
     public void deleteExerciseSession(Long exercisesession_id) {
-         try {
-            if(!exerciseSessionRepository.existsById(exercisesession_id)){
-                throw new RuntimeException("Sessão de Exercicios não encontrada");
-            }
-             exerciseSessionRepository.deleteById(exercisesession_id);
-         }catch (Exception err) {
-            throw new RuntimeException("Erro ao deletar Sessão de Exercícios", err);
-            }
-}
+        ExerciseSessionEntity session = exerciseSessionRepository.findById(exercisesession_id)
+                .orElseThrow(() -> new RuntimeException("Sessão não encontrada"));
 
+        WorkoutSessionEntity workout = session.getWorkoutSession();
+        if (workout != null) {
+            workout.getExerciseSessions().remove(session);
+        }
+        exerciseSessionRepository.delete(session);
+    }
 }

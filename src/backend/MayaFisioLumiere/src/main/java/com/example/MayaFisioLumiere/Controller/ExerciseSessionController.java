@@ -6,6 +6,7 @@ import com.example.MayaFisioLumiere.Services.ExerciseService;
 import com.example.MayaFisioLumiere.Services.ExerciseSessionService;
 import com.example.MayaFisioLumiere.Entity.ExerciseSessionEntity;
 import com.example.MayaFisioLumiere.Repository.ExerciseSessionRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -79,14 +80,15 @@ public class ExerciseSessionController {
     }
 
 
-    @DeleteMapping("/deleteExerciseSession/{exerciseSession_id}")
-    public ResponseEntity<?> deleteExerciseSession(
-            @PathVariable Long exerciseSession_id) {
+    @DeleteMapping("/deleteExerciseSession/{exercisesession_id}")
+    public ResponseEntity<?> deleteExerciseSession(@PathVariable Long exercisesession_id) {
         try {
-            exerciseSessionRepository.deleteById(exerciseSession_id);
-            return ResponseEntity.ok("Sessão de exercícios deletada com sucesso");
+            exerciseSessionService.deleteExerciseSession(exercisesession_id);
+            return ResponseEntity.ok("Sessão deletada com sucesso");
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar sessão de exercícios");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar");
         }
     }
 }
