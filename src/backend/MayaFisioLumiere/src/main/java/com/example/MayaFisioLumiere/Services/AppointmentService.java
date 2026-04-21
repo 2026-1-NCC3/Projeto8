@@ -84,7 +84,7 @@ public class AppointmentService {
     //get appointments by day
 
     public List<AppointmentResponseDTO> getAppointmentsByDate(LocalDateTime date) {
-        List<AppointmentEntity> appointments = appointmentRepository.findByAppointmentDate(date);
+        List<AppointmentEntity> appointments = appointmentRepository.findByDate(date);
 
         return appointments.stream().map(entity -> new AppointmentResponseDTO(
                 entity.getAppointment_id(),

@@ -6,6 +6,7 @@ import com.example.MayaFisioLumiere.Entity.AppointmentEntity;
 import com.example.MayaFisioLumiere.Repository.AppointmentRepository;
 import com.example.MayaFisioLumiere.Services.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -49,11 +50,11 @@ public class AppointmentController {
 
     // busca agendamento dessa data
     @GetMapping("/date")
-    public ResponseEntity<?> getAppointmentsByDate(LocalDateTime date) {
+    public ResponseEntity<?> getAppointmentsByDate(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime date) {
         try {
             return ResponseEntity.ok(appointmentService.getAppointmentsByDate(date));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao achar agendamento, nesse dia ");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao achar agendamento nesse dia");
         }
     }
 
@@ -63,7 +64,7 @@ public class AppointmentController {
         try {
             return ResponseEntity.ok(appointmentService.getAppointmentsByMonth(month, year));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao achar agendamento, nesse mês ");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao achar agendamento nesse mês");
         }
     }
 
@@ -73,7 +74,7 @@ public class AppointmentController {
         try {
             return ResponseEntity.ok(appointmentService.getAppointmentsByYear(year));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao achar agendamento, nesse ano ");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao achar agendamento nesse ano");
         }
     }
 
@@ -100,12 +101,12 @@ public class AppointmentController {
     }
 
     // deleta agendamento do paciente
-    @DeleteMapping("/delete")
-    public ResponseEntity<?> deleteAppointment(@RequestBody UUID patient_id, @RequestBody UUID appointment_id) {
+    @DeleteMapping("/delete/{appointment_id}/{patient_id}")
+    public ResponseEntity<?> deleteAppointment(@PathVariable UUID appointment_id, @PathVariable UUID patient_id) {
         try {
-            appointmentService.deleteAppointment(patient_id, appointment_id);
+            appointmentService.deleteAppointment(appointment_id, patient_id);
             return ResponseEntity.ok("Agendamento deletado com sucesso");
-        }catch (Exception e) {
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar agendamento");
         }
     }
