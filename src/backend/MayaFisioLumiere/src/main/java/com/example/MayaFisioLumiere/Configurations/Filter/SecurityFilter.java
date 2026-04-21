@@ -34,7 +34,7 @@ public class SecurityFilter extends OncePerRequestFilter {
 
         // 1. Trata pre-flight do CORS (Evita 403 em requisições de navegadores/mobile)
         if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
-            response.setStatus(HttpServletResponse.SC_OK);
+            filterChain.doFilter(request, response);
             return;
         }
 
