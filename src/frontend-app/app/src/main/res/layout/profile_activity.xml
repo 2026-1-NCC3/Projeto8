@@ -72,7 +72,7 @@
 
             <TextView
                 android:id="@+id/txtEmail"
-                android:layout_width="350dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="..."
@@ -94,7 +94,7 @@
 
             <TextView
                 android:id="@+id/txtPassword"
-                android:layout_width="350dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="..."
@@ -115,7 +115,7 @@
 
             <TextView
                 android:id="@+id/txtCpf"
-                android:layout_width="350dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="000.000.000-0"
@@ -135,7 +135,7 @@
                 />
             <TextView
                 android:id="@+id/txtCellphone"
-                android:layout_width="350dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="Numero de celular"
@@ -156,7 +156,7 @@
 
             <TextView
                 android:id="@+id/txtBirthDate"
-                android:layout_width="350dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="01/01/1999"
@@ -177,7 +177,7 @@
 
             <TextView
                 android:id="@+id/txtAge"
-                android:layout_width="350dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="50"
@@ -279,7 +279,7 @@
 
             <TextView
                 android:id="@+id/txtDescription"
-                android:layout_width="350dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="Descrição"
@@ -290,7 +290,7 @@
 
             <TextView
                 android:id="@+id/txtLGDP"
-                android:layout_width="350dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="20dp"
