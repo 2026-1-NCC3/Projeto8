@@ -11,7 +11,7 @@ import java.time.ZonedDateTime;
 
 public class NotificationScheduler {
 
-    public static void schedule(Context context, LocalDateTime appointmentDate, String description) {
+    public static void schedule(Context context, LocalDateTime appointmentDate, String description, String time) {
         //Converte a data para milissegundos
         ZonedDateTime zdt = appointmentDate.atZone(ZoneId.systemDefault());
         long appointmentMillis = zdt.toInstant().toEpochMilli();
@@ -24,6 +24,7 @@ public class NotificationScheduler {
 
         Intent intent = new Intent(context, AppointmentReceiver.class);
         intent.putExtra("description", description);
+        intent.putExtra("horario", time);
 
         // id baseado no horário do appt para não sobrescrever outros agendamentos
         int uniqueId = (int) (appointmentMillis / 1000);

@@ -8,7 +8,7 @@ import java.util.UUID;
 public class AppointmentResponseDTO {
 
     private UUID appointment_id;
-    private LocalDateTime date;
+    private String date;
     private String time;
     private String description;
     private Patient patient;
@@ -21,7 +21,7 @@ public class AppointmentResponseDTO {
         return appointment_id;
     }
 
-    public LocalDateTime getDate() {
+    public String getDate() {
         return date;
     }
 

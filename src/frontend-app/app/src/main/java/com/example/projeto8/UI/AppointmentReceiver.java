@@ -11,11 +11,12 @@ public class AppointmentReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         String desc = intent.getStringExtra("description");
+        String horario = intent.getStringExtra("horario");
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "agendamento_channel")
                 .setSmallIcon(R.drawable.baseline_notifications_24)
-                .setContentTitle("Sessão Amanhã")
-                .setContentText("Lembrete: " + desc)
+                .setContentTitle("Sessão amanhã com Maya Yamamoto")
+                .setContentText("Horário: " + horario + " - " + desc)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true);
 
