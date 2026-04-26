@@ -2,6 +2,7 @@ package com.example.projeto8.remote;
 
 import android.content.Context;
 
+import com.example.projeto8.api.appointment.AppointmentService;
 import com.example.projeto8.api.exerciseSession.ExerciseSessionService;
 import com.example.projeto8.api.patient.PatientService;
 import com.example.projeto8.api.workout.WorkoutService;
@@ -13,21 +14,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
-    // 1. Aqui vai o link que o Render te deu (precisa terminar com /)
-  /*  private static final String BASE_URL = "https://projeto8.onrender.com/";
-    private static Retrofit retrofit = null;
-
-    public static WorkoutService getWorkoutService() {
-        if (retrofit == null) {
-            retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create()) // Converte o JSON do banco para Java
-                    .build();
-        }
-        return retrofit.create(WorkoutService.class);
-    }
-
-    */
     private static final String BASE_URL = "https://projeto8.onrender.com/";
     private static Retrofit retrofit = null;
     private static Context appContext;
@@ -85,6 +71,9 @@ public class RetrofitClient {
 
         public static ExerciseSessionService getExerciseService() {
             return getRetrofitInstance().create(ExerciseSessionService.class);
+        }
+        public static AppointmentService getAppointmentService() {
+            return getRetrofitInstance().create(AppointmentService.class);
         }
 
 }
