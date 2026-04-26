@@ -5,16 +5,17 @@ import android.content.Context;
 import android.content.Intent;
 import androidx.core.app.NotificationCompat;
 import android.app.NotificationManager;
+import com.example.projeto8.R;
 
 public class AppointmentReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        String description = intent.getStringExtra("description");
+        String desc = intent.getStringExtra("description");
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "agendamento_channel")
-                .setSmallIcon(com.example.projeto8.R.drawable.baseline_notifications_24)
-                .setContentTitle("Sessão Maya Fisioterapia")
-                .setContentText("Lembrete: " + description + " amanhã!")
+                .setSmallIcon(R.drawable.baseline_notifications_24)
+                .setContentTitle("Sessão Amanhã")
+                .setContentText("Lembrete: " + desc)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true);
 
