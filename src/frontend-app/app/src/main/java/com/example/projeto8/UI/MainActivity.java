@@ -18,12 +18,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import com.example.projeto8.R;
 import com.example.projeto8.adapter.TaskAdapter;
+import com.example.projeto8.api.appointment.AppointmentResponseDTO.AppointmentResponseDTO;
+import com.example.projeto8.api.appointment.AppointmentService;
 import com.example.projeto8.model.Exercise;
 import com.example.projeto8.model.ExerciseSession;
 import com.example.projeto8.model.Task;
@@ -59,7 +62,8 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         }
 
         if (idRecebido != null) {
-            WorkoutSeshData(idRecebido);
+            WorkoutSeshData(idRecebido); //Busca os exercícios associados ao paciente
+            checkAppointmentsData(idRecebido); //Busca os agendamentos do paciente
         }
     }
 
@@ -120,8 +124,9 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         iconHome.setOnClickListener(v -> {
 
         });
+        //Aqui irá para a tela de appointments quando a Mariah der o commit da merge!!!!!!!
         iconExercise.setOnClickListener(v -> {
-            startActivity(new Intent(this, ExercisesActivity.class));
+            startActivity(new Intent(this, NotificationService.class));
             finish();
         });
         iconProfile.setOnClickListener(v -> {
@@ -268,6 +273,51 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
             public void onFailure(Call<List<WorkoutSession>> call, Throwable t) {
                 Log.e("API_ERRO", "Mensagem: " + t.getMessage());
                 runOnUiThread(() -> txtName.setText("ERRO DE CONEXÃO"));
+            }
+        });
+    }
+    //Buscar os appointments depois de retornar os dados do paciente no Login, juntos dos exercicios
+    private void checkAppointmentsData(String patientId) {
+        AppointmentService api = RetrofitClient.getAppointmentService();
+
+        api.getAppointmentsByPatient(patientId).enqueue(new Callback<List<AppointmentResponseDTO>>() {
+            @Override
+            public void onResponse(Call<List<AppointmentResponseDTO>> call, Response<List<AppointmentResponseDTO>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<AppointmentResponseDTO> agendamentos = response.body();
+
+                    for (AppointmentResponseDTO appo : response.body()) {
+                        try {
+                            String fullDateFromApi = appo.getDate(); // No banco vem "2026-04-27T00:00:00"
+                            String timeFromApi = appo.getTime();     // Vem "10:30"
+
+                            // Pegamos os primeiros 10 digitos da data (YYYY-MM-DD) contando os -
+                            String cleanDate = fullDateFromApi.substring(0, 10);
+
+                            //Monta a String no formato do LocalDateTime
+                            String isoDateTime = cleanDate + "T" + timeFromApi;
+
+                            // Se o time vier "10:30", isso ajusta os segundos
+                            if (timeFromApi.length() == 5) {
+                                isoDateTime += ":00";
+                            }
+                            LocalDateTime dataEHoraReal = LocalDateTime.parse(isoDateTime);
+                            NotificationScheduler.schedule(
+                                    MainActivity.this,
+                                    dataEHoraReal,
+                                    appo.getDescription(),
+                                    appo.getTime());
+
+                            Log.d("NOTIF_SUCESSO", "Agendado para: " + isoDateTime + " - " + appo.getDescription());
+                        } catch (Exception e) {
+                            Log.e("NOTIF_ERRO", "Falha ao processar data/hora: " + appo.getDate() + " " + appo.getTime());
+                        }
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<List<AppointmentResponseDTO>> call, Throwable t) {
+                Log.e("API_APPOINTMENT", "Erro ao buscar agendamentos: " + t.getMessage());
             }
         });
     }
