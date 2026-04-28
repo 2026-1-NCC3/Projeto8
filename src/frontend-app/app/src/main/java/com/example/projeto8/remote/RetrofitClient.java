@@ -88,9 +88,9 @@ public class RetrofitClient {
             return getRetrofitInstance().create(ExerciseSessionService.class);
         }
 
-        public static AppointmentService getAppointmentService(){
+        /*public static AppointmentService getAppointmentService(){
         return getRetrofitInstance().create(getAppointmentService.class);
-        }
+        } */
 
 
 }

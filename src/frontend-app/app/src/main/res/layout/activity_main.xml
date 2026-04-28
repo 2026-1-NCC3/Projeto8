@@ -12,7 +12,7 @@
     <View
         android:id="@+id/topBackground"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="180dp"
         android:background="@drawable/top_bg"
         app:layout_constraintBottom_toTopOf="@id/contentLayout"
         app:layout_constraintTop_toTopOf="parent"
@@ -25,6 +25,7 @@
         android:layout_height="100dp"
         android:layout_marginStart="20dp"
         android:elevation="10dp"
+        android:layout_marginTop="30dp"
         android:src="@drawable/contour_fem"
         app:layout_constraintBottom_toBottomOf="@id/topBackground"
         app:layout_constraintStart_toStartOf="parent"
