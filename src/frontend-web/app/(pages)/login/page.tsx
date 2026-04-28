@@ -24,7 +24,7 @@ export default function LoginPage() {
         </h2>
 
         {state?.error && (
-          <div className="mb-4 rounded-md bg-red-50 p-3 text-sm text-red-600">
+          <div className="mb-4 rounded-md bg-light-salmon p-3 text-sm text-salmon">
             {state.error}
           </div>
         )}

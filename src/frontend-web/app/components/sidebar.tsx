@@ -45,15 +45,15 @@ export function Sidebar() {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center h-11 rounded-md font-semibold overflow-hidden transition-all duration-400 ease-in-out ${
+              className={`flex items-center h-11 rounded-md font-semibold overflow-hidden transition-all duration-300 ease-in-out ${
                 active
                   ? 'gap-3 px-4 bg-dark-blue text-neutral'
                   : 'w-11 justify-center px-0 bg-light-blue/45 text-black hover:bg-light-blue'
               }`}
             >
               <span
-                className={`flex items-center justify-center h-6 w-6 shrink-0 transition-transform duration-400 ${
-                  active && 'invert'
+                className={`flex items-center justify-center h-6 w-6 shrink-0 ${
+                  active && 'invert brightness-0'
                 }`}
               >
                 <img
@@ -63,7 +63,7 @@ export function Sidebar() {
                 />
               </span>
               <span
-                className={`whitespace-nowrap overflow-hidden transition-all duration-400 ease-in-out ${
+                className={`whitespace-nowrap overflow-hidden transition-all duration-300 ease-in-out ${
                   active ? 'max-w-50 opacity-100' : 'max-w-0 opacity-0'
                 }`}
               >

@@ -73,49 +73,36 @@ export default function ExercisesPage() {
             value={form.title}
             onChange={(e) => setForm(p => ({ ...p, title: e.target.value }))}
             placeholder="Nome do exercício"
-            className="col-span-4 rounded-md border border-slate-300 px-3 py-2 md:col-span-6 placeholder:text-neutral-700"
+            className="col-span-4 rounded-md bg-white/30 border border-slate-300 px-3 py-2 md:col-span-6 placeholder:text-neutral-700"
             required
           />
           <input
             value={form.tags}
             onChange={(e) => setForm(p => ({ ...p, tags: e.target.value }))}
             placeholder="Tags (separadas por vírgula)"
-            className="col-span-4 rounded-md border border-slate-300 px-3 py-2 md:col-span-6 placeholder:text-neutral-700"
+            className="col-span-4 rounded-md bg-white/30 border border-slate-300 px-3 py-2 md:col-span-6 placeholder:text-neutral-700"
             required
           />
           <textarea
             value={form.description}
             onChange={(e) => setForm(p => ({ ...p, description: e.target.value }))}
             placeholder="Descrição"
-            className="col-span-4 min-h-34 rounded-md border border-slate-300 px-3 py-2 md:col-span-12 placeholder:text-neutral-700"
+            className="col-span-4 min-h-34 bg-white/30 rounded-md border border-slate-300 px-3 py-2 md:col-span-12 placeholder:text-neutral-700"
             required
           />
           <input
             value={form.midiaURL}
             onChange={(e) => setForm(p => ({ ...p, midiaURL: e.target.value }))}
             placeholder="URL do YouTube"
-            className="col-span-4 rounded-md border border-slate-300 px-3 py-2 md:col-span-12 placeholder:text-neutral-700"
+            className="col-span-4 rounded-md bg-white/30 border border-slate-300 px-3 py-2 md:col-span-12 placeholder:text-neutral-700"
             required
           />
-
-          <div className="col-span-full flex gap-2">
-            <button
-              className={`flex-1 rounded-md mt-2 px-3 py-4 font-semibold text-neutral transition duration-300 ${editingId ? 'bg-dark-blue hover:bg-blue' : 'bg-blue hover:opacity-70'
-                }`}
-              type="submit"
-            >
-              {editingId ? 'Salvar Alterações' : 'Cadastrar exercício'}
-            </button>
-            {editingId && (
-              <button
-                type="button"
-                onClick={resetForm}
-                className="mt-2 px-6 py-4 rounded-md bg-neutral-200 text-neutral-700 font-semibold hover:bg-neutral-300 transition"
-              >
-                Cancelar
-              </button>
-            )}
-          </div>
+          <button
+            className="col-span-full rounded-md bg-dark-blue mt-2 px-3 py-4 font-semibold text-neutral hover:bg-blue transition-all duration-300 ease-in-out"
+            type="submit"
+          >
+            Cadastrar exercício
+          </button>
         </form>
       </div>
 
@@ -133,8 +120,7 @@ export default function ExercisesPage() {
           {filtered.map((exercise: Exercise) => (
             <article
               key={exercise.exercise_id}
-              className={`relative rounded-md border p-3 space-y-1 transition-all ${editingId === exercise.exercise_id ? 'border-blue bg-blue/5 ring-1 ring-blue' : 'border-slate-200 bg-[#FDFDFD]'
-                }`}
+              className="relative rounded-md border border-slate-200 bg-white/30 p-3 space-y-1"
             >
               <p className="font-semibold">{exercise.title}</p>
               <p className="mt-1 text-xs uppercase tracking-wide">{exercise.tags}</p>
@@ -146,33 +132,12 @@ export default function ExercisesPage() {
               >
                 Abrir video
               </a>
-
-              <div className="absolute right-3 bottom-4 flex gap-2">
-                <button
-                  onClick={() => handleEditClick(exercise)}
-                  className="rounded-md bg-neutral-100 text-blue px-3 py-1 hover:bg-blue hover:text-white transition duration-300"
-                >
-                  <Image
-                    src="/edit-exercise.png"
-                    alt="Editar Exercício"
-                    className="w-5 h-5 object-contain"
-                    width='20'
-                    height='20'
-                  />
-                </button>
-                <button
-                  onClick={() => removeExercise(exercise.exercise_id)}
-                  className="rounded-md bg-neutral-100 text-red-600 px-3 py-1 hover:bg-red-600 hover:text-white transition duration-300"
-                >
-                  <Image
-                    src="/lixo.png"
-                    alt="Deletar Exercício"
-                    className="w-5 h-5 object-contain"
-                    width='20'
-                    height='20'
-                  />
-                </button>
-              </div>
+              <button
+                onClick={() => removeExercise(exercise.exercise_id)}
+                className="absolute right-3 bottom-4 rounded-md bg-neutral-100 border border-salmon/50 text-salmon hover:bg-salmon hover:text-white px-3 py-1 transition duration-300 ease-in-out"
+              >
+                Excluir
+              </button>
             </article>
           ))}
         </div>
