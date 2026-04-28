@@ -79,10 +79,8 @@ export default function AddPatientPage() {
   }
 
   return (
-    <section className="grid grid-cols-12 gap-4 min-h-screen">
-      <header className="col-span-full">
-        <h1 className="font-display text-4xl pt-6">Adicionar Paciente</h1>
-      </header>
+    <section className="grid grid-cols-12 gap-4">
+      <h1 className="col-span-full font-display text-4xl pt-6 h-fit">Adicionar Paciente</h1>
 
       <div className="col-span-12 md:col-span-8 bg-white/30 rounded-lg border border-neutral-200 p-6">
         <h2 className="text-xl font-semibold mb-4 text-neutral-800">
@@ -154,7 +152,7 @@ export default function AddPatientPage() {
             value={form.description}
             onChange={handleChange('description')}
             placeholder="Anamnese inicial ou descrição do caso clínico..."
-            className="col-span-full rounded-md border p-3 border-neutral-300 outline-none focus:border-blue h-28 resize-none transition-all"
+            className="col-span-full rounded-md border p-3 border-neutral-300 outline-none focus:border-blue h-20 resize-none transition-all"
           />
 
           <button

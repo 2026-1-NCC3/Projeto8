@@ -1,6 +1,7 @@
 package com.example.MayaFisioLumiere.Services;
 
 import com.example.MayaFisioLumiere.Domain.ExerciseSession.ExerciseSessionResponseDTO;
+import com.example.MayaFisioLumiere.Domain.Exercises.ExerciseResponseDTO;
 import com.example.MayaFisioLumiere.Domain.WorkoutSession.WorkoutSesRequestDTO;
 import com.example.MayaFisioLumiere.Domain.WorkoutSession.WorkoutSesResponseDTO;
 import com.example.MayaFisioLumiere.Entity.PatientEntity;
@@ -103,14 +104,11 @@ public class WorkoutSessionService {
 */
 
     public List<WorkoutSesResponseDTO> getWorkoutsByPatient(UUID patientId) {
-        // 1. Primeiro buscamos o Paciente (para não dar erro de ID)
         PatientEntity patient = patientRepository.findById(patientId)
                 .orElseThrow(() -> new RuntimeException("Paciente não encontrado"));
 
-        // 2. Agora buscamos os treinos desse objeto 'patient'
         List<WorkoutSessionEntity> workouts = workoutSessionRepository.findByPatient(patient);
 
-        // 3. Transformamos a lista de Entities em uma lista de DTOs (o pacote para o Android)
         return workouts.stream().map(entity -> new WorkoutSesResponseDTO(
                 entity.getWorkoutSession_id(),
                 entity.getWeekDay(),
@@ -119,7 +117,13 @@ public class WorkoutSessionService {
                 // Mapeando a lista de exercícios que está dentro do treino
                 entity.getExerciseSessions().stream().map(ex -> new ExerciseSessionResponseDTO(
                         Math.toIntExact(ex.getExercisesession_id()),
-                        ex.getExercise().getExercise_ID(),
+                        new ExerciseResponseDTO(
+                                ex.getExercise().getExercise_ID(),
+                                ex.getExercise().getTitle(),
+                                ex.getExercise().getMidiaURL(),
+                                ex.getExercise().getTags(),
+                                ex.getExercise().getDescription()
+                        ),
                         ex.getWorkoutSession().getWorkoutSession_id(),
                         ex.getPatient().getPatient_ID(),
                         ex.getSerie(),
@@ -128,7 +132,6 @@ public class WorkoutSessionService {
                 )).toList()
         )).toList();
     }
-
 
 
     //Buscar todas as workout sessions de todos os pacientes

@@ -47,6 +47,30 @@ public class PatientService {
                 .toList();
     }
 
+    // Busca paciente por ID (UUID)
+    public PatientResponseDTO getPatientById(UUID id) {
+        PatientEntity patient = this.patientRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Paciente não encontrado com o ID: " + id));
+
+        return new PatientResponseDTO(
+                patient.getPatient_ID(),
+                patient.getPassword(),
+                patient.getStatus(),
+                patient.getName(),
+                patient.getSurname(),
+                patient.getEmail(),
+                patient.getBirthDate(),
+                patient.getCellPhone(),
+                patient.getGender(),
+                patient.getHeight(),
+                patient.getWeight(),
+                patient.isLgpdCheck(),
+                patient.getDescription(),
+                patient.getCpf()
+        );
+    }
+
+
     // busca paciente por nome completo
     //CADE A ROTA?
     public List<PatientResponseDTO> getPatientByFullName(String name, String surname){

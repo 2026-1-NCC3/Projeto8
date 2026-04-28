@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import { useMemo, useState, useEffect } from 'react';
@@ -78,9 +77,7 @@ export default function CalendarsPage() {
   }, [patients]);
 
   const selectedPatient = useMemo(() => {
-    return (
-      patients.find((p) => String(p.patient_id) === String(selectedId)) || null
-    );
+    return patients.find((p) => String(p.patient_id) === String(selectedId)) || null;
   }, [patients, selectedId]);
 
   const {
@@ -140,7 +137,6 @@ export default function CalendarsPage() {
           Selecione o Paciente
         </h2>
 
-        {/* Dropdown de pacientes */}
         <div className="mt-4 max-w-md">
           <Select
             instanceId="patient-select-main"
@@ -334,25 +330,13 @@ export default function CalendarsPage() {
                               type="number"
                               className="border border-blue/40 rounded px-2 py-1 text-sm"
                               value={es.serie}
-                              onChange={(e) =>
-                                updateExerciseSessionLocal(
-                                  es.exerciseSession_ID,
-                                  'serie',
-                                  e.target.value,
-                                )
-                              }
+                              onChange={(e) => updateExerciseSessionLocal(es.exerciseSession_ID, 'serie', e.target.value)}
                             />
                             <input
                               type="number"
                               className="border border-blue/40 rounded px-2 py-1 text-sm"
                               value={es.repetitions}
-                              onChange={(e) =>
-                                updateExerciseSessionLocal(
-                                  es.exerciseSession_ID,
-                                  'repetitions',
-                                  e.target.value,
-                                )
-                              }
+                              onChange={(e) => updateExerciseSessionLocal(es.exerciseSession_ID, 'repetitions', e.target.value)}
                             />
                           </div>
                         ) : (
@@ -455,6 +439,65 @@ export default function CalendarsPage() {
             </form>
           </>
         )}
+      </div>
+
+      {/* Agendamento de consultas */}
+      <div className="col-span-full mt-16 pt-8 border-t border-gray-300">
+        <h1 className="font-display text-4xl text-neutral-900 col-span-full py-6">
+          Novo Agendamento
+        </h1>
+
+        <form onSubmit={handleSchedule} className="grid grid-cols-1 md:grid-cols-12 gap-8">
+          <div className="md:col-span-7 space-y-6">
+            <div className="bg-white p-4 rounded-xl border border-neutral-200 shadow-sm">
+              <h3 className='text-xl font-semibold'>Selecione a Data</h3>
+              <Calendar
+                onChange={(d: any) => setSelectedDate(d)}
+                value={selectedDate}
+                locale="pt-BR"
+              />
+
+              <h3 className='text-xl font-semibold mt-12 pb-4'>Horário da Consulta</h3>
+              <input
+                type="time"
+                className="w-full p-3 border border-neutral-300 rounded-lg text-lg focus:ring-2 focus:ring-blue focus:outline-none"
+                value={selectedTime}
+                onChange={(e) => setSelectedTime(e.target.value)}
+                required
+              />
+            </div>
+          </div>
+
+          <div className="md:col-span-5 space-y-6">
+            <div className="bg-white p-6 rounded-xl border border-neutral-200 shadow-sm">
+              <h3 className='text-xl font-semibold'>Informações Adicionais</h3>
+              <div className="space-y-4">
+                <p>
+                  <strong>Paciente:</strong> {selectedPatient ? `${selectedPatient.name} ${selectedPatient.surname}` : 'Nenhum'}
+                </p>
+                <div>
+                  <label className="block mb-1"><strong>Comentário:</strong></label>
+                  <textarea
+                    rows={4}
+                    className="w-full p-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-blue focus:outline-none"
+                    placeholder="Motivo da consulta..."
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={isSavingAppointment}
+                  className={`w-full py-4 rounded-lg font-bold text-white transition-all shadow-md ${isSavingAppointment ? 'bg-neutral-400' : 'bg-dark-blue hover:bg-blue'
+                    }`}
+                >
+                  {isSavingAppointment ? 'Processando...' : 'Confirmar Agendamento'}
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
       </div>
     </section>
   );

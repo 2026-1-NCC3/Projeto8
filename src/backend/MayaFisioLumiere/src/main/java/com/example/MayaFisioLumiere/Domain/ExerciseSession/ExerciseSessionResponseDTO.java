@@ -1,10 +1,12 @@
 package com.example.MayaFisioLumiere.Domain.ExerciseSession;
 
+import com.example.MayaFisioLumiere.Domain.Exercises.ExerciseResponseDTO;
+
 import java.util.UUID;
 
 public record ExerciseSessionResponseDTO(
         int exercisesession_id,
-        Long exercise,
+        ExerciseResponseDTO exercise,
         Long workoutSession,
         UUID patient_id,
         int serie,

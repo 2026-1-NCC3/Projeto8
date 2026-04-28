@@ -9,8 +9,7 @@ import retrofit2.http.Path;
 
 public interface WorkoutService {
 
-    // Busca a list
-    // a de exercícios pelo ID do paciente
+    // Busca a lista de exercícios pelo ID do paciente
     @GET("api/workout/patient/{patient_id}")
     Call<List<WorkoutSession>> getWorkoutsByPatient(@Path("patient_id") String patientId);
 

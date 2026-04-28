@@ -13,6 +13,7 @@ import com.example.MayaFisioLumiere.Repository.PatientRepository;
 import com.example.MayaFisioLumiere.Repository.WorkoutSessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -40,7 +41,7 @@ public class ExerciseSessionService {
                         entity.getExercise().getMidiaURL(),
                         entity.getExercise().getTags(),
                         entity.getExercise().getDescription()
-                ).exercise_id(),
+                ),
                 entity.getWorkoutSession().getWorkoutSession_id(),
                 entity.getPatient().getPatient_ID(),
                 entity.getSerie(),
@@ -78,6 +79,13 @@ public class ExerciseSessionService {
     public ExerciseSessionEntity updateExerciseSession(Long exercisesession_id, ExerciseSessionRequestDTO data) {
         ExerciseSessionEntity session = exerciseSessionRepository.findById(exercisesession_id)
                 .orElseThrow(() -> new RuntimeException("Sessão de exercício não encontrada"));
+
+        if (data.serie() != null) {
+            session.setSerie(data.serie());
+        }
+        if (data.repetitions() != null) {
+            session.setRepetitions(data.repetitions());
+        }
 
         if (data.patient_id() != null) {
             PatientEntity patient = patientRepository.findById(data.patient_id())
@@ -117,16 +125,15 @@ public class ExerciseSessionService {
         return exerciseSessionRepository.save(session);
     }
 
+    @Transactional
+    public void deleteExerciseSession(Long exercisesession_id) {
+        ExerciseSessionEntity session = exerciseSessionRepository.findById(exercisesession_id)
+                .orElseThrow(() -> new RuntimeException("Sessão não encontrada"));
 
-    public void deleteExerciseSession(Long exercisession_id) {
-         try {
-            if(!exerciseSessionRepository.existsById(exercisession_id)){
-                throw new RuntimeException("Sessão de Exercicios não encontrada");
-            }
-             exerciseSessionRepository.deleteById(exercisession_id);
-         }catch (Exception err) {
-            throw new RuntimeException("Erro ao deletar Sessão de Exercícios", err);
-            }
-}
-
+        WorkoutSessionEntity workout = session.getWorkoutSession();
+        if (workout != null) {
+            workout.getExerciseSessions().remove(session);
+        }
+        exerciseSessionRepository.delete(session);
+    }
 }

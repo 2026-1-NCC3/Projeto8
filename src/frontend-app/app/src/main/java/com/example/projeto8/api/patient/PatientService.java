@@ -1,6 +1,7 @@
 package com.example.projeto8.api.patient;
 
 import com.example.projeto8.api.patient.PatientDTO.PatientLoginResponseDTO;
+import com.example.projeto8.api.patient.PatientDTO.PatientResponseDTO;
 import com.example.projeto8.model.Patient;
 import com.example.projeto8.api.patient.PatientDTO.PatientLoginRequestDTO;
 
@@ -20,6 +21,12 @@ public interface PatientService {
     //Buscar os dados do paciente pelo nome (para o profile)
     @GET("api/patient/getByName/{name}")
     Call<List<Patient>> getPatientByFullName(@Path("name") String name, @Query("surname") String surname);
+
+    //Buscar por patient id
+    @GET("api/patient/getById/{id}")
+    Call<PatientResponseDTO> getPatientById(@Path("id") String id);
+
+
 
     //Login do patient
     @Headers({"User-Agent: Mozilla/5.0", "Content-Type: application/json"})

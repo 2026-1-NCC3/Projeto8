@@ -1,15 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import { useMemo, useState, useEffect } from 'react';
-import Select from 'react-select';
 import { usePatients, PatientRequest } from '@/app/hooks/useGetPatients';
-import { useExercises } from '@/app/hooks/useGetExercises';
-import { useGetWorkouts } from '@/app/hooks/useGetWorkouts';
 
 export default function PatientsPage() {
   const { patients, removePatient, updatePatient } = usePatients();
-  const { exercises } = useExercises();
 
   const [query, setQuery] = useState('');
   const [selectedId, setSelectedId] = useState('');
@@ -30,27 +25,9 @@ export default function PatientsPage() {
   }, [patients, selectedId, filteredPatients]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsEditing(false);
   }, [selectedId]);
-
-  const {
-    daysOfWeek,
-    workoutSessions,
-    exerciseSessions,
-    tempExercises,
-    scheduleForm,
-    selectedDay,
-    isSaving,
-    setScheduleForm,
-    setSelectedDay,
-    addExerciseToTempList,
-    removeTempExercise,
-    saveFullWorkoutToDatabase,
-    toggleEditMode,
-    updateExerciseSessionLocal,
-    deleteExerciseSession,
-    saveAllWorkoutChanges,
-  } = useGetWorkouts(selectedPatient, exercises);
 
   const handleEditClick = () => {
     if (!selectedPatient) return;

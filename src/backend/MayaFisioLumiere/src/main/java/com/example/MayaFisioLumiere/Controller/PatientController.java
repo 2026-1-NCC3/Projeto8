@@ -76,6 +76,16 @@ public class PatientController {
 
     }
 
+    @GetMapping("/getById/{id}")
+    public ResponseEntity<PatientResponseDTO> getPatientById(@PathVariable UUID id) {
+        try {
+            PatientResponseDTO patient = patientService.getPatientById(id);
+            return ResponseEntity.ok(patient);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @GetMapping("/getByName/{name}")
     public ResponseEntity<?> getPatientByName(@PathVariable String name, String surname) {
         try {
@@ -88,13 +98,14 @@ public class PatientController {
     }
 
     @DeleteMapping("/delete/{patient_id}") // deletando paciente por id
-    public ResponseEntity<?> deletePatient(@PathVariable("patient_id") UUID patiend_id) {
+    public ResponseEntity<?> deletePatient(@PathVariable("patient_id") UUID patient_id) {
         try {
-            patientRepository.deleteById(patiend_id);
+            patientRepository.deleteById(patient_id);
             return ResponseEntity.ok("Paciente deletado com sucesso.");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar paciente.");
         }
     }
+    
 
 }
