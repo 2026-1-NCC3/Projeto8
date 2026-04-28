@@ -6,8 +6,8 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="grid grid-cols-4 p-4 gap-4 md:block">
-      <div className="col-span-4 md:flex md:items-start md:gap-4">
+    <div className="grid grid-cols-4 p-4 gap-4 md:block min-h-screen">
+      <div className="col-span-4 md:flex md:items-start md:gap-4 h-full">
         <div className="fixed col-span-4">
           <Sidebar />
         </div>

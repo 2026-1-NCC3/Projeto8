@@ -83,10 +83,7 @@ export default function AddPatientPage() {
       <h1 className="col-span-full font-display text-4xl pt-6 h-fit">Adicionar Paciente</h1>
 
       <div className="col-span-12 md:col-span-8 bg-white/30 rounded-lg border border-neutral-200 p-6">
-        <h2 className="text-xl font-semibold mb-4 text-neutral-800">
-          Novo Cadastro
-        </h2>
-        <form onSubmit={submitPatient} className="grid grid-cols-12 gap-4">
+        <form onSubmit={submitPatient} className="grid grid-cols-12 gap-3">
           <input
             value={form.firstName}
             onChange={handleChange('firstName')}
