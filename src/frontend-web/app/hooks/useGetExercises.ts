@@ -75,7 +75,6 @@ export function useExercises() {
       }
       return false;
     } catch (error) {
-      console.error('Erro na requisição PUT:', error);
       return false;
     }
   };
@@ -83,12 +82,16 @@ export function useExercises() {
   // Remover Exercício (DELETE)
   const removeExercise = async (id: number) => {
     if (!id) return;
-    if (!window.confirm("Deseja excluir este exercício permanentemente?")) return;
+    if (!window.confirm('Deseja excluir este exercício permanentemente?'))
+      return;
 
     try {
-      const res = await fetch(`${API_URL}/api/exercise/deleteExerciseId/${id}`, {
-        method: 'DELETE',
-      });
+      const res = await fetch(
+        `${API_URL}/api/exercise/deleteExerciseId/${id}`,
+        {
+          method: 'DELETE',
+        },
+      );
       if (res.ok) {
         setExercises((prev) => prev.filter((ex) => ex.exercise_id !== id));
         setReload((prev) => !prev);
