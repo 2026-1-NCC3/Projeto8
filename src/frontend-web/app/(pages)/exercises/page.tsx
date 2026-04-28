@@ -58,7 +58,7 @@ export default function ExercisesPage() {
               setForm((prev) => ({ ...prev, title: event.target.value }))
             }
             placeholder="Nome do exercício"
-            className="col-span-4 rounded-md border border-slate-300 px-3 py-2 md:col-span-6 placeholder:text-neutral-700"
+            className="col-span-4 rounded-md bg-white/30 border border-slate-300 px-3 py-2 md:col-span-6 placeholder:text-neutral-700"
             required
           />
           <input
@@ -67,7 +67,7 @@ export default function ExercisesPage() {
               setForm((prev) => ({ ...prev, tags: event.target.value }))
             }
             placeholder="Tags (separadas por vírgula)"
-            className="col-span-4 rounded-md border border-slate-300 px-3 py-2 md:col-span-6 placeholder:text-neutral-700"
+            className="col-span-4 rounded-md bg-white/30 border border-slate-300 px-3 py-2 md:col-span-6 placeholder:text-neutral-700"
             required
           />
           <textarea
@@ -76,7 +76,7 @@ export default function ExercisesPage() {
               setForm((prev) => ({ ...prev, description: event.target.value }))
             }
             placeholder="Descrição"
-            className="col-span-4 min-h-34 rounded-md border border-slate-300 px-3 py-2 md:col-span-12 placeholder:text-neutral-700"
+            className="col-span-4 min-h-34 bg-white/30 rounded-md border border-slate-300 px-3 py-2 md:col-span-12 placeholder:text-neutral-700"
             required
           />
           <input
@@ -85,11 +85,11 @@ export default function ExercisesPage() {
               setForm((prev) => ({ ...prev, midiaURL: event.target.value }))
             }
             placeholder="URL do YouTube"
-            className="col-span-4 rounded-md border border-slate-300 px-3 py-2 md:col-span-12 placeholder:text-neutral-700"
+            className="col-span-4 rounded-md bg-white/30 border border-slate-300 px-3 py-2 md:col-span-12 placeholder:text-neutral-700"
             required
           />
           <button
-            className="col-span-full rounded-md bg-blue mt-2 px-3 py-4 font-semibold text-neutral hover:opacity-70 transition duration-300 ease-in-out"
+            className="col-span-full rounded-md bg-dark-blue mt-2 px-3 py-4 font-semibold text-neutral hover:bg-blue transition-all duration-300 ease-in-out"
             type="submit"
           >
             Cadastrar exercício
@@ -111,7 +111,7 @@ export default function ExercisesPage() {
           {filtered.map((exercise: Exercise) => (
             <article
               key={exercise.exercise_id}
-              className="relative rounded-md border border-slate-200 bg-[#FDFDFD] p-3 space-y-1"
+              className="relative rounded-md border border-slate-200 bg-white/30 p-3 space-y-1"
             >
               <p className="font-semibold">{exercise.title}</p>
               <p className="mt-1 text-xs uppercase tracking-wide">
@@ -127,7 +127,7 @@ export default function ExercisesPage() {
               </a>
               <button
                 onClick={() => removeExercise(exercise.exercise_id)}
-                className="absolute right-3 bottom-4 rounded-md bg-neutral-100 text-red-600 hover:bg-red-600 hover:text-white px-3 py-1 transition duration-300 ease-in-out"
+                className="absolute right-3 bottom-4 rounded-md bg-neutral-100 border border-salmon/50 text-salmon hover:bg-salmon hover:text-white px-3 py-1 transition duration-300 ease-in-out"
               >
                 Excluir
               </button>

@@ -84,7 +84,7 @@ export default function AddPatientPage() {
         <h1 className="font-display text-4xl pt-6">Adicionar Paciente</h1>
       </header>
 
-      <div className="col-span-12 md:col-span-8 bg-white rounded-lg border border-neutral-200 p-6">
+      <div className="col-span-12 md:col-span-8 bg-white/30 rounded-lg border border-neutral-200 p-6">
         <h2 className="text-xl font-semibold mb-4 text-neutral-800">
           Novo Cadastro
         </h2>
