@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
 
         if (idRecebido != null) {
             WorkoutSeshData(idRecebido);
+            checkAppointmentsData(idRecebido); //Busca os agendamentos do paciente
         }
         */
         carregarDadosMockados();
@@ -316,4 +317,56 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
             }
         });
     }
+
+    //Buscar os appointments depois de retornar os dados do paciente no Login, juntos dos exercicios
+    private void checkAppointmentsData(String patientId) {
+        AppointmentService api = RetrofitClient.getAppointmentService();
+        api.getAppointmentsByPatient(patientId).enqueue(new Callback<List<AppointmentResponseDTO>>() {
+            @Override
+            public void onResponse(Call<List<AppointmentResponseDTO>> call, Response<List<AppointmentResponseDTO>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<AppointmentResponseDTO> agendamentos = response.body();
+
+                    for (AppointmentResponseDTO appo : response.body()) {
+                        try {
+                            String fullDateFromApi = appo.getDate(); // No banco vem "2026-04-27T00:00:00"
+                            String timeFromApi = appo.getTime();     // Vem "10:30"
+
+                            // Pegamos os primeiros 10 digitos da data (YYYY-MM-DD) contando os -
+                            String cleanDate = fullDateFromApi.substring(0, 10);
+
+                            //Monta a String no formato do LocalDateTime
+                            String isoDateTime = cleanDate + "T" + timeFromApi;
+
+                            // Se o time vier "10:30", isso ajusta os segundos
+                            if (timeFromApi.length() == 5) {
+                                isoDateTime += ":00";
+                            }
+                            LocalDateTime dataEHoraReal = LocalDateTime.parse(isoDateTime);
+                            NotificationScheduler.schedule(
+                                    MainActivity.this,
+                                    dataEHoraReal,
+                                    appo.getDescription(),
+                                    appo.getTime());
+
+                            Log.d("NOTIF_SUCESSO", "Agendado para: " + isoDateTime + " - " + appo.getDescription());
+                        } catch (Exception e) {
+                            Log.e("NOTIF_ERRO", "Falha ao processar data/hora: " + appo.getDate() + " " + appo.getTime());
+                        }
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<List<AppointmentResponseDTO>> call, Throwable t) {
+                Log.e("API_APPOINTMENT", "Erro ao buscar agendamentos: " + t.getMessage());
+            }
+        });
+    }
+
+
+
+
+
+
+
 }

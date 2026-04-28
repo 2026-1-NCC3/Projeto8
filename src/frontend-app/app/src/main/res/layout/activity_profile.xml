@@ -7,150 +7,319 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#F5F5F5">
+        android:layout_height="0dp"
+        android:background="#F5F5F5"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/menu">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:padding="20dp">
 
-            <LinearLayout
+            <ImageView
+                android:id="@+id/imgProfile"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/contour_fem"
+                android:scaleType="centerCrop"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <TextView
+                android:id="@+id/txtName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Nome Sobrenome"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/imgProfile"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <TextView
+                android:id="@+id/txtStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Status"
+                android:textColor="@color/darkBlue"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@id/txtName"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <TextView
+                android:id="@+id/labelDadosPessoais"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Dados Pessoais"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                app:layout_constraintTop_toBottomOf="@id/txtStatus"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <TextView
+                android:id="@+id/titleEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Email: "
+                app:layout_constraintTop_toBottomOf="@id/labelDadosPessoais"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <TextView
+                android:id="@+id/txtEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:paddingBottom="20dp">
+                android:layout_marginTop="8dp"
+                android:text="..."
+                android:background="@drawable/edittext_border"
+                android:padding="5dp"
+                app:layout_constraintTop_toBottomOf="@id/titleEmail"
+                app:layout_constraintStart_toStartOf="parent"
+                />
 
-                <ImageView
-                    android:id="@+id/imgProfile"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:src="@drawable/contour_fem"
-                    android:scaleType="centerCrop"
-                    android:layout_marginBottom="10dp"/>
+            <TextView
+                android:id="@+id/titlePass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Sua senha: "
+                app:layout_constraintTop_toBottomOf="@id/txtEmail"
+                app:layout_constraintStart_toStartOf="parent"
+                />
 
-                <TextView
-                    android:id="@+id/txtName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Nome Sobrenome"
-                    android:textSize="22sp"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:id="@+id/txtStatus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Status"
-                    android:textColor="@color/darkBlue"
-                    android:textSize="16sp"/>
-            </LinearLayout>
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/txtPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@android:color/white"
-                android:padding="16dp"
-                android:layout_marginBottom="16dp"
-                android:elevation="4dp">
+                android:layout_marginTop="8dp"
+                android:text="..."
+                android:padding="5dp"
+                android:background="@drawable/edittext_border"
+                app:layout_constraintTop_toBottomOf="@id/titlePass"
+                app:layout_constraintStart_toStartOf="parent"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Dados Pessoais"
-                    android:textStyle="bold"
-                    android:textSize="16sp"
-                    android:layout_marginBottom="10dp"/>
+            <TextView
+                android:id="@+id/titleCPF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="CPF: "
+                app:layout_constraintTop_toBottomOf="@id/txtPassword"
+                app:layout_constraintStart_toStartOf="parent"
+                />
 
-                <TextView android:id="@+id/txtEmail" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Email"/>
-                <TextView android:id="@+id/txtPassword" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Senha"/>
-                <TextView android:id="@+id/txtCpf" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="CPF"/>
-                <TextView android:id="@+id/txtCellphone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Numero de celular"/>
-                <TextView android:id="@+id/txtBirthDate" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Data de nascimento"/>
-                <TextView android:id="@+id/txtAge" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Idade"/>
-            </LinearLayout>
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/txtCpf"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@android:color/white"
-                android:padding="16dp"
-                android:layout_marginBottom="16dp"
-                android:elevation="4dp">
+                android:layout_marginTop="8dp"
+                android:text="000.000.000-0"
+                android:padding="5dp"
+                android:background="@drawable/edittext_border"
+                app:layout_constraintTop_toBottomOf="@id/titleCPF"
+                app:layout_constraintStart_toStartOf="parent"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Dados Físicos"
-                    android:textStyle="bold"
-                    android:textSize="16sp"
-                    android:layout_marginBottom="10dp"/>
-
-                <TextView android:id="@+id/txtGender" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Gênero"/>
-                <TextView android:id="@+id/txtHeight" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Altura"/>
-                <TextView android:id="@+id/txtWeight" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Peso"/>
-            </LinearLayout>
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/titleCellphone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Número de celular: "
+                app:layout_constraintTop_toBottomOf="@id/txtCpf"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+            <TextView
+                android:id="@+id/txtCellphone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@android:color/white"
-                android:padding="16dp"
-                android:layout_marginBottom="16dp"
-                android:elevation="4dp">
+                android:layout_marginTop="8dp"
+                android:text="Numero de celular"
+                android:padding="5dp"
+                android:background="@drawable/edittext_border"
+                app:layout_constraintTop_toBottomOf="@id/titleCellphone"
+                app:layout_constraintStart_toStartOf="parent"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Relatório"
-                    android:textStyle="bold"
-                    android:textSize="16sp"
-                    android:layout_marginBottom="10dp"/>
+            <TextView
+                android:id="@+id/titleBirthDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Data de nascimento: "
+                app:layout_constraintTop_toBottomOf="@id/txtCellphone"
+                app:layout_constraintStart_toStartOf="parent"
+                />
 
-                <TextView android:id="@+id/txtDescription" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Descrição"/>
-                <TextView android:id="@+id/txtLGDP" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="LGPD Check"/>
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/btnExcluirConta"
+            <TextView
+                android:id="@+id/txtBirthDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@android:color/white"
-                android:padding="16dp"
-                android:layout_marginBottom="100dp"
-                android:elevation="4dp"
-                android:gravity="center_vertical"
-                android:clickable="true"
-                android:focusable="true">
+                android:layout_marginTop="8dp"
+                android:text="01/01/1999"
+                android:padding="5dp"
+                android:background="@drawable/edittext_border"
+                app:layout_constraintTop_toBottomOf="@id/titleBirthDate"
+                app:layout_constraintStart_toStartOf="parent"/>
 
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@android:drawable/ic_menu_delete"
-                    app:tint="#D32F2F" />
+            <TextView
+                android:id="@+id/titleAge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Idade: "
+                app:layout_constraintTop_toBottomOf="@id/txtBirthDate"
+                app:layout_constraintStart_toStartOf="parent"
+                />
 
-                <TextView
+            <TextView
+                android:id="@+id/txtAge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="50"
+                android:padding="5dp"
+                android:background="@drawable/edittext_border"
+                app:layout_constraintTop_toBottomOf="@id/titleAge"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <TextView
+                android:id="@+id/labelDadosFisicos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Dados Físicos"
+                android:padding="5dp"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@id/txtAge"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <TextView
+                android:id="@+id/titleGender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Gênero: "
+                app:layout_constraintTop_toBottomOf="@id/labelDadosFisicos"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+
+
+            <TextView
+                android:id="@+id/txtGender"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="..."
+                android:padding="5dp"
+                android:background="@drawable/edittext_border"
+                app:layout_constraintTop_toBottomOf="@id/titleGender"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <TextView
+                android:id="@+id/titleHeight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Altura: "
+                app:layout_constraintTop_toBottomOf="@id/labelDadosFisicos"
+                app:layout_constraintStart_toEndOf="@+id/titleGender"
+                app:layout_constraintEnd_toStartOf="@+id/titleWeight"
+                />
+
+            <TextView
+                android:id="@+id/txtHeight"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="..."
+                android:padding="5dp"
+                android:background="@drawable/edittext_border"
+                app:layout_constraintTop_toBottomOf="@id/titleHeight"
+                app:layout_constraintStart_toEndOf="@+id/txtGender"
+                app:layout_constraintEnd_toStartOf="@+id/txtWeight"/>
+
+            <TextView
+                android:id="@+id/titleWeight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Peso: "
+                app:layout_constraintTop_toBottomOf="@id/labelDadosFisicos"
+                app:layout_constraintStart_toEndOf="@+id/titleHeight"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
+
+            <TextView
+                android:id="@+id/txtWeight"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="..."
+                android:padding="5dp"
+                android:background="@drawable/edittext_border"
+                app:layout_constraintTop_toBottomOf="@id/titleWeight"
+                app:layout_constraintStart_toEndOf="@+id/txtHeight"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <TextView
+                android:id="@+id/labelRelatorio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Relatório"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@id/txtWeight"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <TextView
+                android:id="@+id/txtDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Descrição"
+                android:padding="5dp"
+                android:background="@drawable/edittext_border"
+                app:layout_constraintTop_toBottomOf="@id/labelRelatorio"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <TextView
+                android:id="@+id/txtLGDP"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="20dp"
+                android:text="LGPD Check"
+                android:padding="5dp"
+                android:background="@drawable/edittext_border"
+                app:layout_constraintTop_toBottomOf="@id/txtDescription"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <Button
+                    android:id="@+id/btnExcluirConta"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Excluir Conta"
                     android:textColor="#D32F2F"
+                    android:backgroundTint="@color/white"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    android:layout_marginStart="12dp"/>
-            </LinearLayout>
+                    android:layout_marginStart="12dp"
+                    app:layout_constraintTop_toBottomOf="@+id/txtLGDP"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    />
 
-
-            </LinearLayout>
-
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
-    <!-- MENU FIXO EMBAIXO -->
-        <include
+    <include
         android:id="@+id/menu"
         layout="@layout/menu"
         android:layout_width="0dp"
@@ -159,5 +328,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
+</androidx.constraintlayout.widget.ConstraintLayout>

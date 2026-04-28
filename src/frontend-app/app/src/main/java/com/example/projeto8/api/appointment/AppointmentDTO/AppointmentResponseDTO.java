@@ -8,7 +8,7 @@ public class AppointmentResponseDTO {
     private UUID patient_id;
     private String description;
     private String time;
-    private LocalDate date;
+    private String date; //LocalDate
 
     public AppointmentResponseDTO(){}
     public UUID getAppointment_id() {
@@ -29,7 +29,7 @@ public class AppointmentResponseDTO {
     }
 
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 }

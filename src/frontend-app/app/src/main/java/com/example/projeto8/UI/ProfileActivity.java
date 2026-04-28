@@ -2,20 +2,16 @@ package com.example.projeto8.UI;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projeto8.R;
+import com.example.projeto8.api.patient.PatientDTO.PatientResponseDTO;
 import com.example.projeto8.api.patient.PatientService;
 import com.example.projeto8.model.Patient;
 import com.example.projeto8.remote.RetrofitClient;
@@ -28,12 +24,9 @@ import retrofit2.Response;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private ImageView iconHome, iconCalendar, iconProfile;
+    private ImageView iconHome, iconExercise, iconProfile;
 
-    private TextView txtName, txtStatus, txtEmail, txtCpf, txtBirthDate,
-            txtGender, txtHeight, txtWeight;
-    LinearLayout btnExcluir;
-
+    private TextView txtName, txtStatus, txtEmail,txtPassword, txtCpf, txtCellphone, txtBirthDate,txtAge, txtGender, txtHeight, txtWeight, txtDescription, txtLGDP;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,117 +34,95 @@ public class ProfileActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_profile);
 
-        // ====== INICIALIZA VIEWS ======
         txtName = findViewById(R.id.txtName);
         txtStatus = findViewById(R.id.txtStatus);
         txtEmail = findViewById(R.id.txtEmail);
+        txtPassword = findViewById(R.id.txtPassword);
         txtCpf = findViewById(R.id.txtCpf);
+        txtCellphone = findViewById(R.id.txtCellphone);
         txtBirthDate = findViewById(R.id.txtBirthDate);
+        txtAge = findViewById(R.id.txtAge);
         txtGender = findViewById(R.id.txtGender);
         txtHeight = findViewById(R.id.txtHeight);
         txtWeight = findViewById(R.id.txtWeight);
+        txtDescription = findViewById(R.id.txtDescription);
+        txtLGDP = findViewById(R.id.txtLGDP);
 
-        // ====== MENU ======
+        //  MENU
         iconHome = findViewById(R.id.iconHome);
-        iconCalendar = findViewById(R.id.iconCalendar);
+        iconExercise = findViewById(R.id.iconExercise);
         iconProfile = findViewById(R.id.iconProfile);
         setupMenuClicks();
-        iconProfile.setSelected(true);
 
-
-        btnExcluir = findViewById(R.id.btnExcluirConta);
-
-        btnExcluir.setOnClickListener(v -> {
-            View view = getLayoutInflater().inflate(R.layout.dialog_delete, null);
-            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
-            builder.setView(view);
-
-            android.app.AlertDialog dialog = builder.create();
-
-            // IMPORTANTE: Isso torna o fundo do sistema transparente para o nosso card aparecer redondo
-            if (dialog.getWindow() != null) {
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            }
-
-            view.findViewById(R.id.btnCancel).setOnClickListener(v1 -> dialog.dismiss());
-            view.findViewById(R.id.btnDelete).setOnClickListener(v1 -> {
-                // Lógica de deletar
-                dialog.dismiss();
-            });
-
-            dialog.show();
-            view.findViewById(R.id.cardContent).setClipToOutline(true);
-        });
-
-
-        // ====== PEGAR NOME DO LOGIN ======
+        //  PEGAR NOME DO LOGIN
         SharedPreferences prefs = getSharedPreferences("STORAGE", MODE_PRIVATE);
-        String name = prefs.getString("patient_name", null);
+        String patient_id = prefs.getString("patient_id", null);
 
-        if (name != null) {
-            loadPatient(name);
+        if (patient_id != null) {
+            loadPatient(patient_id);
         } else {
-            Log.e("PROFILE", "Nome não encontrado no SharedPreferences");
+            Log.e("PROFILE", "Paciente não encontrado no SharedPreferences");
         }
     }
 
-    // ====== BUSCAR PACIENTE PELO NOME ======
-    private void loadPatient(String name) {
+    private void loadPatient(String UUID) {
         PatientService service = RetrofitClient.getPatientService();
 
-        service.getPatientByFullName(name, null) // surname = null
-                .enqueue(new Callback<List<Patient>>() {
+        service.getPatientById(UUID)
+                .enqueue(new Callback<PatientResponseDTO>() {
 
                     @Override
-                    public void onResponse(Call<List<Patient>> call, Response<List<Patient>> response) {
-                        if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
+                    public void onResponse(Call<PatientResponseDTO> call, Response<PatientResponseDTO> response) {
+                        if (response.isSuccessful() && response.body() != null) {
 
-                            Patient p = response.body().get(0); // pega o primeiro
+                            PatientResponseDTO patient = response.body();
 
-                            txtName.setText(p.getName() + " " + p.getSurname());
-                            txtStatus.setText("Status: " + p.getStatus());
+                            txtName.setText(patient.getName() + " " + patient.getSurname());
+                            txtStatus.setText("Status: " + patient.getStatus());
 
-                            txtEmail.setText(p.getEmail());
-                            txtCpf.setText(p.getCpf());
-                            txtBirthDate.setText(p.getBirthDate());
+                            txtEmail.setText(patient.getEmail());
+                            txtPassword.setText(patient.getPassword());
+                            txtCpf.setText(patient.getCpf());
+                            txtBirthDate.setText(patient.getBirthDate());
 
-                            txtGender.setText(p.getGender());
-                            txtHeight.setText(p.getHeight());
-                            txtWeight.setText(p.getWeight());
+                            txtGender.setText(patient.getGender());
+                            txtHeight.setText(patient.getHeight() + " m");
+                            txtWeight.setText(patient.getWeight() + " kg");
+                            txtAge.setText(String.valueOf(patient.getPatientAge()));
+                            txtCellphone.setText(patient.getCellPhone());
 
+                            String lgpdStatus = patient.isLgpdCheck() ? "Aceito" : "Não Aceito";
+                            txtLGDP.setText("Termos LGPD: " + lgpdStatus);
+
+                            if(patient.getDescription() != null) {
+                                txtDescription.setText(patient.getDescription());
+                            }
                         } else {
                             Log.e("API_ERROR", "Resposta vazia");
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<List<Patient>> call, Throwable t) {
-                        Log.e("API_ERROR", "Erro: " + t.getMessage());
+                    public void onFailure(Call<PatientResponseDTO> call, Throwable t) {
+                        Log.e("API_ERROR", "Falha na requisição: " + t.getMessage());
                     }
                 });
     }
 
+    // MENU
+    private void setupMenuClicks() {
+        iconHome.setOnClickListener(v -> {
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+        });
 
-        public void setupMenuClicks() {
-            // Pegamos os layouts dos botões
-            View btnCalendar = findViewById(R.id.btnCalendar);
-            View btnHome = findViewById(R.id.btnHome);
-            View btnProfile = findViewById(R.id.btnProfile);
+        iconExercise.setOnClickListener(v -> {
+            startActivity(new Intent(this, ExercisesActivity.class));
+            finish();
+        });
 
-            // Configura o clique da Agenda
-            btnCalendar.setOnClickListener(v -> {
-                startActivity(new Intent(this, MonthCalendarActivity.class));
-                overridePendingTransition(0, 0);
-            });
-
-            // Clique na Home (já está nela, não precisa fazer nada ou apenas scroll up)
-            btnHome.setOnClickListener(v -> {
-                startActivity(new Intent(this, MainActivity.class));
-                overridePendingTransition(0, 0);
-            });
-
-            // Clique no Perfil
-            btnProfile.setOnClickListener(v -> {
-            });
-        }
+        iconProfile.setOnClickListener(v -> {
+            // já está aqui
+        });
     }
+}
