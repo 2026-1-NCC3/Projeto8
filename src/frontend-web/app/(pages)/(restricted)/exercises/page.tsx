@@ -187,7 +187,7 @@ export default function ExercisesPage() {
                   </button>
                   <button
                     onClick={() => removeExercise(exercise.exercise_id)}
-                    className="p-1.5 rounded-md hover:bg-red-500 group transition-colors bg-white/50 border border-slate-200"
+                    className="p-1.5 rounded-md hover:bg-salmon group transition-colors bg-salmon/50 border border-salmon"
                     title="Excluir Exercício"
                   >
                     <Image

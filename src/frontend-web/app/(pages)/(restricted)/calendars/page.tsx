@@ -24,7 +24,7 @@ const calendarStyles = `
     background: transparent;
   }
 
-  /* Aplica cantos arredondados a todos os tiles (dias) */
+  /* Aplica cantos arredondados */
   .react-calendar__tile {
     border-radius: 0.375rem;
     transition: background-color 0.2s, color 0.2s;
@@ -40,14 +40,14 @@ const calendarStyles = `
   
   /* Dia selecionado */
   .react-calendar__tile--active { 
-    background: #009CB4 !important; 
+    background: #FFB347 !important; 
     border-radius: 0.375rem; 
     color: white !important; 
   }
   
   /* Dia atual */
   .react-calendar__tile--now { 
-    background: #009CB4 !important; 
+    background: #ffc16a !important; 
     color: white !important; 
     border-radius: 0.375rem;
     font-weight: bold;
@@ -78,11 +78,11 @@ const calendarStyles = `
   }
 
   .react-calendar__month-view__weekdays__weekday--weekend abbr {
-    color: #d10000 !important;
+    color: #000000 !important;
   }
 
   .react-calendar__month-view__days__day--weekend {
-    color: #d10000 !important;
+    color: #000000 !important;
   }
 
   /* Marcador de Consulta (Bolinha) */
@@ -232,7 +232,7 @@ export default function CalendarsPage() {
                   onClick={() => setSelectedDay(day)}
                   className={`py-2 px-4 rounded-md border transition-all ${
                     selectedDay === day
-                      ? 'bg-dark-blue text-white border-dark-blue shadow-sm'
+                      ? 'bg-salmon text-white border-salmon shadow-sm'
                       : 'bg-white border-neutral-200 hover:bg-neutral-50'
                   }`}
                 >
@@ -283,7 +283,7 @@ export default function CalendarsPage() {
               />
               <button
                 type="submit"
-                className="col-span-12 md:col-span-3 bg-dark-blue text-white rounded-md font-bold hover:bg-blue transition-colors"
+                className="col-span-12 md:col-span-3 bg-black text-white rounded-md font-bold hover:bg-black/80 transition-colors"
               >
                 + Adicionar Exercício
               </button>
@@ -296,8 +296,8 @@ export default function CalendarsPage() {
                 {tempExercises.map((ex, i) => (
                   <div key={i} className="flex justify-between items-center p-3 mb-2 rounded border border-slate-200 bg-white/30">
                     <span><strong>{ex.exerciseTitle}</strong> | {ex.serie} x {ex.repetitions}</span>
-                    <button onClick={() => removeTempExercise(i)} className="p-2 hover:bg-red-50 rounded-full">
-                      <Image src="/lixo.png" alt="Deletar" width={20} height={20} />
+                    <button onClick={() => removeTempExercise(i)} className="p-2 hover:bg-salmon bg-salmon/50 rounded-full">
+                      <Image src="/lixo.png" alt="Deletar" className='group-hover:invert' width={20} height={20} />
                     </button>
                   </div>
                 ))}
@@ -381,7 +381,7 @@ export default function CalendarsPage() {
                     <label className="text-sm text-black/60 uppercase font-bold">Descrição</label>
                     <textarea rows={4} className="w-full p-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-blue focus:outline-none" placeholder="Motivo da consulta..." value={description} onChange={(e) => setDescription(e.target.value)} />
                   </div>
-                  <button type="submit" disabled={isSavingAppointment} className={`w-full py-4 rounded-lg font-bold text-white transition-all shadow-md ${isSavingAppointment ? 'bg-neutral-400' : 'bg-dark-blue hover:bg-blue'}`}>
+                  <button type="submit" disabled={isSavingAppointment} className={`w-full py-4 rounded-lg font-bold text-white transition-all shadow-md ${isSavingAppointment ? 'bg-black/40' : 'bg-black hover:bg-black/80'}`}>
                     {isSavingAppointment ? 'Agendando...' : 'Confirmar Agendamento'}
                   </button>
                 </form>

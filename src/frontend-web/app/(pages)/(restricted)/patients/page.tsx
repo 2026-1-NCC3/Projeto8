@@ -2,6 +2,7 @@
 
 import { useMemo, useState, useEffect } from 'react';
 import { usePatients, PatientRequest } from '@/app/hooks/useGetPatients';
+import Image from 'next/image';
 
 export default function PatientsPage() {
   const { patients, removePatient, updatePatient } = usePatients();
@@ -96,9 +97,15 @@ export default function PatientsPage() {
                     <td className="py-3 px-2">
                       <button
                         onClick={() => removePatient(p.patient_id)}
-                        className="rounded-md bg-neutral-50 border border-salmon/50 px-3 py-1 hover:bg-salmon hover:text-white transition-all text-salmon text-sm font-semibold"
+                        className="group rounded-md bg-salmon/50 border border-salmon/50 px-3 py-1 hover:bg-salmon hover:text-white transition-all text-salmon text-sm font-semibold"
                       >
-                        Excluir
+                        <Image
+                          src="/lixo.png"
+                          alt="Deletar"
+                          className="group-hover:invert"
+                          width={20}
+                          height={20}
+                        />
                       </button>
                     </td>
                   </tr>
@@ -118,7 +125,7 @@ export default function PatientsPage() {
           {selectedPatient && !isEditing && (
             <button
               onClick={handleEditClick}
-              className="text-sm bg-dark-blue text-white px-3 py-1.5 rounded-md hover:bg-blue transition-colors font-semibold"
+              className="text-sm bg-black text-white px-3 py-1.5 rounded-md hover:bg-blue transition-colors font-semibold"
             >
               Editar Dados
             </button>
@@ -240,7 +247,7 @@ export default function PatientsPage() {
                 <div className="col-span-2 flex gap-2 pt-2">
                   <button
                     onClick={handleSaveUpdate}
-                    className="flex-1 bg-dark-blue text-white py-2 rounded hover:bg-blue transition-all"
+                    className="flex-1 bg-black text-white py-2 rounded hover:bg-blue transition-all"
                   >
                     Salvar
                   </button>
@@ -304,8 +311,8 @@ export default function PatientsPage() {
                   <span
                     className={`px-2 py-1 rounded ${
                       selectedPatient.status === 'ATIVO'
-                        ? 'bg-blue-100 text-dark-blue'
-                        : 'bg-neutral-200 text-black'
+                        ? 'bg-dark-blue/50 text-dark-blue'
+                        : 'bg-salmon/50 text-black'
                     }`}
                   >
                     {selectedPatient.status}

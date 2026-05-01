@@ -24,7 +24,7 @@ export default function LoginPage() {
         </h2>
 
         {state?.error && (
-          <div className="mb-4 rounded-md bg-light-salmon p-3 text-sm text-salmon">
+          <div className="mb-4 rounded-md bg-salmon/50 p-3 text-sm text-salmon">
             {state.error}
           </div>
         )}
@@ -66,9 +66,9 @@ export default function LoginPage() {
         <button
           type="submit"
           disabled={isPending}
-          className="w-full rounded-md bg-dark-blue p-3.5 text-base font-semibold text-white transition-colors duration-200 hover:bg-blue disabled:cursor-not-allowed disabled:bg-blue/30"
+          className="w-full rounded-md bg-black p-3.5 text-base font-semibold text-white transition-colors duration-200 hover:bg-black/80 disabled:cursor-not-allowed disabled:bg-black/30"
         >
-          {isPending ? 'Signing in...' : 'Sign in'}
+          {isPending ? 'Signing in...' : 'Log in'}
         </button>
       </form>
     </div>

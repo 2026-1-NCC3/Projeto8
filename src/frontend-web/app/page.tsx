@@ -2,36 +2,58 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import Gradient from './components/gradient';
 
 export default function HeroScreen() {
   return (
-    <Gradient className={ "bg-black w-screen! h-screen overflow-clip flex justify-center content-center" }>
-    <section className="flex h-screen w-full flex-col items-center justify-center p-6">
-      {/* Conteúdo de Texto e Botão */}
-      <div className="flex flex-col items-center space-y-6 text-center animate-in slide-in-from-bottom duration-1000">
-        <div className="flex w-screen flex-1 items-center justify-center">
-          <Image
-            src={'/maya-logo.png'}
-            alt="Maya Logo Lumière"
-            width={656}
-            height={176}
-          />
+    <main className="relative w-screen h-screen overflow-hidden bg-[#f9f9f9]">
+      <div className="absolute inset-0 z-0">
+        <div className="absolute top-[-10%] left-[-5%] w-[70%] h-[60%] rounded-full bg-blue mix-blend-multiply filter blur-[120px] opacity-70 animate-pulse" />
+        <div className="absolute bottom-[10%] right-[-5%] w-[60%] h-[70%] rounded-full bg-salmon mix-blend-multiply filter blur-[130px] opacity-50" />
+      </div>
+
+      <section className="relative z-10 flex flex-col justify-end h-full w-full px-10 py-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 items-end gap-16">
+          
+          {/* LADO ESQUERDO: BRANDING */}
+          <div className="flex flex-col items-start space-y-0 pb-10">
+            <div>
+               <Image
+                src={'/maya-logo.png'} // Sugestão: use uma versão escura/preta do logo
+                alt="Maya Logo Lumière"
+                width={520}
+                height={200}
+                className="object-contain invert"
+              />
+            </div>
+          </div>
+
+          {/* LADO DIREITO: DESCRIÇÃO E LOGIN */}
+          <div className="flex flex-col items-start md:max-w-md space-y-6">
+            <div className="space-y-4">
+              <h2 className="font-serif text-3xl md:text-4xl font-bold text-black">
+                Plataforma de Fisioterapia
+              </h2>
+              <p className="font-sans text-sm md:text-base text-black/80 leading-relaxed text-justify">
+                Como um sistema desenhado para excelência clínica, unimos tecnologia e cuidado humano. 
+                Nossa expertise em gestão de exercícios e monitoramento de pacientes cria soluções de 
+                alto impacto que equilibram estética visual com funcionalidade técnica.
+              </p>
+            </div>
+
+            <Link
+              href="/login"
+              className="group relative inline-flex items-center justify-center overflow-hidden rounded-full px-8 py-3 bg-black text-white transition-all duration-300 hover:bg-black/80"
+            >
+              <span className="relative z-10 font-semibold">Acessar Sistema</span>
+            </Link>
+          </div>
         </div>
 
-        <Link
-          href="/login"
-          className="group relative flex items-center justify-center overflow-hidden rounded-md px-6 py-2 border border-white text-white transition-all duration-300 hover:bg-white hover:text-dark-blue"
-        >
-          <span className="relative z-10">Acessar Sistema</span>
-        </Link>
-      </div>
-
-      {/* Detalhe decorativo no rodapé */}
-      <div className="absolute bottom-4 text-sm font-medium uppercase text-white">
-        Lumiere &copy; {new Date().getFullYear()}
-      </div>
-    </section>
-    </Gradient>
+        {/* Detalhe decorativo no rodapé (Data no canto inferior) */}
+        <div className="absolute bottom-20 left-10 text-sm uppercase text-black">
+          Lumière &copy; {new Date().getFullYear()} — Advanced Clinical Management
+        </div>
+      </section>
+    </main>
   );
 }

@@ -197,11 +197,11 @@ export default function AddPatientPage() {
         </form>
       </div>
 
-      <aside className="col-span-12 md:col-span-4 bg-blue/5 p-6 rounded-lg border border-blue/50 h-fit">
-        <h2 className="text-lg font-bold text-dark-blue">
+      <aside className="col-span-12 md:col-span-4 bg-salmon/5 p-6 rounded-lg border border-salmon/50 h-fit">
+        <h2 className="text-lg font-bold text-dark-salmon">
           Informação de Acesso
         </h2>
-        <p className="mt-4 text-black">
+        <p className="mt-4 text-dark-salmon">
           As credenciais do paciente são geradas automaticamente da seguinte
           forma:
           <br />

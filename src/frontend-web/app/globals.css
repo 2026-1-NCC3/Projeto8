@@ -3,10 +3,10 @@
 @source inline("bg-salmon text-salmon text-blue bg-neutral text-black");
 
 :root {
-  --blue: #8cdce9;
-  --dark-blue: #009CB4;
-  --salmon: #c76232;
-  --light-salmon: #c76232;
+  --blue: #a4dae0;
+  --dark-blue: #00a6b7;
+  --salmon: #FFB347;
+  --dark-salmon: #a9670c;
   --neutral: #f3fdff;
   --black: #020202;
   --font-sans: 'Bitcount Grid Double Ink', 'Segoe UI', sans-serif;
@@ -18,7 +18,7 @@
   --color-blue: var(--blue);
   --color-dark-blue: var(--dark-blue);
   --color-salmon: var(--salmon);
-  --color-light-salmon: var(--light-salmon);
+  --color-dark-salmon: var(--dark-salmon);
   --color-neutral: var(--neutral);
   --color-black: var(--black);
 }
