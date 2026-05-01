@@ -36,6 +36,7 @@ export function usePatients() {
   const [patients, setPatients] = useState<PatientResponse[]>([]);
   const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const normalizePatientsData = (rawData: any[]): PatientResponse[] => {
     return rawData.map((item) => ({
       ...item,
@@ -59,23 +60,30 @@ export function usePatients() {
   }, [API_URL]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchPatients();
   }, [fetchPatients]);
 
   const addPatient = async (newPatient: PatientRequest): Promise<boolean> => {
     try {
-      const res = await fetch(`${API_URL}/api/patient/createPatient`, {
+      // Tente mudar para /api/patient/create se /createPatient falhar
+      const res = await fetch(`${API_URL}/api/patient/createPatient`, { 
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newPatient),
       });
+
       if (res.ok) {
         await fetchPatients();
         return true;
+      } else {
+        // LOG CRÍTICO: Isso vai te mostrar se o erro é 400, 404 ou 500
+        const errorBody = await res.text();
+        console.error(`Erro do servidor (${res.status}):`, errorBody);
+        return false;
       }
-      return false;
     } catch (error) {
-      console.error('Erro ao criar paciente:', error);
+      console.error('Erro na requisição POST:', error);
       return false;
     }
   };

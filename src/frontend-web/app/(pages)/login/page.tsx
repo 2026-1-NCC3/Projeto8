@@ -14,7 +14,7 @@ export default function LoginPage() {
   );
 
   return (
-    <div className="flex min-h-[80vh] items-center justify-center p-4">
+    <div className="flex min-h-screen items-center justify-center p-4">
       <form
         action={formAction}
         className="w-full max-w-100 rounded-md border border-gray-200 bg-white px-8 py-10"

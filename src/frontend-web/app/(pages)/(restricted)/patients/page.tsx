@@ -214,7 +214,7 @@ export default function PatientsPage() {
                     Gênero
                   </label>
                   <select
-                    className="w-full border border-black/20 p-2 rounded text-sm bg-white"
+                    className="w-full border border-black/20 p-2 rounded text-sm"
                     value={editForm.gender || ''}
                     onChange={(e) =>
                       setEditForm({ ...editForm, gender: e.target.value })

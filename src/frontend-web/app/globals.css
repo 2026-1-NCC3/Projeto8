@@ -1,14 +1,13 @@
 @import url('https://fonts.googleapis.com');
 @import 'tailwindcss';
-@source inline("bg-salmon text-salmon text-blue bg-blue bg-neutral bg-light-blue text-black");
+@source inline("bg-salmon text-salmon text-blue bg-neutral text-black");
 
 :root {
-  --light-blue: #d1e8ff;
-  --blue: #85A5F2;
-  --dark-blue: #204ECF;
-  --salmon: #f24f49;
-  --light-salmon: #EA9836;
-  --neutral: #F7F5F2;
+  --blue: #8cdce9;
+  --dark-blue: #009CB4;
+  --salmon: #c76232;
+  --light-salmon: #c76232;
+  --neutral: #f3fdff;
   --black: #020202;
   --font-sans: 'Bitcount Grid Double Ink', 'Segoe UI', sans-serif;
   --font-display: 'Stack Sans Headline', 'Segoe UI', sans-serif;
@@ -16,7 +15,6 @@
 }
 
 @theme {
-  --color-light-blue: var(--light-blue);
   --color-blue: var(--blue);
   --color-dark-blue: var(--dark-blue);
   --color-salmon: var(--salmon);

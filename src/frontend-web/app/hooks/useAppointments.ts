@@ -1,17 +1,36 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
-export interface AppointmentRequest {
-  date: string; // ISO String para LocalDateTime
+export interface AppointmentResponse {
+  appointment_id: string;
+  date: string;
   time: string;
-  patient_id: string;
   description: string;
+  patient_id: string;
 }
 
-export function useAppointments() {
+export function useAppointments(patientId?: string) {
   const [isSavingAppointment, setIsSavingAppointment] = useState(false);
+  const [appointments, setAppointments] = useState<AppointmentResponse[]>([]);
   const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
 
-  const createAppointment = async (data: AppointmentRequest) => {
+  const fetchAppointments = useCallback(async () => {
+    if (!patientId) return;
+    try {
+      const res = await fetch(`${API_URL}/api/appointment/patient/${patientId}`);
+      if (res.ok) {
+        const data = await res.json();
+        setAppointments(data);
+      }
+    } catch (e) {
+      console.error('Erro ao buscar consultas:', e);
+    }
+  }, [patientId, API_URL]);
+
+  useEffect(() => {
+    fetchAppointments();
+  }, [fetchAppointments]);
+
+  const createAppointment = async (data: unknown) => {
     setIsSavingAppointment(true);
     try {
       const res = await fetch(`${API_URL}/api/appointment/create`, {
@@ -22,20 +41,17 @@ export function useAppointments() {
 
       if (res.ok) {
         alert('Consulta agendada com sucesso!');
+        await fetchAppointments();
         return true;
-      } else {
-        const error = await res.text();
-        alert(`Erro ao agendar: ${error}`);
-        return false;
       }
+      return false;
     } catch (e) {
       console.error(e);
-      alert('Erro de conexão com o servidor.');
       return false;
     } finally {
       setIsSavingAppointment(false);
     }
   };
 
-  return { createAppointment, isSavingAppointment };
+  return { createAppointment, isSavingAppointment, appointments, fetchAppointments };
 }
