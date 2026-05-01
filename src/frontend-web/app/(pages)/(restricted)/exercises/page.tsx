@@ -67,7 +67,7 @@ export default function ExercisesPage() {
   }
 
   return (
-    <section className="grid grid-cols-4 items-start gap-x-4 gap-y-12 md:grid-cols-12 p-4">
+    <section className="grid grid-cols-4 items-start gap-x-4 gap-y-12 md:grid-cols-12">
       <header className="col-span-full">
         <h1 className="font-display text-4xl pt-6">Cadastro de Exercícios</h1>
       </header>
@@ -150,7 +150,7 @@ export default function ExercisesPage() {
           className="mt-3 w-full rounded-md border border-slate-300 px-3 py-2 placeholder:text-neutral-700 bg-white/30"
         />
 
-        <div className="mt-4 space-y-4 h-[calc(100vh-17rem)] overflow-scroll no-scrollbar">
+        <div className="mt-4 space-y-4 h-[calc(100vh-18.5rem)] overflow-scroll no-scrollbar">
           {filtered.map((exercise: Exercise) => (
             <article
               key={exercise.exercise_id}
@@ -195,7 +195,7 @@ export default function ExercisesPage() {
                       alt="Excluir"
                       width={18}
                       height={18}
-                      className="object-contain group-hover:brightness-200"
+                      className="object-contain group-hover:invert"
                     />
                   </button>
                 </div>

@@ -29,18 +29,44 @@ const emptyForm: FormState = {
   description: '',
 };
 
+const calculateAge = (birthDate: string): string => {
+  if (!birthDate) return '';
+  const today = new Date();
+  const birth = new Date(birthDate);
+  let age = today.getFullYear() - birth.getFullYear();
+  const monthDiff = today.getMonth() - birth.getMonth();
+
+  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+    age--;
+  }
+  return age.toString();
+};
+
 export default function AddPatientPage() {
   const { addPatient } = usePatients();
   const [form, setForm] = useState<FormState>(emptyForm);
   const [isLoading, setIsLoading] = useState(false);
 
   function handleChange(field: keyof FormState) {
-    return (
-      event: React.ChangeEvent<
-        HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-      >,
-    ) => setForm((prev) => ({ ...prev, [field]: event.target.value }));
-  }
+  return (
+    event: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >,
+  ) => {
+    const value = event.target.value;
+
+    setForm((prev) => {
+      const updatedForm = { ...prev, [field]: value };
+
+      // Lógica automática: se mudar a data, calcula a idade
+      if (field === 'birthDate' && value) {
+        updatedForm.patientAge = calculateAge(value);
+      }
+
+      return updatedForm;
+    });
+  };
+}
 
   async function submitPatient(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -55,11 +81,11 @@ export default function AddPatientPage() {
     const email = `${form.firstName.toLowerCase()}.${form.lastName.toLowerCase()}@lumiere.com`;
     const password = form.birthDate.split('-').reverse().join('');
 
-    const isSuccess = await addPatient({
+    // Payload formatado
+    const payload = {
       name: form.firstName,
       surname: form.lastName,
       cpf: form.cpf,
-      patientAge: form.patientAge ? parseInt(form.patientAge) : null,
       email,
       password,
       birthDate: form.birthDate,
@@ -69,18 +95,27 @@ export default function AddPatientPage() {
       height: form.height ? parseFloat(form.height) : null,
       weight: form.weight ? parseFloat(form.weight) : null,
       description: form.description || null,
-    });
+      // VERIFICAÇÃO: Se no Java for patient_age, mude a chave abaixo para patient_age
+      patientAge: form.patientAge ? parseInt(form.patientAge) : null,
+    };
+
+    const isSuccess = await addPatient(payload);
 
     if (isSuccess) {
       alert('Paciente cadastrado com sucesso!');
       setForm(emptyForm);
+    } else {
+      // Adicione este alerta para saber que falhou
+      alert('Falha ao cadastrar paciente. Verifique o console do navegador para detalhes.');
     }
     setIsLoading(false);
   }
 
   return (
     <section className="grid grid-cols-12 gap-4">
-      <h1 className="col-span-full font-display text-4xl pt-6 h-fit">Adicionar Paciente</h1>
+      <h1 className="col-span-full font-display text-4xl pt-6 h-fit">
+        Adicionar Paciente
+      </h1>
 
       <div className="col-span-12 md:col-span-8 bg-white/30 rounded-lg border border-neutral-200 p-6">
         <form onSubmit={submitPatient} className="grid grid-cols-12 gap-3">
@@ -122,7 +157,7 @@ export default function AddPatientPage() {
           <select
             value={form.gender}
             onChange={handleChange('gender')}
-            className="col-span-full lg:col-span-4 rounded-md border p-3 bg-white border-neutral-300 outline-none focus:border-blue transition-all"
+            className="col-span-full lg:col-span-4 rounded-md border p-3 border-neutral-300 outline-none focus:border-blue transition-all"
           >
             <option value="">Gênero</option>
             <option value="MASCULINO">Masculino</option>
@@ -162,7 +197,7 @@ export default function AddPatientPage() {
         </form>
       </div>
 
-      <aside className="col-span-12 md:col-span-4 bg-blue/5 p-6 rounded-lg border border-blue/10 h-fit">
+      <aside className="col-span-12 md:col-span-4 bg-blue/5 p-6 rounded-lg border border-blue/50 h-fit">
         <h2 className="text-lg font-bold text-dark-blue">
           Informação de Acesso
         </h2>
