@@ -14,11 +14,10 @@ export default function HeroScreen() {
       <section className="relative z-10 flex flex-col justify-end h-full w-full px-10 py-20">
         <div className="grid grid-cols-1 md:grid-cols-2 items-end gap-16">
           
-          {/* LADO ESQUERDO: BRANDING */}
           <div className="flex flex-col items-start space-y-0 pb-10">
             <div>
                <Image
-                src={'/maya-logo.png'} // Sugestão: use uma versão escura/preta do logo
+                src={'/maya-logo.png'}
                 alt="Maya Logo Lumière"
                 width={520}
                 height={200}
@@ -27,7 +26,6 @@ export default function HeroScreen() {
             </div>
           </div>
 
-          {/* LADO DIREITO: DESCRIÇÃO E LOGIN */}
           <div className="flex flex-col items-start md:max-w-md space-y-6">
             <div className="space-y-4">
               <h2 className="font-serif text-3xl md:text-4xl font-bold text-black">
@@ -49,7 +47,6 @@ export default function HeroScreen() {
           </div>
         </div>
 
-        {/* Detalhe decorativo no rodapé (Data no canto inferior) */}
         <div className="absolute bottom-20 left-10 text-sm uppercase text-black">
           Lumière &copy; {new Date().getFullYear()} — Advanced Clinical Management
         </div>
