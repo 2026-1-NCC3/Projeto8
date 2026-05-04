@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="@color/gray"/>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Sombra (Cinza #313131 com 10% de opacidade) -->
+    <item android:top="0dp">
+        <shape>
+            <solid android:color="#1A313131" />
+        </shape>
+    </item>
 
-    <corners android:radius="50dp"/>
-
-    <padding
-        android:left="12dp"
-        android:right="12dp"
-        android:top="12dp"
-        android:bottom="12dp"/>
-</shape>
+    <!-- Fundo Branco -->
+    <item android:top="2dp"> <!-- O deslocamento cria a sombra no topo -->
+        <shape>
+            <solid android:color="@color/white" />
+        </shape>
+    </item>
+</layer-list>

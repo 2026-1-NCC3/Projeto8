@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/orange"
+    android:orientation="vertical"
+    android:paddingTop="50dp"
+    tools:context=".UI.MonthCalendarActivity">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp">
+
+        <ImageButton
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/white_chevron"
+            android:scaleType="fitCenter"
+            android:rotation="180"
+            android:onClick="previousMonthAction"
+            android:contentDescription="Anterior"
+            android:background="?attr/selectableItemBackground" />
+
+        <TextView
+            android:id="@+id/monthYearTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Abril 2026"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <ImageButton
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/white_chevron"
+            android:scaleType="fitCenter"
+            android:onClick="nextMonthAction"
+            android:contentDescription="Próximo"
+            android:background="?attr/selectableItemBackground" />
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView android:text="DOM" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:textAlignment="center" android:textColor="#E0E0E0" android:textSize="12sp" />
+        <TextView android:text="SEG" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:textAlignment="center" android:textColor="#E0E0E0" android:textSize="12sp" />
+        <TextView android:text="TER" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:textAlignment="center" android:textColor="#E0E0E0" android:textSize="12sp" />
+        <TextView android:text="QUA" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:textAlignment="center" android:textColor="#E0E0E0" android:textSize="12sp" />
+        <TextView android:text="QUI" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:textAlignment="center" android:textColor="#E0E0E0" android:textSize="12sp" />
+        <TextView android:text="SEX" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:textAlignment="center" android:textColor="#E0E0E0" android:textSize="12sp" />
+        <TextView android:text="SAB" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:textAlignment="center" android:textColor="#E0E0E0" android:textSize="12sp" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/calendarRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:minHeight="300dp" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_card_calendar"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Agendamento"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:paddingTop="20dp"
+                android:paddingLeft="20dp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/selectedDateTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Terça-feira"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:paddingTop="20dp"
+                android:paddingLeft="20dp"
+                android:textFontWeight="650" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Você tem consulta hoje às 10 horas da manhã!"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:paddingTop="10dp"
+                android:paddingLeft="20dp"
+                android:textFontWeight="550" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Deseja cancelar?"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:paddingTop="10dp"
+                android:paddingLeft="20dp"
+                android:textFontWeight="550" />
+
+
+
+        </LinearLayout>
+
+
+
+    <include
+        android:id="@+id/menu"
+        layout="@layout/menu"
+        android:elevation="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</LinearLayout>

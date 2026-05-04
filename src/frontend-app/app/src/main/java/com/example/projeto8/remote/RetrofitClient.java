@@ -76,4 +76,9 @@ public class RetrofitClient {
             return getRetrofitInstance().create(AppointmentService.class);
         }
 
+        /*public static AppointmentService getAppointmentService(){
+        return getRetrofitInstance().create(getAppointmentService.class);
+        } */
+
+
 }

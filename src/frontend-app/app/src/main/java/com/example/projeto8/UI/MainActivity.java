@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -46,7 +47,10 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
     private RecyclerView recyclerTasks;
     private TaskAdapter adapter;
     private ArrayList<Task> tasksParaExibir;
-    private ImageView iconHome, iconExercise, iconProfile; // menu
+    ImageView iconHome, iconCalendar, iconProfile; // menu
+    View btnHome,btnCalendar,btnProfile;
+    View containerHome, containerCalendar, containerProfile;
+    private Button btnStartWorkout;
 
     @Override
     protected void onResume() {
@@ -107,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
 
     }
 
-    private void initWidgets() {
+    public void initWidgets() {
         calendarRecyclerView = findViewById(R.id.calendarRecyclerView);
         monthYearText = findViewById(R.id.monthYearTV);
 
@@ -115,24 +119,72 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         recyclerTasks = findViewById(R.id.recyclerTasks);
         recyclerTasks.setLayoutManager(new LinearLayoutManager(this));
 
+        View menuView = findViewById(R.id.menu);
+        iconCalendar = findViewById(R.id.iconCalendar);
         iconHome = findViewById(R.id.iconHome);
-        iconExercise = findViewById(R.id.iconExercise);
         iconProfile = findViewById(R.id.iconProfile);
+
+        btnHome = menuView.findViewById(R.id.btnHome);
+        btnCalendar = menuView.findViewById(R.id.btnCalendar);
+        btnProfile = menuView.findViewById(R.id.btnProfile);
+
+        containerHome = menuView.findViewById(R.id.containerHomeSelect);
+
+        if (btnHome != null) btnHome.setSelected(true);
+        btnStartWorkout = findViewById(R.id.btnStartWorkout);
     }
 
-    private void setupMenuClicks() {
-        iconHome.setOnClickListener(v -> {
+    public void setupMenuClicks() {
+        btnCalendar.setOnClickListener(v -> {
+            updateMenuSelection(btnCalendar, containerCalendar,
+                    btnHome, containerHome, btnProfile, containerProfile);
 
+            startActivity(new Intent(this, MonthCalendarActivity.class));
+            overridePendingTransition(0, 0);
         });
-        //Aqui irá para a tela de appointments quando a Mariah der o commit da merge!!!!!!!
-        iconExercise.setOnClickListener(v -> {
-            startActivity(new Intent(this, NotificationService.class));
-            finish();
+
+        // Clique na Home
+        btnHome.setOnClickListener(v -> {
+            updateMenuSelection(btnHome, containerHome,
+                    btnCalendar, containerCalendar, btnProfile, containerProfile);
+
+            recyclerTasks.smoothScrollToPosition(0);
         });
-        iconProfile.setOnClickListener(v -> {
+
+        // Clique no Perfil
+        btnProfile.setOnClickListener(v -> {
+            updateMenuSelection(btnProfile, containerProfile,
+                    btnCalendar, containerCalendar, btnHome, containerHome);
+
             startActivity(new Intent(this, ProfileActivity.class));
-            finish();
+            overridePendingTransition(0, 0);
         });
+
+        // Botão de Iniciar Treino (Lógica separada do menu)
+        btnStartWorkout.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, ExercisesActivity.class);
+            intent.putParcelableArrayListExtra("LISTA_EXERCICIOS", tasksParaExibir);
+            startActivity(intent);
+        });
+    }
+
+    private void updateMenuSelection(View selectedBtn, View selectedContainer, View... others) {
+        // Desmarca todos os outros e remove o fundo
+        for (View view : others) {
+            if (view != null) {
+                view.setSelected(false);
+                // Se for um container (verificamos pela ID), removemos o fundo
+                if (view == containerHome || view == containerCalendar || view == containerProfile) {
+                    view.setBackground(null);
+                }
+            }
+        }
+
+        // Ativa o selecionado
+        if (selectedBtn != null) selectedBtn.setSelected(true);
+        if (selectedContainer != null) {
+            selectedContainer.setBackgroundResource(R.drawable.selected_item_bg);
+        }
     }
 
     // Monta o calendário semanal
@@ -145,8 +197,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         ArrayList<LocalDate> days = daysInWeekArray(CalendarUtils.selectedDate);
 
         // cria o adapter (responsável por desenhar cada dia)
-        CalendarAdapter calendarAdapter = new CalendarAdapter(days, this);
-
+        CalendarAdapter calendarAdapter = new CalendarAdapter(days, this, R.drawable.selected_day_bg);
         // define layout em grade com 7 colunas
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 7);
 
@@ -276,10 +327,10 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
             }
         });
     }
+
     //Buscar os appointments depois de retornar os dados do paciente no Login, juntos dos exercicios
     private void checkAppointmentsData(String patientId) {
         AppointmentService api = RetrofitClient.getAppointmentService();
-
         api.getAppointmentsByPatient(patientId).enqueue(new Callback<List<AppointmentResponseDTO>>() {
             @Override
             public void onResponse(Call<List<AppointmentResponseDTO>> call, Response<List<AppointmentResponseDTO>> response) {
@@ -321,4 +372,11 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
             }
         });
     }
+
+
+
+
+
+
+
 }

@@ -33,24 +33,29 @@ public class CalendarUtils
         return formatted.substring(0, 1).toUpperCase() + formatted.substring(1);
     }
 
-    public static ArrayList<LocalDate> daysInMonthArray(LocalDate date)
-    {
+    public static ArrayList<LocalDate> daysInMonthArray(LocalDate date) {
         ArrayList<LocalDate> daysInMonthArray = new ArrayList<>();
         YearMonth yearMonth = YearMonth.from(date);
 
         int daysInMonth = yearMonth.lengthOfMonth();
+        LocalDate firstOfMonth = date.withDayOfMonth(1);
 
-        LocalDate firstOfMonth = CalendarUtils.selectedDate.withDayOfMonth(1);
+        // getValue() retorna 1 (Seg) a 7 (Dom)
         int dayOfWeek = firstOfMonth.getDayOfWeek().getValue();
 
-        for(int i = 1; i <= 42; i++)
-        {
-            if(i <= dayOfWeek || i > daysInMonth + dayOfWeek)
+        // Se seu calendário começa no DOMINGO:
+        if (dayOfWeek == 7) dayOfWeek = 0;
+
+        for (int i = 1; i <= 42; i++) {
+            if (i <= dayOfWeek || i > daysInMonth + dayOfWeek) {
                 daysInMonthArray.add(null);
-            else
-                daysInMonthArray.add(LocalDate.of(selectedDate.getYear(),selectedDate.getMonth(),i - dayOfWeek));
+            } else {
+                // Use o dia calculado i - dayOfWeek
+                int day = i - dayOfWeek;
+                daysInMonthArray.add(LocalDate.of(date.getYear(), date.getMonthValue(), day));
+            }
         }
-        return  daysInMonthArray;
+        return daysInMonthArray;
     }
 
     public static ArrayList<LocalDate> daysInWeekArray(LocalDate selectedDate)

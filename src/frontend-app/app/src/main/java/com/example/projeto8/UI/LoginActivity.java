@@ -18,8 +18,6 @@ import com.example.projeto8.api.patient.PatientDTO.PatientLoginResponseDTO;
 import com.example.projeto8.api.patient.PatientService;
 import com.example.projeto8.remote.RetrofitClient;
 
-import java.util.UUID;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -39,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         RetrofitClient.init(this);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.login_activity);
+        setContentView(R.layout.activity_login);
 
         Email = findViewById(R.id.Email);
         Password = findViewById(R.id.Password);

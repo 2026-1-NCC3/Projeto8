@@ -1,15 +1,16 @@
-package com.example.projeto8.model;
+package com.example.projeto8.api.appointment.AppointmentDTO;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
-public class Appointment {
+public class AppointmentResponseDTO {
     private UUID appointment_id;
     private UUID patient_id;
     private String description;
     private String time;
-    private String date; //Antes era LocalDate
+    private String date; //LocalDate
 
+    public AppointmentResponseDTO(){}
     public UUID getAppointment_id() {
         return appointment_id;
     }

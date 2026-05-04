@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,8 +33,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder {
         CardView cardTask;
         LinearLayout expandArea, container;
-        ImageView btnCheck;
         TextView txtTitle;
+        ImageView imgArrow;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -41,9 +42,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
             // Se o seu XML for um ConstraintLayout, use isso:
             cardTask = itemView.findViewById(R.id.cardTask);
             expandArea = itemView.findViewById(R.id.expandArea);
-            btnCheck = itemView.findViewById(R.id.btnCheck);
             txtTitle = itemView.findViewById(R.id.txtTodayE);
             container = itemView.findViewById(R.id.container);
+            imgArrow = itemView.findViewById(R.id.imgArrow);
         }
     }
 
@@ -59,39 +60,44 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int position) {
         Task task = tasks.get(position);
 
-        //holder.txtTitle.setText(task.getTitle());
-        // Junta o título com as séries e repetições para mostrar na tela
+// 1. Texto do título
         String textoExibicao = task.getTitle() + " | " + task.getSerie() + "x" + task.getReps();
         holder.txtTitle.setText(textoExibicao);
+
+        // 2. Controle de visibilidade da expansão
         holder.expandArea.setVisibility(task.isExpanded ? View.VISIBLE : View.GONE);
 
-        if (task.isDone) {
-            holder.container.setBackgroundResource(R.drawable.task_bg_done);
-            holder.btnCheck.setImageResource(R.drawable.ic_done);
-            holder.cardTask.setBackgroundColor(
-                    holder.itemView.getContext().getColor(android.R.color.holo_green_light)
-            );
+        // 3. Clique para expandir (Diferente do clique de ir para outra tela)
+        holder.container.setOnClickListener(v -> {
+            // Inverte o estado de expansão
+            task.isExpanded = !task.isExpanded;
 
+            // Notifica o sistema para redesenhar esse item específico
+            notifyItemChanged(position);
+        });
+
+
+        if (task.isExpanded) {
+            holder.imgArrow.setRotation(270f);
         } else {
-            holder.container.setBackgroundResource(R.drawable.task_bg);
-            holder.btnCheck.setImageResource(R.drawable.ic_empty);
-            holder.cardTask.setBackgroundColor(
-                    holder.itemView.getContext().getColor(android.R.color.white)
-            );
+            holder.imgArrow.setRotation(90f);
         }
+        holder.container.setOnClickListener(v -> {
+            task.isExpanded = !task.isExpanded;
 
-        // Clique para expandir
-        holder.cardTask.setOnClickListener(v -> {
+            // O notifyItemChanged fará o onBindViewHolder rodar de novo
+            // e aplicar a rotação correta
+            notifyItemChanged(position);
+        });
+
+        // 4. Clique no texto do vídeo (Se quiser abrir a ExercisesActivity por aqui)
+        View txtVideo = holder.itemView.findViewById(R.id.txtVideoLink);
+        txtVideo.setOnClickListener(v -> {
             if (listener != null) {
-                listener.onTaskClick(task); // Manda a Task
+                listener.onTaskClick(task);
             }
         });
 
-        // Clique para marcar/desmarcar
-        holder.btnCheck.setOnClickListener(v -> {
-            task.isDone = !task.isDone;
-            notifyItemChanged(position);
-        });
     }
 
     @Override

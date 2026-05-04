@@ -6,23 +6,28 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FAFAFA"
+    android:padding="0dp"
     tools:context=".UI.MainActivity">
 
     <View
         android:id="@+id/topBackground"
         android:layout_width="match_parent"
-        android:layout_height="130dp"
+        android:layout_height="170dp"
         android:background="@drawable/top_bg"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:elevation="4dp"
+        android:outlineProvider="background"
+        app:layout_constraintBottom_toTopOf="@id/contentLayout"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <ImageView
         android:id="@+id/contour"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="24dp"
-        android:contentDescription="Avatar"
-        android:elevation="4dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:elevation="10dp"
         android:src="@drawable/contour_fem"
         app:layout_constraintBottom_toBottomOf="@id/topBackground"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,15 +37,16 @@
         android:id="@+id/txtWelcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
+        android:elevation="5dp"
         android:text="Bem-Vindo(a),"
         android:textColor="@color/white"
-        android:textSize="20sp"
-        android:alpha="0.9"
-        app:layout_constraintBottom_toTopOf="@+id/txtName"
+        android:textSize="35sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/contour"
         app:layout_constraintStart_toEndOf="@id/contour"
         app:layout_constraintTop_toTopOf="@id/contour"
-        app:layout_constraintVertical_chainStyle="packed" />
+        app:layout_constraintVertical_bias="0.15" />
 
     <TextView
         android:id="@+id/txtName"
@@ -48,110 +54,170 @@
         android:layout_height="wrap_content"
         android:text="Insira seu Nome"
         android:textColor="@color/white"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@id/contour"
+        android:textSize="30sp"
+        android:elevation="5dp"
+        app:layout_constraintTop_toBottomOf="@id/txtWelcome"
         app:layout_constraintStart_toStartOf="@id/txtWelcome"
-        app:layout_constraintTop_toBottomOf="@id/txtWelcome" />
+        />
 
     <LinearLayout
         android:id="@+id/contentLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:padding="20dp"
         android:orientation="vertical"
-        android:paddingHorizontal="20dp"
+        app:layout_constraintTop_toBottomOf="@id/topBackground"
         app:layout_constraintBottom_toTopOf="@id/menu"
-        app:layout_constraintTop_toBottomOf="@id/topBackground">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
+        <!-- HEADER (semana) -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:orientation="horizontal"
-            android:paddingVertical="16dp">
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp">
 
             <ImageButton
-                android:id="@+id/btnPrev"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:paddingTop="14dp"
-                android:scaleType="centerInside"
-                android:rotation="90"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:contentDescription="Anterior"
                 android:onClick="previousWeekAction"
-                android:src="@drawable/arrow"
-                app:tint="@color/black" />
+                android:rotation="180"
+                android:scaleType="fitStart"
+                android:src="@drawable/brown_chevron"
+                android:background="?attr/selectableItemBackground"/>
 
             <TextView
                 android:id="@+id/monthYearTV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Fevereiro 2026"
+                android:layout_weight="2"
+                android:text="Fev 2026"
+                android:textFontWeight="600"
                 android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textSize="20sp"/>
 
             <ImageButton
-                android:id="@+id/btnNext"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:paddingTop="12dp"
-                android:rotation="-90"
-                android:scaleType="centerInside"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:scaleType="fitEnd"
                 android:onClick="nextWeekAction"
-                android:src="@drawable/arrow"
-                app:tint="@color/black" />
+                android:contentDescription="Próximo"
+                android:background="?attr/selectableItemBackground"
+                android:src="@drawable/brown_chevron"/>
+
         </LinearLayout>
 
+        <!-- DIAS DA SEMANA -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="8dp">
+            android:orientation="horizontal">
 
-            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="DOM" android:textColor="#9E9E9E" android:textAlignment="center" android:textSize="12sp" android:textStyle="bold"/>
-            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="SEG" android:textColor="#9E9E9E" android:textAlignment="center" android:textSize="12sp" android:textStyle="bold"/>
-            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="TER" android:textColor="#9E9E9E" android:textAlignment="center" android:textSize="12sp" android:textStyle="bold"/>
-            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="QUA" android:textColor="#9E9E9E" android:textAlignment="center" android:textSize="12sp" android:textStyle="bold"/>
-            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="QUI" android:textColor="#9E9E9E" android:textAlignment="center" android:textSize="12sp" android:textStyle="bold"/>
-            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="SEX" android:textColor="#9E9E9E" android:textAlignment="center" android:textSize="12sp" android:textStyle="bold"/>
-            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="SAB" android:textColor="#9E9E9E" android:textAlignment="center" android:textSize="12sp" android:textStyle="bold"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="DOM"
+                android:textColor="@color/gray"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="SEG"
+                android:textColor="@color/gray"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="TER"
+                android:textColor="@color/gray"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="QUA"
+                android:textColor="@color/gray"
+                android:textAlignment="center"/>
+
+            <TextView android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="QUI"
+                android:textColor="@color/gray"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="SEX"
+                android:textColor="@color/gray"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="SAB"
+                android:textColor="@color/gray"
+                android:textAlignment="center"/>
+
         </LinearLayout>
 
+        <!-- CALENDÁRIO -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/calendarRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:layout_marginBottom="16dp"/>
+            android:layout_height="100dp"
+            android:layout_marginTop="9dp"
+            android:layout_marginBottom="20dp"/>
 
         <TextView
             android:id="@+id/txtTodayExercise"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Exercícios de hoje"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textAlignment="center"
-            android:textSize="20sp"
-            android:layout_marginBottom="8dp"/>
+            android:text="Exercício de hoje"
+            android:textSize="18sp"
+            android:textFontWeight="700"
+            android:layout_marginBottom="10dp"/>
 
+        <!-- TASKS -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerTasks"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:nestedScrollingEnabled="false"/>
+
+        <Button
+            android:id="@+id/btnStartWorkout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="INICIAR EXERCÍCIO"
+            android:backgroundTint="@color/lightBLue"
+            android:textColor="@color/white"
+            android:layout_margin="16dp"
+            app:cornerRadius="8dp"
+            android:visibility="visible" />
 
     </LinearLayout>
 
     <include
+        android:id="@+id/menu"
         layout="@layout/menu"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="80dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
