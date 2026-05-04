@@ -16,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projeto8.R;
 import com.example.projeto8.api.patient.PatientService;
-import com.example.projeto8.model.Patient;
+import com.example.projeto8.api.patient.PatientDTO.PatientResponseDTO;
 import com.example.projeto8.remote.RetrofitClient;
 
 import java.util.List;

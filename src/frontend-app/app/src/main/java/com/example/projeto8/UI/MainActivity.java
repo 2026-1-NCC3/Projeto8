@@ -26,9 +26,8 @@ import java.util.UUID;
 
 import com.example.projeto8.R;
 import com.example.projeto8.adapter.TaskAdapter;
-import com.example.projeto8.api.appointment.AppointmentResponseDTO.AppointmentResponseDTO;
 import com.example.projeto8.api.appointment.AppointmentService;
-import com.example.projeto8.model.Exercise;
+import com.example.projeto8.model.Appointment;
 import com.example.projeto8.model.ExerciseSession;
 import com.example.projeto8.model.Task;
 import com.example.projeto8.model.WorkoutSession;
@@ -67,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
 
         if (idRecebido != null) {
             WorkoutSeshData(idRecebido); //Busca os exercícios associados ao paciente
-            checkAppointmentsData(idRecebido); //Busca os agendamentos do paciente
+            checkAppointmentsData(UUID.fromString(idRecebido)); //Busca os agendamentos do paciente
         }
     }
 
@@ -275,8 +274,8 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
                                     if (treino.getWeekDay() != null &&
                                             treino.getWeekDay().trim().toUpperCase().equals(diaAtual)) {
 
-                                        if (treino.getExercises() != null) {
-                                            for (ExerciseSession session : treino.getExercises()) {
+                                        if (treino.getExerciseSessions() != null) {
+                                            for (ExerciseSession session : treino.getExerciseSessions()) {
 
                                                 int serie = session.getSerie();
                                                 int reps = session.getRepetitions();
@@ -329,15 +328,15 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
     }
 
     //Buscar os appointments depois de retornar os dados do paciente no Login, juntos dos exercicios
-    private void checkAppointmentsData(String patientId) {
+    private void checkAppointmentsData(UUID patientId) {
         AppointmentService api = RetrofitClient.getAppointmentService();
-        api.getAppointmentsByPatient(patientId).enqueue(new Callback<List<AppointmentResponseDTO>>() {
+        api.getAppointmentByPatient(patientId).enqueue(new Callback<List<Appointment>>() {
             @Override
-            public void onResponse(Call<List<AppointmentResponseDTO>> call, Response<List<AppointmentResponseDTO>> response) {
+            public void onResponse(Call<List<Appointment>> call, Response<List<Appointment>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<AppointmentResponseDTO> agendamentos = response.body();
+                    List<Appointment> agendamentos = response.body();
 
-                    for (AppointmentResponseDTO appo : response.body()) {
+                    for (Appointment appo : response.body()) {
                         try {
                             String fullDateFromApi = appo.getDate(); // No banco vem "2026-04-27T00:00:00"
                             String timeFromApi = appo.getTime();     // Vem "10:30"
@@ -366,8 +365,9 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
                     }
                 }
             }
+
             @Override
-            public void onFailure(Call<List<AppointmentResponseDTO>> call, Throwable t) {
+            public void onFailure(Call<List<Appointment>> call, Throwable t) {
                 Log.e("API_APPOINTMENT", "Erro ao buscar agendamentos: " + t.getMessage());
             }
         });
