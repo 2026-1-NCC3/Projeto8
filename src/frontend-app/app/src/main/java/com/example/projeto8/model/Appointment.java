@@ -8,7 +8,7 @@ public class Appointment {
     private UUID patient_id;
     private String description;
     private String time;
-    private LocalDate date;
+    private String date; //Antes era LocalDate
 
     public UUID getAppointment_id() {
         return appointment_id;
@@ -28,7 +28,7 @@ public class Appointment {
     }
 
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 }

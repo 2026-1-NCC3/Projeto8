@@ -15,6 +15,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projeto8.R;
+import com.example.projeto8.api.patient.PatientDTO.PatientResponseDTO;
 import com.example.projeto8.api.patient.PatientService;
 import com.example.projeto8.model.Patient;
 import com.example.projeto8.remote.RetrofitClient;
@@ -27,10 +28,14 @@ import retrofit2.Response;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private TextView txtName, txtStatus, txtEmail, txtCpf, txtBirthDate,
-            txtGender, txtHeight, txtWeight;
+    // TEXTOS
+    private TextView txtName, txtStatus, txtEmail, txtPassword, txtCpf,
+            txtCellphone, txtBirthDate, txtAge, txtGender,
+            txtHeight, txtWeight, txtDescription, txtLGDP;
+
     private LinearLayout btnExcluir;
 
+    // MENU
     private View btnCalendar, btnHome, btnProfile;
     private View containerCalendar, containerHome, containerProfile;
 
@@ -42,20 +47,28 @@ public class ProfileActivity extends AppCompatActivity {
 
         initWidgets();
         setupMenuClicks();
+        loadPatientFromPrefs();
     }
 
     private void initWidgets() {
 
+        // TEXTOS
         txtName = findViewById(R.id.txtName);
         txtStatus = findViewById(R.id.txtStatus);
         txtEmail = findViewById(R.id.txtEmail);
+        txtPassword = findViewById(R.id.txtPassword);
         txtCpf = findViewById(R.id.txtCpf);
+        txtCellphone = findViewById(R.id.txtCellphone);
         txtBirthDate = findViewById(R.id.txtBirthDate);
+        txtAge = findViewById(R.id.txtAge);
         txtGender = findViewById(R.id.txtGender);
         txtHeight = findViewById(R.id.txtHeight);
         txtWeight = findViewById(R.id.txtWeight);
-        btnExcluir = findViewById(R.id.btnExcluirConta);
+        txtDescription = findViewById(R.id.txtDescription);
+        txtLGDP = findViewById(R.id.txtLGDP);
 
+
+        // MENU
         View menuInclude = findViewById(R.id.menu);
         if (menuInclude != null) {
             btnHome = menuInclude.findViewById(R.id.btnHome);
@@ -66,54 +79,70 @@ public class ProfileActivity extends AppCompatActivity {
             containerCalendar = menuInclude.findViewById(R.id.containerCalendarSelect);
             containerProfile = menuInclude.findViewById(R.id.containerProfileSelect);
 
-            if (btnProfile != null) {
-                btnProfile.setSelected(true);
-                if (containerProfile != null) {
-                    containerProfile.setBackgroundResource(R.drawable.selected_item_bg);
-                }
-            }
-        }
-
-
-        btnExcluir.setOnClickListener(v -> showDeleteDialog());
-
-
-        SharedPreferences prefs = getSharedPreferences("STORAGE", MODE_PRIVATE);
-        String name = prefs.getString("patient_name", null);
-        if (name != null) {
-            loadPatient(name);
+            updateMenuSelection(
+                    btnProfile, containerProfile,
+                    btnHome, containerHome,
+                    btnCalendar, containerCalendar
+            );
         }
 
     }
 
+    private void loadPatientFromPrefs() {
+        SharedPreferences prefs = getSharedPreferences("STORAGE", MODE_PRIVATE);
+        String patientId = prefs.getString("patient_id", null);
+
+        if (patientId != null) {
+            loadPatient(patientId);
+        } else {
+            Log.e("PROFILE", "Paciente não encontrado no SharedPreferences");
+        }
+    }
+
     public void setupMenuClicks() {
-        // Clique no Perfil (Já está nele)
-        btnProfile.setOnClickListener(v -> {
-            updateMenuSelection(btnProfile, containerProfile, btnHome, containerHome, btnCalendar, containerCalendar);
-        });
 
-        // Clique na Home
-        btnHome.setOnClickListener(v -> {
-            updateMenuSelection(btnHome, containerHome, btnProfile, containerProfile, btnCalendar, containerCalendar);
-            startActivity(new Intent(this, MainActivity.class));
-            overridePendingTransition(0, 0);
-            finish();
-        });
+        if (btnProfile != null) {
+            btnProfile.setOnClickListener(v -> {
+                updateMenuSelection(
+                        btnProfile, containerProfile,
+                        btnHome, containerHome,
+                        btnCalendar, containerCalendar
+                );
+            });
+        }
 
-        // Clique na Agenda
-        btnCalendar.setOnClickListener(v -> {
-            updateMenuSelection(btnCalendar, containerCalendar, btnHome, containerHome, btnProfile, containerProfile);
-            startActivity(new Intent(this, MonthCalendarActivity.class));
-            overridePendingTransition(0, 0);
-            finish();
-        });
+        if (btnHome != null) {
+            btnHome.setOnClickListener(v -> {
+                updateMenuSelection(
+                        btnHome, containerHome,
+                        btnProfile, containerProfile,
+                        btnCalendar, containerCalendar
+                );
+                startActivity(new Intent(this, MainActivity.class));
+                overridePendingTransition(0, 0);
+                finish();
+            });
+        }
+
+        if (btnCalendar != null) {
+            btnCalendar.setOnClickListener(v -> {
+                updateMenuSelection(
+                        btnCalendar, containerCalendar,
+                        btnHome, containerHome,
+                        btnProfile, containerProfile
+                );
+                startActivity(new Intent(this, MonthCalendarActivity.class));
+                overridePendingTransition(0, 0);
+                finish();
+            });
+        }
     }
 
     private void updateMenuSelection(View selectedBtn, View selectedContainer, View... others) {
         for (View view : others) {
             if (view != null) {
                 view.setSelected(false);
-                // Limpa o fundo dos containers inativos
+
                 if (view == containerHome || view == containerCalendar || view == containerProfile) {
                     view.setBackground(null);
                 }
@@ -121,6 +150,7 @@ public class ProfileActivity extends AppCompatActivity {
         }
 
         if (selectedBtn != null) selectedBtn.setSelected(true);
+
         if (selectedContainer != null) {
             selectedContainer.setBackgroundResource(R.drawable.selected_item_bg);
         }
@@ -128,17 +158,20 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void showDeleteDialog() {
         View view = getLayoutInflater().inflate(R.layout.dialog_delete, null);
+
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
         builder.setView(view);
 
         android.app.AlertDialog dialog = builder.create();
+
         if (dialog.getWindow() != null) {
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
 
-        view.findViewById(R.id.btnCancel).setOnClickListener(v1 -> dialog.dismiss());
-        view.findViewById(R.id.btnDelete).setOnClickListener(v1 -> {
-            // Lógica de deletar aqui
+        view.findViewById(R.id.btnCancel).setOnClickListener(v -> dialog.dismiss());
+
+        view.findViewById(R.id.btnDelete).setOnClickListener(v -> {
+            // TODO: implementar exclusão
             dialog.dismiss();
         });
 
@@ -146,28 +179,48 @@ public class ProfileActivity extends AppCompatActivity {
         view.findViewById(R.id.cardContent).setClipToOutline(true);
     }
 
-    private void loadPatient(String name) {
+    private void loadPatient(String UUID) {
         PatientService service = RetrofitClient.getPatientService();
-        service.getPatientByFullName(name, null).enqueue(new Callback<List<Patient>>() {
-            @Override
-            public void onResponse(Call<List<Patient>> call, Response<List<Patient>> response) {
-                if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
-                    Patient p = response.body().get(0);
-                    txtName.setText(p.getName() + " " + p.getSurname());
-                    txtStatus.setText("Status: " + p.getStatus());
-                    txtEmail.setText(p.getEmail());
-                    txtCpf.setText(p.getCpf());
-                    txtBirthDate.setText(p.getBirthDate());
-                    txtGender.setText(p.getGender());
-                    txtHeight.setText(p.getHeight());
-                    txtWeight.setText(p.getWeight());
-                }
-            }
 
-            @Override
-            public void onFailure(Call<List<Patient>> call, Throwable t) {
-                Log.e("API_ERROR", "Erro: " + t.getMessage());
-            }
-        });
+        service.getPatientById(UUID)
+                .enqueue(new Callback<PatientResponseDTO>() {
+
+                    @Override
+                    public void onResponse(Call<PatientResponseDTO> call, Response<PatientResponseDTO> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+
+                            PatientResponseDTO patient = response.body();
+
+                            txtName.setText(patient.getName() + " " + patient.getSurname());
+                            txtStatus.setText("Status: " + patient.getStatus());
+
+                            txtEmail.setText(patient.getEmail());
+                            txtPassword.setText(patient.getPassword());
+                            txtCpf.setText(patient.getCpf());
+                            txtBirthDate.setText(patient.getBirthDate());
+
+                            txtGender.setText(patient.getGender());
+                            txtHeight.setText(patient.getHeight() + " m");
+                            txtWeight.setText(patient.getWeight() + " kg");
+                            txtAge.setText(String.valueOf(patient.getPatientAge()));
+                            txtCellphone.setText(patient.getCellPhone());
+
+                            String lgpdStatus = patient.isLgpdCheck() ? "Aceito" : "Não Aceito";
+                            txtLGDP.setText("Termos LGPD: " + lgpdStatus);
+
+                            if(patient.getDescription() != null) {
+                                txtDescription.setText(patient.getDescription());
+                            }
+                        } else {
+                            Log.e("API_ERROR", "Resposta vazia");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<PatientResponseDTO> call, Throwable t) {
+                        Log.e("API_ERROR", "Falha na requisição: " + t.getMessage());
+                    }
+                });
     }
 }
+

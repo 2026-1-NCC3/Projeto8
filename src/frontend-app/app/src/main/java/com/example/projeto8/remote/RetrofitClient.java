@@ -90,7 +90,7 @@ public class RetrofitClient {
 
         /*public static AppointmentService getAppointmentService(){
         return getRetrofitInstance().create(getAppointmentService.class);
-        }*/
+        } */
 
 
 }
