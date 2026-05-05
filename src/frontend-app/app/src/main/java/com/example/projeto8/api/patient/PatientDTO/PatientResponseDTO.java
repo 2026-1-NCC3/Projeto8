@@ -75,5 +75,9 @@ public class PatientResponseDTO {
         public String getWeight() {
             return weight;
         }
+
+        public PatientResponseDTO(){
+
+        }
     }
 

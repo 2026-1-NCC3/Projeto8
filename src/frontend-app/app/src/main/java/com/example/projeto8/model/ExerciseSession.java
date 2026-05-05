@@ -15,8 +15,8 @@ public class ExerciseSession {
     private int serie;
     private int repetitions;
     private Boolean feelPain;
-    private WorkoutSession workoutSession;
-    private Patient patient;
+    private Long workoutSession;
+    private String patient;
     private Exercise exercise;
 
     public Long getExercisesession_id() {
@@ -39,11 +39,11 @@ public class ExerciseSession {
         this.feelPain = feelPain;
     }
 
-    public WorkoutSession getWorkoutSession() {
+    public Long getWorkoutSession() {
         return workoutSession;
     }
 
-    public Patient getPatient() {
+    public String getPatient() {
         return patient;
     }
 

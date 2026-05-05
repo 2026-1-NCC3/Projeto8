@@ -1,12 +1,22 @@
 package com.example.projeto8.model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Exercise {
     //Para pegar os dados de exercicios
-
+    @SerializedName("exercise_id")
     private Long exercise_id;
+
+    @SerializedName("title")
     private String title;
+
+    @SerializedName("midiaURL")
     private String midiaURL;
+
+    @SerializedName("tags")
     private String tags;
+
+    @SerializedName("description")
     private String description;
 
     public Long getExercise_id() {

@@ -15,14 +15,15 @@ public class Task implements Parcelable {
     private String description;
     private String tags;
 
-    public Task(Long exerciseId, String title, int serie, int reps, String midiaURL, String description) {
+    public Task(Long exercise_id, String title, int serie, int reps, String midiaURL, String description) {
         this.exercise_id = exercise_id;
         this.title = title;
         this.serie = serie;
         this.reps = reps;
         this.midiaURL = midiaURL;
         this.description = description;
-        this.tags = tags;
+        this.tags = "";
+        this.isExpanded = false;
 
     }
     protected Task(Parcel in) {

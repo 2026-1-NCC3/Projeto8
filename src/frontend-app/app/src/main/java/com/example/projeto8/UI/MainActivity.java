@@ -270,16 +270,14 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
                                 String diaAtual = getDiaSemanaAbreviado(diaSemana);
 
                                 for (WorkoutSession treino : listaDeTreinos) {
-
                                     if (treino.getWeekDay() != null &&
                                             treino.getWeekDay().trim().toUpperCase().equals(diaAtual)) {
 
-                                        if (treino.getExerciseSessions() != null) {
-                                            for (ExerciseSession session : treino.getExerciseSessions()) {
+                                        if (treino.getExercises() != null) {
+                                            for (ExerciseSession session : treino.getExercises()) {
 
                                                 int serie = session.getSerie();
                                                 int reps = session.getRepetitions();
-
                                                 String titulo = "Exercício s/ nome";
                                                 Long exercise_id = -1L;
                                                 String midiaURL = "";
@@ -295,13 +293,11 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
                                                     if (session.getExercise().getDescription() != null)
                                                         description = session.getExercise().getDescription();
                                                 }
-
                                                 tasksParaExibir.add(new Task(exercise_id, titulo, serie, reps, midiaURL, description));
                                             }
                                         }
                                     }
                                 }
-
                                 if (tasksParaExibir.isEmpty()) {
                                     tasksParaExibir.add(
                                             new Task(-1L, "Nenhum exercício para hoje! Descanse.", 0, 0, "", "")
@@ -309,16 +305,13 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
                                 }
                                 adapter.notifyDataSetChanged();
                                 Log.d("TESTE_API", "Exercícios carregados: " + tasksParaExibir.size());
-
                             } catch (Exception e) {
                                 Log.e("TESTE_API", "Erro ao atualizar interface: " + e.getMessage());
                             }
-
                         }
                     });
                 }
             }
-
             @Override
             public void onFailure(Call<List<WorkoutSession>> call, Throwable t) {
                 Log.e("API_ERRO", "Mensagem: " + t.getMessage());

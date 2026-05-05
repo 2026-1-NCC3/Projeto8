@@ -1,5 +1,6 @@
 package com.example.projeto8.api.patient.PatientDTO;
 
+import com.example.projeto8.model.Patient;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.UUID;

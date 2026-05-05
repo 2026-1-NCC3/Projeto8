@@ -117,7 +117,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
     public void forgotPatientPassword() {
         mensagePassword.setVisibility(View.VISIBLE);
     }

@@ -1,5 +1,7 @@
 package com.example.projeto8.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -17,20 +19,22 @@ public class WorkoutSession {
         return workoutDate;
     }
 
-    // ADICIONE ESTA LINHA:
-    private Patient patient;
+    private String patient;
 
-    // ADICIONE ESTA LISTA (para os exercícios como agachamento):
     private List<ExerciseSession> exerciseSessions;
 
-    // ADICIONE ESTES GETTERS (O Android precisa deles para ler os dados):
-    public Patient getPatient() {
+    public String getPatient() {
         return patient;
     }
 
-    public List<ExerciseSession> getExerciseSessions() {
+    @SerializedName("exercises")
+    public List<ExerciseSession> exerciseSessions() {
+        return exerciseSessions;
+    }
+    public String getWeekDay() { return weekDay; }
+
+    public List<ExerciseSession> getExercises() {
         return exerciseSessions;
     }
 
-    public String getWeekDay() { return weekDay; }
 }

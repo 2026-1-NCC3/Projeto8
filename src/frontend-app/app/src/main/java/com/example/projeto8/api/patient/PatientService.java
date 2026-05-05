@@ -26,8 +26,6 @@ public interface PatientService {
     @GET("api/patient/getById/{id}")
     Call<PatientResponseDTO> getPatientById(@Path("id") String id);
 
-
-
     //Login do patient
     @Headers({"User-Agent: Mozilla/5.0", "Content-Type: application/json"})
     @POST("api/patient/login")
