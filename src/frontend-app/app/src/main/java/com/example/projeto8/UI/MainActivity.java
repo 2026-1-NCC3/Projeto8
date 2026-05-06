@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
     View btnHome,btnCalendar,btnProfile;
     View containerHome, containerCalendar, containerProfile;
     private Button btnStartWorkout;
+    private Long currentWorkoutId = -1L;
 
     @Override
     protected void onResume() {
@@ -82,17 +83,20 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
 
         // ConfigurA o RecyclerView de Tarefas com uma lista vazia inicial
         tasksParaExibir = new ArrayList<>();
+
         adapter = new TaskAdapter(tasksParaExibir, new TaskAdapter.OnTaskClickListener() {
             @Override
             public void onTaskClick(Task task) {
+                /* nao precisa ter intent aqui pq ja tem o do btnStartWorkout ---tirar depois 
                 Intent intent = new Intent(MainActivity.this, ExercisesActivity.class);
 
-                // Passamos os dados que já temos direto pra próxima tela!
                 intent.putExtra("EXERCISE_TITLE", task.getTitle());
                 intent.putExtra("EXERCISE_MEDIA_URL", task.getMidiaURL());
                 intent.putExtra("EXERCISE_DESC", task.getDescription());
-
-                startActivity(intent);
+                intent.putExtra("EXERCISE_ID", task.getExerciseId());
+                intent.putExtra("EXERCISE_REPS", task.getReps());
+                intent.putExtra("EXERCISE_SERIES", task.getSerie());
+                startActivity(intent);*/
             }
         });
         recyclerTasks.setAdapter(adapter);
@@ -103,13 +107,6 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
             CalendarUtils.selectedDate = LocalDate.now();
         }
         setWeekView();
-
-        // Busca os dados na API
-
-        //Mecânismo de buscar os dados que vieram da intent de login, nao funciona se nao vier da login, testando o onResume()
-        //String idRecebido = getIntent().getStringExtra("PATIENT_ID");
-        //String nomeRecebido = getIntent().getStringExtra("PATIENT_NAME");
-
     }
 
     public void initWidgets() {
@@ -165,6 +162,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         btnStartWorkout.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, ExercisesActivity.class);
             intent.putParcelableArrayListExtra("LISTA_EXERCICIOS", tasksParaExibir);
+            intent.putExtra("WORKOUT_ID", currentWorkoutId);
             startActivity(intent);
         });
     }
@@ -267,6 +265,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
                         public void run() {
                             try {
                                 tasksParaExibir.clear();
+                                currentWorkoutId = -1L;
 
                                 int diaSemana = CalendarUtils.selectedDate.getDayOfWeek().getValue();
                                 String diaAtual = getDiaSemanaAbreviado(diaSemana);
@@ -275,6 +274,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
                                     if (treino.getWeekDay() != null &&
                                             treino.getWeekDay().trim().toUpperCase().equals(diaAtual)) {
 
+                                        currentWorkoutId = treino.getWorkoutSession_id();
                                         if (treino.getExercises() != null) {
                                             for (ExerciseSession session : treino.getExercises()) {
 

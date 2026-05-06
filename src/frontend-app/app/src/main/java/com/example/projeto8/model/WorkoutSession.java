@@ -37,4 +37,8 @@ public class WorkoutSession {
         return exerciseSessions;
     }
 
+    public Long getWorkoutSession_id(){
+        return workoutSession_id;
+    }
+
 }

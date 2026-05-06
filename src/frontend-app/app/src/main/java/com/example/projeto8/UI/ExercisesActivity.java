@@ -28,7 +28,7 @@ import retrofit2.Response;
 
 public class ExercisesActivity extends AppCompatActivity {
     private ImageView imgExercise;
-    private TextView textTitle, textDescription;
+    private TextView textTitle, textDescription, txtSerieReps;
     private View btnPain;
     private ImageButton btnNext, btnBack;
     private ImageView iconHome, iconCalendar, iconProfile;
@@ -84,6 +84,8 @@ public class ExercisesActivity extends AppCompatActivity {
 
         textTitle.setText(task.getTitle());
         textDescription.setText(task.getDescription());
+        txtSerieReps.setText("Séries: " + task.getSerie() + ". Repetições: " + task.getReps());
+
 
         // Se for o primeiro exercício, esconde o botão de voltar
         if (index == 0) {

@@ -44,6 +44,17 @@
         tools:srcCompat="@drawable/background2" />
 
     <TextView
+        android:id="@+id/txtSerieReps"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Séries:  Repetições:"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imgExercise" />
+
+    <TextView
         android:id="@+id/txtDescription"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -52,7 +63,7 @@
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imgExercise" />
+        app:layout_constraintTop_toBottomOf="@id/txtSerieReps" />
 
     <TextView
         android:id="@+id/txtDor"
