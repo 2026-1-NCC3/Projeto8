@@ -63,7 +63,7 @@ public class ExerciseSessionController {
 
     //Atualizar o feelPain do ExerciseSession updateExerciseSessionPain
     //Rota
-    @PutMapping("/updateExerciseSessionPain/{patient_id}")
+    @PutMapping("/updateExerciseSessionPain/{patient_id}/{exerciseSession_id}")
     public ResponseEntity<?> updateExerciseSessionPain(
             @PathVariable UUID patient_id,
             @PathVariable Long exerciseSession_id, // so deu certo quando se busca pela sessão pelo id dela
