@@ -19,7 +19,7 @@ public interface ExerciseSessionService {
 
     // Rota para atualizar a dor do patient
     @PUT("api/exerciseSession/updateExerciseSessionPain/{patient_id}/{exerciseSession_id}")
-    Call<ExerciseSession> updateExerciseSessionPain(
+    Call<Void> updateExerciseSessionPain(
             @Path("patient_id") String patientId,
             @Path("exerciseSession_id") Long exerciseSessionId,
             @Body ExerciseSessionRequestDTO data

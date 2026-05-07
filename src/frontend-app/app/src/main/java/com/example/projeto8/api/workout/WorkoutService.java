@@ -17,5 +17,5 @@ public interface WorkoutService {
 
     // Rota para dar o "Check" final no treino e atualizar o status do paciente para ATIVO
     @PUT("api/workout/check/{id}")
-    Call<WorkoutSession> checkWorkout(@Path("id") Long workoutId);
+    Call<Void> checkWorkout(@Path("id") Long workoutId);
 }
