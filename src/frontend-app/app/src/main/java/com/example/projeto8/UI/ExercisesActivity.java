@@ -1,6 +1,7 @@
 package com.example.projeto8.UI;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.net.Uri;
@@ -15,7 +16,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.projeto8.R;
+import com.example.projeto8.api.exerciseSession.ExerciseSessionDTO.ExerciseSessionRequestDTO;
+import com.example.projeto8.api.exerciseSession.ExerciseSessionService;
 import com.example.projeto8.api.workout.WorkoutService;
+import com.example.projeto8.model.ExerciseSession;
 import com.example.projeto8.model.Task;
 import com.example.projeto8.model.WorkoutSession;
 import com.example.projeto8.remote.RetrofitClient;
@@ -69,6 +73,7 @@ public class ExercisesActivity extends AppCompatActivity {
         imgExercise = findViewById(R.id.imgExercise);
         textTitle = findViewById(R.id.textExercise);
         textDescription = findViewById(R.id.txtDescription);
+        txtSerieReps = findViewById(R.id.txtSerieReps);
         btnPain = findViewById(R.id.btnPain);
         btnNext = findViewById(R.id.btnNext);
         btnBack = findViewById(R.id.btnBack);
@@ -98,7 +103,7 @@ public class ExercisesActivity extends AppCompatActivity {
         if (index == listaExercicios.size() - 1) {
             btnNext.setImageResource(R.drawable.ic_empty); // DEPOIS colocar um ícone de finalizar
         } else {
-            btnNext.setImageResource(R.drawable.backchevron); // Ícone normal de seta
+            btnNext.setImageResource(R.drawable.chevron); // Ícone normal de seta
         }
 
         // Reseta o botão de dor para a cor padrão (preto como no seu XML)
@@ -118,9 +123,9 @@ public class ExercisesActivity extends AppCompatActivity {
         Long workoutId = getIntent().getLongExtra("WORKOUT_ID", -1L);
 
         if (workoutId != -1L) {
-            api.checkWorkout(workoutId).enqueue(new Callback<WorkoutSession>() {
+            api.checkWorkout(workoutId).enqueue(new Callback<Void>() {
                 @Override
-                public void onResponse(Call<WorkoutSession> call, Response<WorkoutSession> response) {
+                public void onResponse(Call<Void> call, Response<Void> response) {
                     if (response.isSuccessful()) {
                         Toast.makeText(ExercisesActivity.this, "Treino finalizado! Parabéns!", Toast.LENGTH_LONG).show();
                         finish();
@@ -128,17 +133,15 @@ public class ExercisesActivity extends AppCompatActivity {
                         Log.e("API_ERRO", "Erro ao finalizar: " + response.code());
                     }
                 }
+
                 @Override
-                public void onFailure(Call<WorkoutSession> call, Throwable t) {
+                public void onFailure(Call<Void> call, Throwable t) {
                     Toast.makeText(ExercisesActivity.this, "Erro ao salvar conclusão.", Toast.LENGTH_SHORT).show();
+                    finish();
                 }
             });
-            } else {
-            // Se não tiver ID do treino, apenas finaliza na tela para não travar o user
-            Toast.makeText(this, "Treino concluído localmente.", Toast.LENGTH_SHORT).show();
-            finish();
-            }
         }
+    }
 
     private void setupListeners() {
 
@@ -161,13 +164,40 @@ public class ExercisesActivity extends AppCompatActivity {
         });
 
         // Botão SENTI DOR
-        btnPain.setOnClickListener(v -> {
-            Task exercicioAtual = listaExercicios.get(currentIndex);
-            Log.d("FEEDBACK_DOR", "Paciente sentiu dor no exercício: " + exercicioAtual.getTitle());
-            Toast.makeText(this, "Feedback de dor registrado.", Toast.LENGTH_SHORT).show();
 
-            // Feedback visual no botão
-            btnPain.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+        btnPain.setOnClickListener(v -> {
+            // Pega os dados do exercício atual na lista
+            Task exercicioAtual = listaExercicios.get(currentIndex);
+
+            // Pega o Patient ID do SharedPreferences
+            SharedPreferences prefs = getSharedPreferences("STORAGE", MODE_PRIVATE);
+            String patientId = prefs.getString("patient_id", null);
+
+            //Pega o RequestDTO para montar o feelPain
+            ExerciseSessionRequestDTO body = new ExerciseSessionRequestDTO(true);
+            ExerciseSessionService api = RetrofitClient.getExerciseService();
+
+            if (patientId != null && exercicioAtual.getExerciseId() != -1L) {
+                api.updateExerciseSessionPain(patientId, exercicioAtual.getExerciseId(), body)
+                        .enqueue(new Callback<Void>() {
+                            @Override
+                            public void onResponse(Call<Void> call, Response<Void> response) {
+                                if (response.isSuccessful()) {
+                                    Toast.makeText(ExercisesActivity.this, "Dor registrada!", Toast.LENGTH_SHORT).show();
+
+                                    int corSucesso = Color.parseColor("#CCEE715F");
+                                    btnPain.setBackgroundTintList(ColorStateList.valueOf(corSucesso));
+                                } else {
+                                    Log.e("API_PAIN", "Erro no servidor: " + response.code());
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<Void> call, Throwable t) {
+                                Log.e("API_PAIN", "Falha na rede: " + t.getMessage());
+                            }
+                        });
+            }
         });
 
         // Clique na imagem para abrir o vídeo no YouTube
