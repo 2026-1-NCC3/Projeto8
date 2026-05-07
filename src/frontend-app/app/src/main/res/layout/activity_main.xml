@@ -189,7 +189,8 @@
             android:text="Exercício de hoje"
             android:textSize="18sp"
             android:textFontWeight="700"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/black"/>
 
         <!-- TASKS -->
         <androidx.recyclerview.widget.RecyclerView

@@ -83,7 +83,7 @@ Ao marcar a opção de aceite no aplicativo, o usuário concorda de forma livre,
             android:id="@+id/btn_accept_lgpd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/darkBlue"
+            android:backgroundTint="@color/lightBLue"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:text="Aceito"
