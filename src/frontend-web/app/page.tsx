@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 export default function HeroScreen() {
   return (
-    <main className="relative w-screen h-screen overflow-hidden bg-[#f9f9f9]">
+    <main className="relative w-screen h-screen overflow-hidden bg-neutral">
       <div className="absolute inset-0 z-0">
         <div className="absolute top-[-10%] left-[-5%] w-[70%] h-[60%] rounded-full bg-blue mix-blend-multiply filter blur-[120px] opacity-70 animate-pulse" />
         <div className="absolute bottom-[10%] right-[-5%] w-[60%] h-[70%] rounded-full bg-salmon mix-blend-multiply filter blur-[130px] opacity-50" />

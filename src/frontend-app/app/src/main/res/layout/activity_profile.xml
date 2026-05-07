@@ -34,8 +34,8 @@
 
             <ImageView
                 android:id="@+id/imgProfile"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:src="@drawable/contour_fem"
                 android:scaleType="centerCrop"
                 app:layout_constraintTop_toTopOf="parent"
@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="Nome Sobrenome"
-                android:textSize="22sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 android:textColor="@color/white"
                 app:layout_constraintTop_toBottomOf="@id/imgProfile"
@@ -70,7 +70,7 @@
                 android:id="@+id/labelDadosPessoais"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="44dp"
                 android:text="Dados Pessoais"
                 android:textStyle="bold"
                 android:textSize="18sp"
