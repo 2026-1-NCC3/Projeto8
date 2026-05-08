@@ -48,6 +48,16 @@ public class AppointmentController {
         }
     }
 
+    @GetMapping("/patient/month/{patient_id}")
+    public ResponseEntity<?>  getAppoinmentsforPatientByMonth(@PathVariable("patient_id") UUID patientId, int month, int year) {
+        try{
+            List<AppointmentResponseDTO> appointments = appointmentService.getAppointmentsForPatientMonth(patientId, month, year);
+            return ResponseEntity.ok(appointments);
+        }catch(Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
     // busca agendamento dessa data
     @GetMapping("/date")
     public ResponseEntity<?> getAppointmentsByDate(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime date) {
