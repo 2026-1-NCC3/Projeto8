@@ -47,7 +47,7 @@ public class ExercisesActivity extends AppCompatActivity {
 
         initWidgets();
 
-        // Recupera a lista vinda da MainActivity
+        // Recupera a lista vinda da MainActivity e o status da workout
         listaExercicios = getIntent().getParcelableArrayListExtra("LISTA_EXERCICIOS");
 
         // Validação da lista
@@ -91,6 +91,7 @@ public class ExercisesActivity extends AppCompatActivity {
         textDescription.setText(task.getDescription());
         txtSerieReps.setText("Séries: " + task.getSerie() + ". Repetições: " + task.getReps());
 
+        Boolean workoutDone = getIntent().getBooleanExtra("IS_CHECKED", false);
 
         // Se for o primeiro exercício, esconde o botão de voltar
         if (index == 0) {
@@ -101,12 +102,18 @@ public class ExercisesActivity extends AppCompatActivity {
 
         // Se for o último, o botão vira um check workout
         if (index == listaExercicios.size() - 1) {
-            btnNext.setImageResource(R.drawable.ic_empty); // DEPOIS colocar um ícone de finalizar
+            if (workoutDone){
+                btnNext.setImageResource(R.drawable.angle_down); // COLOCAR UM CHECK AQUIIII
+                btnNext.setImageTintList(ColorStateList.valueOf(Color.GRAY)); // Cinza para indicar bloqueio
+            } else{
+                btnNext.setImageResource(R.drawable.ic_empty); // TAMBEM colocar um ícone de finalizar/dar check
+                btnNext.setImageTintList(null);
+            }
         } else {
-            btnNext.setImageResource(R.drawable.chevron); // Ícone normal de seta
+            btnNext.setImageResource(R.drawable.chevron);
+            btnNext.setImageTintList(null);
         }
 
-        // Reseta o botão de dor para a cor padrão (preto como no seu XML)
         btnPain.setBackgroundTintList(ColorStateList.valueOf(Color.BLACK));
 
         if (task.getMidiaURL() != null && !task.getMidiaURL().isEmpty()) {
@@ -144,7 +151,7 @@ public class ExercisesActivity extends AppCompatActivity {
     }
 
     private void setupListeners() {
-
+        boolean workoutDone = getIntent().getBooleanExtra("IS_CHECKED", false);
         // Botão VOLTAR
         btnBack.setOnClickListener(v -> {
             if (currentIndex > 0) {
@@ -159,12 +166,15 @@ public class ExercisesActivity extends AppCompatActivity {
                 currentIndex++;
                 exibirExercicio(currentIndex);
             } else {
-                finalizarTreinoNoBackend();
+                if (workoutDone) {
+                    Toast.makeText(this, "Você já concluiu este treino!", Toast.LENGTH_SHORT).show();
+                } else {
+                    finalizarTreinoNoBackend();
+                }
             }
         });
 
         // Botão SENTI DOR
-
         btnPain.setOnClickListener(v -> {
             // Pega os dados do exercício atual na lista
             Task exercicioAtual = listaExercicios.get(currentIndex);
