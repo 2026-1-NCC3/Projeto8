@@ -72,6 +72,11 @@ public class LoginActivity extends AppCompatActivity {
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         Email.setHint(hint);
+
+        SpannableString hintPass = new SpannableString("Insira sua senha");
+        hintPass.setSpan(new CustomTypefaceSpan(typeface), 0, hintPass.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        Password.setHint(hintPass);
+
     }
     public void forgotPatientPassword() {
         // Torna visível mas com transparência zero
