@@ -43,10 +43,11 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-    implementation(libs.glide)// adiciona a biblioteca GLIDE, baixa imagem, redimensiona, salva em cache e coloca no imgview, uma mão na roda
+    implementation(libs.glide) // adiciona a biblioteca GLIDE, baixa imagem, redimensiona, salva em cache e coloca no ImageView
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
     implementation(libs.okhttp.logging)
-   // implementation("androidx.media3:media3-exoplayer:1.3.1")
+    implementation(libs.androidx.core.splashscreen)
+    // implementation("androidx.media3:media3-exoplayer:1.3.1")
     //implementation("androidx.media3:media3-ui:1.3.1")
 }

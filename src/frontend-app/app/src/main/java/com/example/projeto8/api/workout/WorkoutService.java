@@ -1,6 +1,7 @@
 package com.example.projeto8.api.workout;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import com.example.projeto8.model.WorkoutSession;
