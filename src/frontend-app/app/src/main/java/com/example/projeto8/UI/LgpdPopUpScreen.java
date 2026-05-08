@@ -40,7 +40,7 @@ public class LgpdPopUpScreen extends BottomSheetDialogFragment {
       btnDecline.setOnClickListener(v -> {
             Toast.makeText(getContext(), "Consentimento necessário.", Toast.LENGTH_SHORT).show();
 
-            Intent intent = new Intent(getActivity(), LoadScreen.class);
+            Intent intent = new Intent(getActivity(), LoadScreenActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
 

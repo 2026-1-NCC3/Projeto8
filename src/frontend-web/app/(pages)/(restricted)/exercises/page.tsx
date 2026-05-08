@@ -8,6 +8,7 @@ import {
   type Exercise,
 } from '@/app/hooks/useGetExercises';
 import Image from 'next/image';
+import { TrashIcon, PencilIcon } from '@/public/icons';
 
 const emptyForm: ExerciseRequest = {
   title: '',
@@ -73,7 +74,7 @@ export default function ExercisesPage() {
       </header>
 
       {/* Área do Formulário */}
-      <div className="p-4 border border-neutral-300 shadow-lg rounded-md panel col-span-4 self-start md:col-span-8">
+      <div className="p-4 border border-neutral-300 bg-white/30 shadow-lg rounded-md panel col-span-4 self-start md:col-span-8">
         <h2 className="text-xl font-bold">
           {editingId
             ? `Editando: ${form.title}`
@@ -87,14 +88,14 @@ export default function ExercisesPage() {
             value={form.title}
             onChange={(e) => setForm((p) => ({ ...p, title: e.target.value }))}
             placeholder="Nome do exercício"
-            className="col-span-4 rounded-md bg-white/30 border border-neutral-300 px-3 py-2 md:col-span-6 placeholder:text-neutral-700"
+            className="col-span-4 rounded-md border border-neutral-300 px-3 py-2 md:col-span-6 placeholder:text-neutral-700"
             required
           />
           <input
             value={form.tags}
             onChange={(e) => setForm((p) => ({ ...p, tags: e.target.value }))}
             placeholder="Tags (separadas por vírgula)"
-            className="col-span-4 rounded-md bg-white/30 border border-neutral-300 px-3 py-2 md:col-span-6 placeholder:text-neutral-700"
+            className="col-span-4 rounded-md border border-neutral-300 px-3 py-2 md:col-span-6 placeholder:text-neutral-700"
             required
           />
           <textarea
@@ -103,7 +104,7 @@ export default function ExercisesPage() {
               setForm((p) => ({ ...p, description: e.target.value }))
             }
             placeholder="Descrição"
-            className="col-span-4 min-h-34 bg-white/30 rounded-md border border-neutral-300 px-3 py-2 md:col-span-12 placeholder:text-neutral-700"
+            className="col-span-4 min-h-34 rounded-md border border-neutral-300 px-3 py-2 md:col-span-12 placeholder:text-neutral-700"
             required
           />
           <input
@@ -112,7 +113,7 @@ export default function ExercisesPage() {
               setForm((p) => ({ ...p, midiaURL: e.target.value }))
             }
             placeholder="URL do YouTube"
-            className="col-span-4 rounded-md bg-white/30 border border-neutral-300 px-3 py-2 md:col-span-12 placeholder:text-neutral-700"
+            className="col-span-4 rounded-md border border-neutral-300 px-3 py-2 md:col-span-12 placeholder:text-neutral-700"
             required
           />
 
@@ -147,17 +148,17 @@ export default function ExercisesPage() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Buscar por nome ou tag"
-          className="mt-3 w-full rounded-md border border-neutral-300 shadow-lg px-3 py-2 placeholder:text-neutral-700 bg-white/30"
+          className="mt-3 w-full rounded-md bg-white/30 border border-neutral-300 shadow-lg px-3 py-2 placeholder:text-neutral-700"
         />
 
-        <div className="mt-4 space-y-4 h-[calc(100vh-18.5rem)] overflow-scroll no-scrollbar">
+        <div className="mt-4 space-y-4 h-[calc(100vh-19.5rem)] overflow-scroll no-scrollbar">
           {filtered.map((exercise: Exercise) => (
             <article
               key={exercise.exercise_id}
-              className={`relative rounded-md border p-4 shadow-lg space-y-1 transition-all ${
+              className={`relative rounded-md border p-4 shadow-lg space-y-1transition-all ${
                 editingId === exercise.exercise_id
                   ? 'border-blue bg-blue/5 ring-1 ring-blue'
-                  : 'border-neutral-300 bg-white/30'
+                  : 'border-neutral-300 bg-white/30 hover:bg-white'
               }`}
             >
               <div className="flex justify-between items-start">
@@ -174,29 +175,17 @@ export default function ExercisesPage() {
                 <div className="flex gap-2">
                   <button
                     onClick={() => handleEditClick(exercise)}
-                    className="p-1.5 rounded-md hover:opacity-60 transition-colors bg-white/50 border border-slate-200"
+                    className="p-1.5 rounded-md hover:bg-dark-blue group transition-colors bg-white/50 border border-slate-200"
                     title="Editar Exercício"
                   >
-                    <Image
-                      src="/edit-exercise.png"
-                      alt="Editar"
-                      width={18}
-                      height={18}
-                      className="object-contain"
-                    />
+                    <PencilIcon className="w-4.5 h-4.5 text-black group-hover:text-white transition-colors" />
                   </button>
                   <button
                     onClick={() => removeExercise(exercise.exercise_id)}
-                    className="p-1.5 rounded-md hover:bg-salmon group transition-colors bg-salmon/50 border border-salmon"
+                    className="p-1.5 rounded-md hover:bg-salmon group transition-colors bg-salmon/10 border border-salmon"
                     title="Excluir Exercício"
                   >
-                    <Image
-                      src="/lixo.png"
-                      alt="Excluir"
-                      width={18}
-                      height={18}
-                      className="object-contain group-hover:invert"
-                    />
+                    <TrashIcon className="w-4.5 h-4.5 text-salmon group-hover:text-white transition-colors" />
                   </button>
                 </div>
               </div>
