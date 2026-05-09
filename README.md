@@ -38,56 +38,41 @@ Para solucionar esse problema, o projeto propõe o desenvolvimento de um sistema
 - **Aplicativo Mobile (paciente)**: onde o paciente poderá acessar seus exercícios prescritos, assistir vídeos demonstrativos, registrar a execução das atividades e acompanhar sua evolução ao longo do tratamento.
 - **Módulo Web (admin)**: interface utilizada pela fisioterapeuta para gerenciar pacientes, prontuários, exercícios e acompanhar o progresso dos atendimentos.
 - **Backend (comum entre os projetos Mobile e Web) e Banco de Dados**: responsável pela autenticação, regras de negócio, armazenamento das informações e integração entre o aplicativo mobile e o módulo web.
-<br/>
-
-## Design Gráfico
-A identidade visual do projeto Lumière utiliza uma paleta de cores inspirada na antiga identidade visual da clínica; pensada a fim de transmitir **confiança, cuidado e clareza**, características importantes para aplicações na área da saúde.
-
-### Paleta de Cores
-| Cor | Hex Code |
-|----|----|
-| Light Blue | `#D1E8FF` |
-| Blue | `#5979BE` |
-| Dark Blue | `#0B1957` |
-| Salmon | `#FF6142` |
-| Light Salmon | `#FFBCAF` |
-| Neutral | `#FEFDFC` |
-| Black | `#020202` |
-<br/>
-
-## Trailer do Projeto
-Em breve será disponibilizado um vídeo demonstrando:
-- visão geral da plataforma
-- funcionamento do aplicativo mobile
-- uso do módulo web pelo profissional
-- fluxo de prescrição e acompanhamento de exercícios
 
 <br/>
 
-## Estrutura de Pastas
+## 🛠 Estrutura de Pastas
 O projeto possui uma arquitetura dividida em **frontend mobile, frontend web e backend**, todos dentro da pasta principal `src`.
 ```bash
 src
 ├── backend
-│ ├── controllers
-│ ├── routes
-│ ├── services
-│ └── database
+│ src/main/java/com/example/MayaFisioLumiere
+│ ├── Configuration
+│ ├── Controller
+│ ├── Domain
+│ ├── Entity
+│ ├── Repository
+│ └── Services
 │
 ├── frontend-app
-│ └── (Aplicativo mobile para pacientes)
+│ src/main/java/com/example/projeto8
+│ ├── adapter
+│ ├── api
+│ ├── model
+│ ├── remote
+│ ├── UI
+│ res
 │
-└── frontend-web
-├── components
-├── app
-├── services
-├── styles
-└── utils
+├── frontend-web
+│ ├── (pages)
+│ ├── actions
+│ ├── components
+│ ├── hooks
+└─├── lib
 ```
 
-### Descrição dos módulos
+**Descrição dos módulos**  
 **/backend**  
-Responsável por:
 - autenticação;
 - regras de negócio;
 - comunicação com o banco de dados PostgreSQL;
@@ -106,41 +91,51 @@ Interface administrativa utilizada pela fisioterapeuta para:
 - cadastrar exercícios;
 - prescrever sessões de exercícios;
 - acompanhar evolução e registros dos pacientes.
+
 <br/>
 
-### Tecnologias utilizadas no projeto:
-- **Next.js (TypeScript)**
-- **Tailwind CSS**
-- **ShadCN UI**
-- **Node.js**
+## 🛠 Instalação
+- **Android**: faça o Download do app-debug.apk no seu celular. Execute o APK e siga as instruções de seu telefone.
+- **Web App**: não há instalação! Acesse a [aplicação web](https://admin-lumiere.vercel.app/) através do seu browser de preferência e insira suas credenciais.
+
 <br/>
 
-## Instalação Local
+## 💻 Configuração para Desenvolvimento
 ### Pré-requisitos
-Para executar o projeto localmente é necessário ter instalado:
-- **Node.js (versão 18 ou superior)**
-- **npm ou yarn**
+Para acessar o ambiente de desenvolvimento é necessário ter instalado:
+- **Android Studio** e **Visual Studio Code** (ou outra aplicação equivalente)
+- **Java (JDK versão 21)**
+- **Node.js (versão 18 ou superior)** e **npm ou yarn**
 - **Git**
 <br/>
 
 ### Passo-a-passo de execução local (Acesso ao App)
--
+Para acessar o ambiente de desenvolvimento do aplicativo mobile:
+1. Clone o repositório
+```bash
+git clone https://github.com/2026-1-NCC3/Projeto8.git
+```
+
+2. Acesse a pasta do applicativo
+```bash
+cd Projeto8
+cd frontend-app
+```
+
+6. Abra a pasta no Android Studio  
+
 <br/>
 
 ### Passo-a-passo de execução local (Acesso ao Admin)
 1. Clone o repositório
 ```bash
-git clone https://github.com/2025-1-MCC1/Projeto8.git
+git clone https://github.com/2026-1-NCC3/Projeto8.git
 ```
 
-2. Acesse a pasta do painel do administrador
+2. Acesse a pasta do painel do administrador e instale as dependências  
 ```bash
 cd Projeto8
 cd frontend-web
-```
-
-3. Instale as dependências
-```bash
 npm install
 ```
 
@@ -160,11 +155,11 @@ http://localhost:3000
 ```
 <br/>
 
-## Licença
-[FECAP - Fundação de Comércio Álvares Penteado](https://www.fecap.br) - [Arkana](https://github.com/2025-1-MCC1/Projeto7) © 2025 by [Analice Coimbra Carneiro](https://github.com/analicecoimbra), [Mariah Alice Pimentel Lôbo Pereira](https://github.com/alicelobwp), [Sofia Botechia Hernandes](https://github.com/sofiahernandes) and [Victória Duarte Vieira Azevedo](https://github.com/viick04) is licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" height="20" width="20" style="margin-left: 0.2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" height="20" width="20" style="margin-left: 0.2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" height="20" width="20" style="margin-left: 0.2em;">
+## 📋 Licença/License
+[FECAP - Fundação de Comércio Álvares Penteado](https://www.fecap.br) - [Lumière](https://github.com/2026-1-NCC3/Projeto8) © 2026 by [Analice Coimbra Carneiro](https://github.com/analicecoimbra), [Mariah Alice Pimentel Lôbo Pereira](https://github.com/alicelobwp), [Sofia Botechia Hernandes](https://github.com/sofiahernandes) and [Victória Duarte Vieira Azevedo](https://github.com/viick04) is licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" height="20" width="20" style="margin-left: 0.2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" height="20" width="20" style="margin-left: 0.2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" height="20" width="20" style="margin-left: 0.2em;">
 
 <br/><br/>
 
-## Referências
+## 🎓 Referências
 [Creative Commons](https://creativecommons.org/share-your-work/)  
 [Template PI FECAP](https://github.com/fecaphub/Template_PI)  
