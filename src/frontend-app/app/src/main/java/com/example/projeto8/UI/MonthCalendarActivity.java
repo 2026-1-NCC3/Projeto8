@@ -15,7 +15,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projeto8.R;
+import com.example.projeto8.adapter.TaskAdapter;
 import com.example.projeto8.model.Appointment;
+import com.example.projeto8.model.Task;
 import com.example.projeto8.remote.RetrofitClient;
 
 import java.time.LocalDate;
@@ -37,6 +39,9 @@ public class MonthCalendarActivity extends AppCompatActivity implements Calendar
     private View containerCalendar, containerHome, containerProfile;
 
     private List<Appointment> allAppointments = new ArrayList<>();
+
+    private TaskAdapter taskAdapter;
+    private RecyclerView recyclerViewTasks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,9 +101,16 @@ public class MonthCalendarActivity extends AppCompatActivity implements Calendar
         updateUI(filteredList);
     }
 
-    private void updateUI(List<Appointment> filteredList) {
-        // myAdapter.setAppointments(filteredList);
-        // myAdapter.notifyDataSetChanged();
+    private void updateUI(List<Task> filteredList) {
+        if (taskAdapter == null) {
+            // Se o adapter ainda não existe, cria ele
+            taskAdapter = new TaskAdapter(new ArrayList<>(filteredList), task -> {
+            });
+            recyclerViewTasks.setAdapter(taskAdapter);
+        } else {
+            // Se já existe, apenas atualiza a lista
+            taskAdapter.updateTasks(new ArrayList<>(filteredList));
+        }
 
         updateSelectedDateText();
     }
