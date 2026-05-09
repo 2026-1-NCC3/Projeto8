@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="gray">#E7E5E5</color>
+    <color name="blue">#4666ac</color>
+    <color name="navyBlue">#0b1957</color>
+    <color name="oceanBlue">#0b1957</color>
+    <color name="darkBlue">#0b1957</color>
+    <color name="tangerine">#F27329</color>
+    <color name="babyBlue">#4666ac</color>
+    <color name="paleBeige">#F2CAB3</color>
+    <color name="seahorse">#D9644A</color>
+    <color name="fitBlue">#0b1957</color>
+    <color name="choc">#8C493A</color>
+
+
+
+</resources>
