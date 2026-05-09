@@ -48,7 +48,7 @@ export function Sidebar() {
   };
 
   return (
-    <aside className="flex items-center w-full p-2 bg-neutral rounded-md border border-dark-blue/20">
+    <aside className="flex items-center w-full p-2 bg-neutral rounded-md border border-dark-blue/20 shadow-lg">
       <nav className="flex gap-2">
         {items.map((item) => {
           const active = isActive(item.href);

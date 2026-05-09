@@ -1,7 +1,10 @@
 package com.example.projeto8.UI;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -9,8 +12,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.projeto8.UI.CustomTypefaceSpan;
+import android.graphics.Typeface;
+import android.text.Spannable;
+import android.text.SpannableString;
+
+import androidx.core.content.res.ResourcesCompat;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.example.projeto8.R;
 import com.example.projeto8.api.patient.PatientDTO.PatientLoginRequestDTO;
@@ -39,8 +49,9 @@ public class LoginActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
 
-        Email = findViewById(R.id.Email);
-        Password = findViewById(R.id.Password);
+
+        Email = findViewById(R.id.editEmail);
+        Password = findViewById(R.id.editPassword);
         forgotPassword = findViewById(R.id.forgotPassword);
         mensagePassword = findViewById(R.id.mensagePassword);
         btnLogin = findViewById(R.id.btnLogin);
@@ -52,6 +63,31 @@ public class LoginActivity extends AppCompatActivity {
         forgotPassword.setOnClickListener(v -> {
             forgotPatientPassword();
         });
+
+        SpannableString hint = new SpannableString("Insira seu e-mail");
+
+        Typeface typeface = ResourcesCompat.getFont(this, R.font.sourceitalic);
+
+        hint.setSpan(new CustomTypefaceSpan(typeface), 0, hint.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        Email.setHint(hint);
+
+        SpannableString hintPass = new SpannableString("Insira sua senha");
+        hintPass.setSpan(new CustomTypefaceSpan(typeface), 0, hintPass.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        Password.setHint(hintPass);
+
+    }
+    public void forgotPatientPassword() {
+        // Torna visível mas com transparência zero
+        mensagePassword.setAlpha(0f);
+        mensagePassword.setVisibility(View.VISIBLE);
+
+        // Anima a opacidade para 1 (aparecer suavemente)
+        mensagePassword.animate()
+                .alpha(1f)
+                .setDuration(500)
+                .setListener(null);
     }
 
     public void patientLogIn() {
@@ -116,9 +152,6 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, "Não foi possível conectar ao servidor.", Toast.LENGTH_LONG).show();
             }
         });
-    }
-    public void forgotPatientPassword() {
-        mensagePassword.setVisibility(View.VISIBLE);
     }
 
 }

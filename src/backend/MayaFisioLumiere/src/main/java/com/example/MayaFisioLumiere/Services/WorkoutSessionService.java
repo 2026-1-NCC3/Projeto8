@@ -16,23 +16,22 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-
 public class WorkoutSessionService {
+
     @Autowired
     private WorkoutSessionRepository workoutSessionRepository;
 
     @Autowired
     private PatientRepository patientRepository;
-/*
-    @Autowired
+
+    /* @Autowired
     private ExerciseSessionRepository exerciseSessionRepository;
 
     @Autowired
     private ExercisesRepository exercisesRepository; */
-
-    //Criar um novo workout pegando o id dos exercicios - PERMITIR associar mais de um exercise id
-
-    public WorkoutSessionEntity createWorkout(WorkoutSesRequestDTO data){
+    // Criar um novo workout pegando o ID dos exercicios
+    // Permitir associar mais de um exercise id
+    public WorkoutSessionEntity createWorkout(WorkoutSesRequestDTO data) {
 
         PatientEntity patient = patientRepository.findById(data.patient_id())
                 .orElseThrow(() -> new RuntimeException("Paciente não encontrado"));
@@ -47,9 +46,9 @@ public class WorkoutSessionService {
         return workoutSessionRepository.save(workout);
     }
 
-    //Permitir o paciente dar Check no Workout do dia, setando o checked como true. Associar essa logica ao botao no front
-
-    public WorkoutSessionEntity checkWorkout(Long workoutSession_id){
+    // Permitir ao paciente dar check no Workout do dia (checked = true)
+    // Associar essa logica ao botao no front
+    public WorkoutSessionEntity checkWorkout(Long workoutSession_id) {
         WorkoutSessionEntity workout = workoutSessionRepository.findById(workoutSession_id)
                 .orElseThrow(() -> new RuntimeException("Workout não encontrado"));
 
@@ -57,24 +56,44 @@ public class WorkoutSessionService {
         if (workout.getChecked() == true) {
             workout.setWorkoutDate(LocalDate.now());
         }
-        //atualiza ststaus do paciente
+
         checkPatientStatus(workout.getPatient().getPatient_ID());
         return workoutSessionRepository.save(workout);
     }
 
-    //Verificar se o paciente está ativo (deu checked em no minimo 2 workouts nos ultimos 7 dias)
-    public String checkPatientStatus(UUID patientId){
+    // Verificar progresso desta semana
+    public Map<String, Object> getWeeklyProgress(UUID patientId) {
+        PatientEntity patient = patientRepository.findById(patientId)
+                .orElseThrow(() -> new RuntimeException("Paciente não encontrado"));
+
+        List<WorkoutSessionEntity> allWorkouts = workoutSessionRepository.findByPatient(patient);
+        long total = allWorkouts.size();
+
+        LocalDate sevenDaysAgo = LocalDate.now().minusDays(7);
+        List<WorkoutSessionEntity> completedWorkouts
+                = workoutSessionRepository.findByPatientAndWorkoutDateAfterAndCheckedTrue(patient, sevenDaysAgo);
+        long completed = completedWorkouts.size();
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("total", total);
+        response.put("completed", completed);
+
+        return response;
+    }
+
+    // Verificar se o paciente está ativo ou inativo
+    public String checkPatientStatus(UUID patientId) {
 
         PatientEntity patient = patientRepository.findById(patientId)
                 .orElseThrow(() -> new RuntimeException("Paciente não encontrado"));
 
         LocalDate sevenDaysAgo = LocalDate.now().minusDays(7);
 
-        List<WorkoutSessionEntity> workouts =
-                workoutSessionRepository
+        List<WorkoutSessionEntity> workouts
+                = workoutSessionRepository
                         .findByPatientAndWorkoutDateAfterAndCheckedTrue(patient, sevenDaysAgo);
 
-        if(workouts.size() >= 2){
+        if (workouts.size() >= 2) {
             patient.setStatus("ATIVO");
         } else {
             patient.setStatus("INATIVO");
@@ -83,26 +102,25 @@ public class WorkoutSessionService {
         return patient.getStatus();
     }
 
-    //Buscar todos os pacientes com status ativo
-    public List<PatientEntity> getActivePatients(){
+    // Buscar todos os pacientes com status ativo
+    public List<PatientEntity> getActivePatients() {
         return patientRepository.findByStatus("ATIVO");
     }
 
-    //Buscar todos os pacientes com status inativo
-    public List<PatientEntity> getInactivePatients(){
+    // Buscar todos os pacientes com status inativo
+    public List<PatientEntity> getInactivePatients() {
         return patientRepository.findByStatus("INATIVO");
     }
 
-    //Buscar todas as workout sessions de um paciente (patient id)
-   /* public List<WorkoutSessionEntity> getWorkoutsByPatient(UUID patientId){
+    // Buscar todas as workout sessions de um paciente (patient id)
+    /* public List<WorkoutSessionEntity> getWorkoutsByPatient(UUID patientId){
 
         PatientEntity patient = patientRepository.findById(patientId)
                 .orElseThrow(() -> new RuntimeException("Paciente não encontrado"));
 
         return workoutSessionRepository.findByPatient(patient);
     }
-*/
-
+     */
     public List<WorkoutSesResponseDTO> getWorkoutsByPatient(UUID patientId) {
         PatientEntity patient = patientRepository.findById(patientId)
                 .orElseThrow(() -> new RuntimeException("Paciente não encontrado"));
@@ -115,38 +133,34 @@ public class WorkoutSessionService {
                 entity.getChecked(),
                 entity.getPatient().getPatient_ID(),
                 entity.getExerciseSessions().stream().map(ex -> new ExerciseSessionResponseDTO(
-                        Math.toIntExact(ex.getExercisesession_id()),
-                        new ExerciseResponseDTO(
-                           ex.getExercise().getExercise_ID(),
-                           ex.getExercise().getTitle(),
-                           ex.getExercise().getMidiaURL(),
-                           ex.getExercise().getTags(),
-                           ex.getExercise().getDescription()
-                        ),
-                        ex.getWorkoutSession().getWorkoutSession_id(),
-                        ex.getPatient().getPatient_ID(),
-                        ex.getSerie(),
-                        ex.getRepetitions(),
-                        ex.getFeelPain()
-                )).toList()
+                Math.toIntExact(ex.getExercisesession_id()),
+                new ExerciseResponseDTO(
+                        ex.getExercise().getExercise_ID(),
+                        ex.getExercise().getTitle(),
+                        ex.getExercise().getMidiaURL(),
+                        ex.getExercise().getTags(),
+                        ex.getExercise().getDescription()
+                ),
+                ex.getWorkoutSession().getWorkoutSession_id(),
+                ex.getPatient().getPatient_ID(),
+                ex.getSerie(),
+                ex.getRepetitions(),
+                ex.getFeelPain()
+        )).toList()
         )).toList();
     }
 
-
-    //Buscar todas as workout sessions de todos os pacientes
-    public List<WorkoutSessionEntity> getAllWorkouts(){
+    // Buscar todas as Workout Sessions de todos os pacientes
+    public List<WorkoutSessionEntity> getAllWorkouts() {
         return workoutSessionRepository.findAll();
     }
 
-    //Deletar a workout Session de um paciente
-    public void deleteWorkoutSession(Long workoutSessionId){
+    // Deletar a Workout Session de um paciente
+    public void deleteWorkoutSession(Long workoutSessionId) {
 
         WorkoutSessionEntity workout = workoutSessionRepository.findById(workoutSessionId)
                 .orElseThrow(() -> new RuntimeException("Workout não encontrado"));
 
         workoutSessionRepository.delete(workout);
     }
-
-
-
 }

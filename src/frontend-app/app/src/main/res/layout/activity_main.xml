@@ -7,6 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="0dp"
+    android:background="@color/white"
     tools:context=".UI.MainActivity">
 
     <View
@@ -189,7 +190,8 @@
             android:text="Exercício de hoje"
             android:textSize="18sp"
             android:textFontWeight="700"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/black"/>
 
         <!-- TASKS -->
         <androidx.recyclerview.widget.RecyclerView

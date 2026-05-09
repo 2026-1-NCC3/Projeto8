@@ -16,8 +16,8 @@ export default function LoginPage() {
   return (
     <div className="flex min-h-screen w-screen! overflow-clip! items-center justify-center p-4">
       <div className="absolute inset-0 -z-10 w-screen! overflow-clip!">
-        <div className="absolute top-[-10%] left-[-5%] w-[70%] h-[60%] rounded-full bg-blue mix-blend-multiply filter blur-[120px] opacity-70 animate-pulse" />
-        <div className="absolute bottom-[10%] right-[-5%] w-[60%] h-[70%] rounded-full bg-salmon mix-blend-multiply filter blur-[130px] opacity-50" />
+        <div className="absolute top-[-5%] left-[-5%] w-[70%] h-[60%] rounded-full bg-blue mix-blend-multiply filter blur-[120px] opacity-70 animate-pulse" />
+        <div className="absolute bottom-[-5%] right-[-5%] w-[60%] h-[70%] rounded-full bg-salmon mix-blend-multiply filter blur-[130px] opacity-50" />
       </div>
 
       <form

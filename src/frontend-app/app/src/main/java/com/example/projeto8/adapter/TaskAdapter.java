@@ -34,7 +34,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder {
         CardView cardTask;
         LinearLayout expandArea, container;
-        TextView txtTitle, txtVideoLink;;
+        TextView txtTitle, txtVideoLink;
         ImageView imgArrow;
 
         public ViewHolder(View itemView) {
@@ -72,7 +72,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         String url = task.getMidiaURL();
         if (url != null && !url.isEmpty()) {
             holder.txtVideoLink.setText("Vídeo");
-            holder.txtVideoLink.setTextColor(holder.itemView.getContext().getColor(R.color.darkBrown));
+            holder.txtVideoLink.setTextColor(holder.itemView.getContext().getColor(R.color.black));
             holder.txtVideoLink.setOnClickListener(v -> {
                 if (listener != null) listener.onTaskClick(task);
             });

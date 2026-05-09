@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#2F8394"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/splashLogo"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/maya_logo"
+        android:scaleType="fitCenter"/>
+
+    <TextView
+        android:id="@+id/splashName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Maya Yamamoto"
+        android:textColor="#F2FFFFFF"
+        android:textSize="30sp"
+        android:letterSpacing="0.04"
+        android:fontFamily="@font/domine"/>
+
+    <TextView
+        android:id="@+id/splashByLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="by lumiere"
+        android:textColor="#F2FFFFFF"
+        android:textSize="16sp"
+        android:letterSpacing="0.18"
+        android:fontFamily="@font/domine"/>
+
+    <ProgressBar
+        android:id="@+id/loadingProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:indeterminateTint="#F2FFFFFF" />
+
+</LinearLayout>

@@ -2,7 +2,7 @@
 
 import { useMemo, useState, useEffect } from 'react';
 import { usePatients, PatientRequest } from '@/app/hooks/useGetPatients';
-import Image from 'next/image';
+import { TrashIcon } from '@/public/icons';
 
 export default function PatientsPage() {
   const { patients, removePatient, updatePatient } = usePatients();
@@ -70,9 +70,9 @@ export default function PatientsPage() {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Buscar por nome"
-          className="w-full rounded-md border bg-white/30 border-neutral-300 px-3 py-2 mb-4 outline-none focus:ring-1 focus:ring-blue"
+          className="w-full rounded-md border bg-white/30 border-neutral-300 shadow-lg px-3 py-2 mb-4 outline-none focus:ring-1 focus:ring-blue"
         />
-        <div className="overflow-x-auto max-h-96 no-scrollbar rounded-lg bg-white/30 border border-neutral-200 py-3">
+        <div className="overflow-x-auto max-h-115 no-scrollbar rounded-lg bg-white/30 border border-neutral-300 shadow-lg py-3">
           <table className="w-full text-left border-collapse">
             <tbody>
               {filteredPatients.map((p) => {
@@ -97,15 +97,9 @@ export default function PatientsPage() {
                     <td className="py-3 px-2">
                       <button
                         onClick={() => removePatient(p.patient_id)}
-                        className="group rounded-md bg-salmon/50 border border-salmon/50 px-3 py-1 hover:bg-salmon hover:text-white transition-all text-salmon text-sm font-semibold"
+                        className="group rounded-md bg-salmon/10 border border-salmon/50 px-3 py-1 hover:bg-salmon hover:text-white transition-all text-salmon text-sm font-semibold"
                       >
-                        <Image
-                          src="/lixo.png"
-                          alt="Deletar"
-                          className="group-hover:invert"
-                          width={20}
-                          height={20}
-                        />
+                        <TrashIcon className="w-4.5 h-4.5 text-salmon group-hover:text-white transition-colors" />
                       </button>
                     </td>
                   </tr>
@@ -117,7 +111,7 @@ export default function PatientsPage() {
       </div>
 
       {/* Prontuário e Evolução */}
-      <div className="col-span-4 md:col-span-5 flex flex-col gap-3 p-5 rounded-lg border border-neutral-200 bg-white/30">
+      <div className="col-span-4 md:col-span-5 flex flex-col gap-3 p-5 rounded-lg border border-neutral-300 shadow-lg bg-white/30">
         <div className="flex justify-between items-center pb-2">
           <h2 className="text-xl font-bold text-neutral-800">
             Prontuário e Evolução
@@ -125,7 +119,7 @@ export default function PatientsPage() {
           {selectedPatient && !isEditing && (
             <button
               onClick={handleEditClick}
-              className="text-sm bg-black text-white px-3 py-1.5 rounded-md hover:bg-blue transition-colors font-semibold"
+              className="text-sm bg-black text-white px-3 py-1.5 rounded-md hover:opacity-70 transition-colors font-semibold"
             >
               Editar Dados
             </button>
