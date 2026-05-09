@@ -102,10 +102,10 @@ public class ExercisesActivity extends AppCompatActivity {
 
         // Se for o último, o botão vira um check workout
         if (index == listaExercicios.size() - 1) {
-            if (workoutDone) {
+            if (workoutDone){
                 btnNext.setImageResource(R.drawable.angle_down); // COLOCAR UM CHECK AQUIIII
                 btnNext.setImageTintList(ColorStateList.valueOf(Color.GRAY)); // Cinza para indicar bloqueio
-            } else {
+            } else{
                 btnNext.setImageResource(R.drawable.ic_empty); // TAMBEM colocar um ícone de finalizar/dar check
                 btnNext.setImageTintList(null);
             }

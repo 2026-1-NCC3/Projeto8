@@ -1,11 +1,15 @@
 package com.example.projeto8.UI;
 
+
 import static com.example.projeto8.UI.CalendarUtils.daysInMonthArray;
 import static com.example.projeto8.UI.CalendarUtils.monthYearFromDate;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,14 +20,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projeto8.R;
-import com.example.projeto8.adapter.TaskAdapter;
-import com.example.projeto8.model.Task;
+import com.example.projeto8.adapter.AppointmentAdapter;
+import com.example.projeto8.model.Appointment;
+import com.example.projeto8.remote.RetrofitClient;
 
 import java.time.LocalDate;
-import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MonthCalendarActivity extends AppCompatActivity implements CalendarAdapter.OnItemListener {
 
@@ -31,15 +41,16 @@ public class MonthCalendarActivity extends AppCompatActivity implements Calendar
     private RecyclerView calendarRecyclerView;
     private View btnCalendar, btnHome, btnProfile;
     private View containerCalendar, containerHome, containerProfile;
+    private RecyclerView recyclerViewAppointments;
+    private AppointmentAdapter appointmentAdapter;
+    private List<Appointment> allAppointments = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
 
-        if (CalendarUtils.selectedDate == null) {
-            CalendarUtils.selectedDate = LocalDate.now();
-        }
+        RetrofitClient.init(this);
 
         if (CalendarUtils.selectedDate == null) {
             CalendarUtils.selectedDate = LocalDate.now();
@@ -48,12 +59,71 @@ public class MonthCalendarActivity extends AppCompatActivity implements Calendar
         initWidgets();
         setMonthView();
         setupMenuClicks();
+
+        fetchAppointments();
+    }
+    private void fetchAppointments() {
+        String uuidStr = getSharedPreferences("STORAGE", MODE_PRIVATE).getString("patientId", null);
+        if (uuidStr == null) return;
+
+        UUID patientId = UUID.fromString(uuidStr);
+
+        RetrofitClient.getAppointmentService()
+                .getAppointmentByPatient(patientId)
+                .enqueue(new Callback<List<Appointment>>() {
+                    @Override
+                    public void onResponse(Call<List<Appointment>> call, Response<List<Appointment>> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            allAppointments = response.body();
+                            filterByDate();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Appointment>> call, Throwable t) {
+                        Log.e("API_ERROR", "Erro ao conectar: " + t.getMessage());
+                    }
+                });
+    }
+
+    private void filterByDate() {
+        List<Appointment> filteredList = new ArrayList<>();
+
+        for (Appointment appo : allAppointments) {
+            if (appo.getDate() != null) {
+                LocalDate apiDate = LocalDate.parse(appo.getDate().substring(0, 10));
+
+                if (apiDate.equals(CalendarUtils.selectedDate)) {
+                    filteredList.add(appo);
+                }
+            }
+        }
+
+        updateUI(filteredList);
+    }
+
+    private void updateUI(List<Appointment> filteredList) {
+        if (appointmentAdapter == null) {
+            appointmentAdapter = new AppointmentAdapter(filteredList);
+            recyclerViewAppointments.setAdapter(appointmentAdapter);
+        } else {
+            appointmentAdapter.setAppointments(filteredList);
+        }
+
+        updateSelectedDateText();
     }
 
     private void initWidgets() {
         monthYearText = findViewById(R.id.monthYearTV);
         calendarRecyclerView = findViewById(R.id.calendarRecyclerView);
         selectedDateTV = findViewById(R.id.selectedDateTV);
+
+        // Inicializa o RecyclerView de agendamentos
+        recyclerViewAppointments = findViewById(R.id.recyclerViewAppointments);
+        recyclerViewAppointments.setLayoutManager(new LinearLayoutManager(this));
+
+        appointmentAdapter = new AppointmentAdapter(new ArrayList<>());
+        recyclerViewAppointments.setAdapter(appointmentAdapter);
 
         // Referência segura para o ícone selecionado
         View menuInclude = findViewById(R.id.menu);
@@ -80,26 +150,34 @@ public class MonthCalendarActivity extends AppCompatActivity implements Calendar
         );
     }
 
+    private void animateClick(View view) {
+        Animation anim = AnimationUtils.loadAnimation(this, R.anim.scale_up_down);
+        view.startAnimation(anim);
+    }
     public void setupMenuClicks() {
-        // Clique na Agenda
-        btnCalendar.setOnClickListener(v -> {
-            updateMenuSelection(btnCalendar, containerCalendar, btnHome, containerHome, btnProfile, containerProfile);
-        });
 
         // Clique na Home
         btnHome.setOnClickListener(v -> {
+            animateClick(v);
             updateMenuSelection(btnHome, containerHome, btnCalendar, containerCalendar, btnProfile, containerProfile);
             startActivity(new Intent(this, MainActivity.class));
-            overridePendingTransition(0, 0);
+            finish();
+
+        });
+
+
+        btnCalendar.setOnClickListener(v -> {
+            updateMenuSelection(btnProfile, containerProfile, btnCalendar, containerCalendar, btnHome, containerHome);
+
+        });
+
+        btnProfile.setOnClickListener(v -> {
+            animateClick(v);
+            updateMenuSelection(btnHome, containerHome, btnCalendar, containerCalendar, btnProfile, containerProfile);
+            startActivity(new Intent(this, MainActivity.class));
             finish();
         });
 
-        // Clique no Perfil
-        btnProfile.setOnClickListener(v -> {
-            updateMenuSelection(btnProfile, containerProfile, btnCalendar, containerCalendar, btnHome, containerHome);
-            startActivity(new Intent(this, ProfileActivity.class));
-            overridePendingTransition(0, 0);
-        });
     }
 
     private void updateMenuSelection(View selectedBtn, View selectedContainer, View... others) {

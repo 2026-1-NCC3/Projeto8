@@ -83,8 +83,29 @@ public class AppointmentService {
         ))
                 .toList();
     }
-    
-    // Get appointments by day
+
+    // get appointments per patient by month
+    public List<AppointmentResponseDTO> getAppointmentsForPatientMonth(UUID patientId,int month, int year) {
+
+        if (!patientRepository.existsById(patientId)) {
+            throw new RuntimeException("Paciente não encontrado");
+        }
+
+        List<AppointmentEntity> appointments = appointmentRepository.findByPatientAndMonth(patientId, month, year);
+
+        return appointments.stream()
+                .filter(a -> a.getDate().getMonthValue() == month && a.getDate().getYear() == year)
+                .map(entity -> new AppointmentResponseDTO(
+                        entity.getAppointment_id(),
+                        entity.getDate(),
+                        entity.getTime(),
+                        entity.getDescription(),
+                        entity.getPatient().getPatient_ID()
+                )).toList();
+    }
+
+    //get appointments by day
+
     public List<AppointmentResponseDTO> getAppointmentsByDate(LocalDateTime date) {
         List<AppointmentEntity> appointments = appointmentRepository.findByDate(date);
 

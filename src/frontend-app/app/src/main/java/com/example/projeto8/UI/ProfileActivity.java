@@ -7,6 +7,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -73,7 +75,7 @@ public class ProfileActivity extends AppCompatActivity {
             btnExcluirConta.setOnClickListener(v -> showDeleteDialog());
         }
 
-        // MENU
+
         View menuInclude = findViewById(R.id.menu);
         if (menuInclude != null) {
             btnHome = menuInclude.findViewById(R.id.btnHome);
@@ -84,6 +86,13 @@ public class ProfileActivity extends AppCompatActivity {
             containerCalendar = menuInclude.findViewById(R.id.containerCalendarSelect);
             containerProfile = menuInclude.findViewById(R.id.containerProfileSelect);
 
+            if (btnProfile != null) {
+                btnProfile.setSelected(true);
+                if (containerProfile != null) {
+                    containerProfile.setBackgroundResource(R.drawable.selected_item_bg);
+                }
+            }
+
             updateMenuSelection(
                     btnProfile, containerProfile,
                     btnHome, containerHome,
@@ -91,6 +100,33 @@ public class ProfileActivity extends AppCompatActivity {
             );
         }
     }
+    private void animateClick(View view) {
+        Animation anim = AnimationUtils.loadAnimation(this, R.anim.scale_up_down);
+        view.startAnimation(anim);
+    }
+    public void setupMenuClicks() {
+        btnHome.setOnClickListener(v -> {
+            animateClick(v);
+            updateMenuSelection(btnHome, containerHome, btnCalendar, containerCalendar, btnProfile, containerProfile);
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+
+        });
+
+
+        btnCalendar.setOnClickListener(v -> {
+            animateClick(v);
+            updateMenuSelection(btnCalendar, containerCalendar, btnHome, containerHome, btnProfile, containerProfile);
+            startActivity(new Intent(this, MonthCalendarActivity.class));
+
+        });
+
+        btnProfile.setOnClickListener(v -> {
+            updateMenuSelection(btnProfile, containerProfile, btnCalendar, containerCalendar, btnHome, containerHome);
+        });
+
+    }
+
 
     private void loadPatientFromPrefs() {
         SharedPreferences prefs = getSharedPreferences("STORAGE", MODE_PRIVATE);
@@ -165,27 +201,7 @@ public class ProfileActivity extends AppCompatActivity {
                 });
     }
 
-    public void setupMenuClicks() {
-        if (btnProfile != null) {
-            btnProfile.setOnClickListener(v -> updateMenuSelection(btnProfile, containerProfile, btnHome, containerHome, btnCalendar, containerCalendar));
-        }
 
-        if (btnHome != null) {
-            btnHome.setOnClickListener(v -> {
-                startActivity(new Intent(this, MainActivity.class));
-                overridePendingTransition(0, 0);
-                finish();
-            });
-        }
-
-        if (btnCalendar != null) {
-            btnCalendar.setOnClickListener(v -> {
-                startActivity(new Intent(this, MonthCalendarActivity.class));
-                overridePendingTransition(0, 0);
-                finish();
-            });
-        }
-    }
 
     private void updateMenuSelection(View selectedBtn, View selectedContainer, View... others) {
         for (View view : others) {

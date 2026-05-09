@@ -8,6 +8,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -117,48 +119,58 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         recyclerTasks = findViewById(R.id.recyclerTasks);
         recyclerTasks.setLayoutManager(new LinearLayoutManager(this));
 
-        View menuView = findViewById(R.id.menu);
-        iconCalendar = findViewById(R.id.iconCalendar);
-        iconHome = findViewById(R.id.iconHome);
-        iconProfile = findViewById(R.id.iconProfile);
+        View menuInclude = findViewById(R.id.menu);
+        if (menuInclude != null) {
+            btnCalendar = menuInclude.findViewById(R.id.btnCalendar);
+            btnHome = menuInclude.findViewById(R.id.btnHome);
+            btnProfile = menuInclude.findViewById(R.id.btnProfile);
 
-        btnHome = menuView.findViewById(R.id.btnHome);
-        btnCalendar = menuView.findViewById(R.id.btnCalendar);
-        btnProfile = menuView.findViewById(R.id.btnProfile);
+            containerCalendar = menuInclude.findViewById(R.id.containerCalendarSelect);
+            containerHome = menuInclude.findViewById(R.id.containerHomeSelect);
+            containerProfile = menuInclude.findViewById(R.id.containerProfileSelect);
 
-        containerHome = menuView.findViewById(R.id.containerHomeSelect);
-
-        if (btnHome != null) {
-            btnHome.setSelected(true);
+            if (btnHome != null) {
+                btnHome.setSelected(true);
+                if (containerCalendar != null) {
+                    containerCalendar.setBackgroundResource(R.drawable.selected_item_bg);
+                }
+            }
         }
+        updateMenuSelection(
+                btnCalendar, containerCalendar,
+                btnHome, containerHome,
+                btnProfile, containerProfile);
+
         btnStartWorkout = findViewById(R.id.btnStartWorkout);
     }
 
-    public void setupMenuClicks() {
-        btnCalendar.setOnClickListener(v -> {
-            updateMenuSelection(btnCalendar, containerCalendar,
-                    btnHome, containerHome, btnProfile, containerProfile);
+    private void animateClick(View view) {
+        Animation anim = AnimationUtils.loadAnimation(this, R.anim.scale_up_down);
+        view.startAnimation(anim);
+    }
 
+    public void setupMenuClicks() {
+        btnHome.setOnClickListener(v -> {
+            updateMenuSelection(btnProfile, containerProfile, btnCalendar, containerCalendar, btnHome, containerHome);
+
+        });
+
+
+        btnCalendar.setOnClickListener(v -> {
+            animateClick(v);
+            updateMenuSelection(btnCalendar, containerCalendar, btnHome, containerHome, btnProfile, containerProfile);
             startActivity(new Intent(this, MonthCalendarActivity.class));
             overridePendingTransition(0, 0);
+
         });
-
-        // Clique na Home
-        btnHome.setOnClickListener(v -> {
-            updateMenuSelection(btnHome, containerHome,
-                    btnCalendar, containerCalendar, btnProfile, containerProfile);
-
-            recyclerTasks.smoothScrollToPosition(0);
-        });
-
-        // Clique no Perfil
         btnProfile.setOnClickListener(v -> {
-            updateMenuSelection(btnProfile, containerProfile,
-                    btnCalendar, containerCalendar, btnHome, containerHome);
+            animateClick(v);
+            updateMenuSelection(btnProfile, containerProfile, btnCalendar, containerCalendar, btnHome, containerHome);
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
 
-            startActivity(new Intent(this, ProfileActivity.class));
-            overridePendingTransition(0, 0);
         });
+
 
         // Botão de Iniciar Treino (separada do menu)
         btnStartWorkout.setOnClickListener(v -> {

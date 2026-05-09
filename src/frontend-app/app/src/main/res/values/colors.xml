@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="gray">#A7A7A7</color>
+    <color name="black">#1A0E0B</color>
+    <color name="white">#F3FDFF</color>
+    <color name="gray">#66747474</color>
+
     <color name="blue">#2f8394</color>
     <color name="navyBlue">#2f8394</color>
     <color name="oceanBlue">#2f8394</color>
@@ -13,6 +14,14 @@
     <color name="seahorse">#D9644A</color>
     <color name="fitBlue">#54628C</color>
     <color name="choc">#8C493A</color>
+
+    <color name="orange">#CC6152</color>
+    <color name="lightOrange">#80CC6152</color>
+    <color name="lightBLue">#2F8394</color>
+    <color name="brown">#7A4A2F</color>
+    <color name="darkBrown">#4B331E</color>
+    <color name="lightGray">#80B14B3D</color>
+    <color name="linen">#F7F5F2</color>
 
 
 
