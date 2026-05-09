@@ -20,12 +20,12 @@
             android:layout_height="30dp"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/white_chevron"
-            android:scaleType="fitCenter"
-            android:rotation="180"
-            android:onClick="previousMonthAction"
+            android:background="?attr/selectableItemBackground"
             android:contentDescription="Anterior"
-            android:background="?attr/selectableItemBackground" />
+            android:onClick="previousMonthAction"
+            android:rotation="180"
+            android:scaleType="fitCenter"
+            android:src="@drawable/white_chevron" />
 
         <TextView
             android:id="@+id/monthYearTV"
@@ -42,11 +42,11 @@
             android:layout_height="30dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/white_chevron"
-            android:scaleType="fitCenter"
-            android:onClick="nextMonthAction"
+            android:background="?attr/selectableItemBackground"
             android:contentDescription="Próximo"
-            android:background="?attr/selectableItemBackground" />
+            android:onClick="nextMonthAction"
+            android:scaleType="fitCenter"
+            android:src="@drawable/white_chevron" />
 
     </RelativeLayout>
 
@@ -55,99 +55,138 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingBottom="10dp"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp">
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp">
 
-        <TextView android:text="DOM" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:textAlignment="center" android:textColor="#E0E0E0" android:textSize="12sp" />
-        <TextView android:text="SEG" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:textAlignment="center" android:textColor="#E0E0E0" android:textSize="12sp" />
-        <TextView android:text="TER" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:textAlignment="center" android:textColor="#E0E0E0" android:textSize="12sp" />
-        <TextView android:text="QUA" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:textAlignment="center" android:textColor="#E0E0E0" android:textSize="12sp" />
-        <TextView android:text="QUI" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:textAlignment="center" android:textColor="#E0E0E0" android:textSize="12sp" />
-        <TextView android:text="SEX" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:textAlignment="center" android:textColor="#E0E0E0" android:textSize="12sp" />
-        <TextView android:text="SAB" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:textAlignment="center" android:textColor="#E0E0E0" android:textSize="12sp" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="DOM"
+            android:textAlignment="center"
+            android:textColor="#E0E0E0"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="SEG"
+            android:textAlignment="center"
+            android:textColor="#E0E0E0"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="TER"
+            android:textAlignment="center"
+            android:textColor="#E0E0E0"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="QUA"
+            android:textAlignment="center"
+            android:textColor="#E0E0E0"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="QUI"
+            android:textAlignment="center"
+            android:textColor="#E0E0E0"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="SEX"
+            android:textAlignment="center"
+            android:textColor="#E0E0E0"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="SAB"
+            android:textAlignment="center"
+            android:textColor="#E0E0E0"
+            android:textSize="12sp" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/calendarRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:minHeight="300dp"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:minHeight="300dp" />
+        android:paddingRight="10dp" />
 
 
-        <LinearLayout
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1"
+        android:background="@drawable/bg_card_calendar"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingTop="20dp"
+            android:text="Agendamento"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/selectedDateTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:text="Data Selecionada"
+            android:textColor="@color/gray"
+            android:textSize="14sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewAppointments"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/bg_card_calendar"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Agendamento"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:paddingTop="20dp"
-                android:paddingLeft="20dp"
-                android:textStyle="bold" />
+            android:padding="10dp"
+             />
 
 
-            <TextView
-                android:id="@+id/selectedDateTV"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Terça-feira"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:paddingTop="20dp"
-                android:paddingLeft="20dp"
-                android:textFontWeight="650" />
+        <Button
+            android:id="@+id/btnCancelarAgendamento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:backgroundTint="@color/lightBLue"
+            android:text="Cancelar agendamento" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Você tem consulta hoje às 10 horas da manhã!"
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                android:paddingTop="10dp"
-                android:paddingLeft="20dp"
-                android:textFontWeight="550" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Deseja cancelar?"
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                android:paddingTop="10dp"
-                android:paddingLeft="20dp"
-                android:textFontWeight="550" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:backgroundTint="@color/lightBLue"
-                android:layout_margin="8dp"
-                android:text="Cancelar agendamento"
-                />
-
-
-        </LinearLayout>
-
+    </LinearLayout>
 
 
     <include
         android:id="@+id/menu"
         layout="@layout/menu"
-        android:elevation="4dp"
         android:layout_width="match_parent"
         android:layout_height="80dp"
+        android:elevation="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </LinearLayout>

@@ -12,12 +12,12 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projeto8.R;
-import com.example.projeto8.adapter.TaskAdapter;
+import com.example.projeto8.adapter.AppointmentAdapter;
 import com.example.projeto8.model.Appointment;
-import com.example.projeto8.model.Task;
 import com.example.projeto8.remote.RetrofitClient;
 
 import java.time.LocalDate;
@@ -37,20 +37,16 @@ public class MonthCalendarActivity extends AppCompatActivity implements Calendar
     private RecyclerView calendarRecyclerView;
     private View btnCalendar, btnHome, btnProfile;
     private View containerCalendar, containerHome, containerProfile;
-
+    private RecyclerView recyclerViewAppointments;
+    private AppointmentAdapter appointmentAdapter;
     private List<Appointment> allAppointments = new ArrayList<>();
-
-    private TaskAdapter taskAdapter;
-    private RecyclerView recyclerViewTasks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
 
-        if (CalendarUtils.selectedDate == null) {
-            CalendarUtils.selectedDate = LocalDate.now();
-        }
+        RetrofitClient.init(this);
 
         if (CalendarUtils.selectedDate == null) {
             CalendarUtils.selectedDate = LocalDate.now();
@@ -59,8 +55,9 @@ public class MonthCalendarActivity extends AppCompatActivity implements Calendar
         initWidgets();
         setMonthView();
         setupMenuClicks();
-    }
 
+        fetchAppointments();
+    }
     private void fetchAppointments() {
         String uuidStr = getSharedPreferences("STORAGE", MODE_PRIVATE).getString("patientId", null);
         if (uuidStr == null) return;
@@ -101,25 +98,28 @@ public class MonthCalendarActivity extends AppCompatActivity implements Calendar
         updateUI(filteredList);
     }
 
-    private void updateUI(List<Task> filteredList) {
-        if (taskAdapter == null) {
-            // Se o adapter ainda não existe, cria ele
-            taskAdapter = new TaskAdapter(new ArrayList<>(filteredList), task -> {
-            });
-            recyclerViewTasks.setAdapter(taskAdapter);
+    private void updateUI(List<Appointment> filteredList) {
+        if (appointmentAdapter == null) {
+            appointmentAdapter = new AppointmentAdapter(filteredList);
+            recyclerViewAppointments.setAdapter(appointmentAdapter);
         } else {
-            // Se já existe, apenas atualiza a lista
-            taskAdapter.updateTasks(new ArrayList<>(filteredList));
+            appointmentAdapter.setAppointments(filteredList);
         }
 
         updateSelectedDateText();
     }
 
-
     private void initWidgets() {
         monthYearText = findViewById(R.id.monthYearTV);
         calendarRecyclerView = findViewById(R.id.calendarRecyclerView);
         selectedDateTV = findViewById(R.id.selectedDateTV);
+
+        // Inicializa o RecyclerView de agendamentos
+        recyclerViewAppointments = findViewById(R.id.recyclerViewAppointments);
+        recyclerViewAppointments.setLayoutManager(new LinearLayoutManager(this));
+
+        appointmentAdapter = new AppointmentAdapter(new ArrayList<>());
+        recyclerViewAppointments.setAdapter(appointmentAdapter);
 
         // Referência segura para o ícone selecionado
         View menuInclude = findViewById(R.id.menu);
@@ -150,7 +150,7 @@ public class MonthCalendarActivity extends AppCompatActivity implements Calendar
     }
 
     public void setupMenuClicks() {
-// Clique na Agenda (Já está nela, pode apenas resetar a view se quiser)
+    // Clique na Agenda (Já está nela, pode apenas resetar a view se quiser)
         btnCalendar.setOnClickListener(v -> {
             updateMenuSelection(btnCalendar, containerCalendar, btnHome, containerHome, btnProfile, containerProfile);
         });
