@@ -16,23 +16,23 @@ public class AuthController {
     @Autowired
     private AdminService adminService;
 
-    //cria novo admin
+    // Cria novo admin
     @PostMapping("/register/admin")
     public ResponseEntity<AdminResponseDTO> register(@RequestBody AdminRequestDTO body) {
         AdminResponseDTO newAdmin = this.adminService.createAdmin(body);
         return ResponseEntity.ok(newAdmin);
     }
 
-    // login retorna jwt
+    // Login retorna jwt
     @PostMapping("/login/admin")
     public ResponseEntity<Map<String, String>> login(@RequestBody AdminRequestDTO body) {
         String token = adminService.loginAdmin(body.adminEmail(), body.adminPassword());
 
-        // retorno em json pro frontend entender
+        // Retorno em json pro frontend entender
         return ResponseEntity.ok(Map.of("token", token));
     }
 
-    // logout que invalida o token criado na sessão
+    // Logout que invalida o token criado na sessão
     @PostMapping("/logout/admin")
     public ResponseEntity<Void> logout(@RequestHeader("Authorization") String token, String authorizationHeader) {
         adminService.logoutAdmin(token, authorizationHeader);

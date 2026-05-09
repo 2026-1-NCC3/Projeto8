@@ -18,6 +18,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/exerciseSession")
 public class ExerciseSessionController {
+
     @Autowired
     private ExerciseSessionRepository exerciseSessionRepository;
     private ExerciseSessionEntity exerciseSessionEntity;
@@ -47,7 +48,6 @@ public class ExerciseSessionController {
         }
     }
 
-
     @PutMapping("/updateExerciseSession/{id}")
     public ResponseEntity<?> updateExerciseSession(
             @PathVariable Long id,
@@ -61,8 +61,6 @@ public class ExerciseSessionController {
         }
     }
 
-    //Atualizar o feelPain do ExerciseSession updateExerciseSessionPain
-    //Rota
     @PutMapping("/updateExerciseSessionPain/{patient_id}/{exerciseSession_id}")
     public ResponseEntity<?> updateExerciseSessionPain(
             @PathVariable UUID patient_id,
@@ -78,7 +76,6 @@ public class ExerciseSessionController {
                     .body("Erro interno: " + e.getMessage());
         }
     }
-
 
     @DeleteMapping("/deleteExerciseSession/{exercisesession_id}")
     public ResponseEntity<?> deleteExerciseSession(@PathVariable Long exercisesession_id) {

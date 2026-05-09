@@ -15,6 +15,7 @@ import lombok.Setter;
 @AllArgsConstructor
 
 public class ExerciseSessionEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long exercisesession_id;
@@ -29,17 +30,16 @@ public class ExerciseSessionEntity {
     private Boolean feelPain; //DEPOIS, COLOCAR PARA FALSE, ERRO DE POSTGRES NAO IDENTIFICANDO
 
     @ManyToOne
-    @JoinColumn(name="workoutsession_id", nullable= false)
+    @JoinColumn(name = "workoutsession_id", nullable = false)
     @JsonBackReference
     private WorkoutSessionEntity workoutSession;
 
     @ManyToOne
-    @JoinColumn(name="patient_id", nullable = false)
+    @JoinColumn(name = "patient_id", nullable = false)
     private PatientEntity patient;
 
     @ManyToOne
-    @JoinColumn(name="exercise_id", nullable = false)
+    @JoinColumn(name = "exercise_id", nullable = false)
     private ExerciseEntity exercise;
-
 
 }

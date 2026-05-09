@@ -8,5 +8,6 @@ public record AppointmentRequestDTO(
         String time,
         UUID patient_id,
         String description
-) {
+        ) {
+
 }

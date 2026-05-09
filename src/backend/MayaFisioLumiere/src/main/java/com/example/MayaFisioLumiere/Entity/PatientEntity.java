@@ -18,21 +18,22 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "patients") //seleciona a tabela de pacientes do banco de dados
-@Getter // get automatico nos argumentos abaixo
-@Setter // set automatico nos argumentos abaixo
-@NoArgsConstructor // construtor sem argumentos (usado para o pacote do spring jpa)
-@AllArgsConstructor // construtor com todos os campos
+@Table(name = "patients")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class PatientEntity implements UserDetails {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO) //gera uuid automatica de acordo com a tabela de pacientes
-    @Column(name = "patient_id", columnDefinition = "uuid", updatable = false, nullable = false) //manda id minusculo pro jpa
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "patient_id", columnDefinition = "uuid", updatable = false, nullable = false)
     private UUID patient_ID;
 
-    @Column(nullable = false)//tipo da coluna no banco de dados e nas outras tb
+    @Column(nullable = false)
     private String name;
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     private String surname;
 
     @Column(unique = true, nullable = false)
@@ -41,7 +42,7 @@ public class PatientEntity implements UserDetails {
     @Column(unique = true, nullable = false)
     private String cpf;
 
-    @Column( nullable = false)
+    @Column(nullable = false)
     private String password;
 
     @Column(nullable = false)
@@ -50,16 +51,16 @@ public class PatientEntity implements UserDetails {
     @Column(nullable = false)
     private String birthDate;
 
-    @Column (nullable = true, name = "lgpd_check")
+    @Column(nullable = true, name = "lgpd_check")
     private boolean lgpdCheck;
 
     @Column(nullable = false)
     private String status = "INATIVO";
 
-    @Column( nullable = true)
+    @Column(nullable = true)
     private String cellPhone;
 
-    @Column( nullable = true)
+    @Column(nullable = true)
     private String gender;
 
     @Column
@@ -70,7 +71,6 @@ public class PatientEntity implements UserDetails {
 
     @Column
     private String description;
-
 
     @Enumerated(EnumType.STRING)
     private UserRole role;
@@ -86,16 +86,18 @@ public class PatientEntity implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if(this.role == UserRole.ADMIN) {
+        if (this.role == UserRole.ADMIN) {
             return List.of(
                     new SimpleGrantedAuthority("ROLE_ADMIN"),
                     new SimpleGrantedAuthority("ROLE_PATIENT"));
+        } else {
+            return List.of(new SimpleGrantedAuthority("ROLE_PATIENT"));
         }
-        else return List.of(new SimpleGrantedAuthority("ROLE_PATIENT"));
     }
 
     @Override
-    public @Nullable String getPassword() {
+    public @Nullable
+    String getPassword() {
         return password;
     }
 
@@ -106,29 +108,29 @@ public class PatientEntity implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-     /*   // logica de tempo de sessão por dia
+        /* // Lógica de tempo de sessão por dia
         if (lastAccessDate != null && !lastAccessDate.equals(LocalDate.now())) {
             return true;
         }
 
         int limitMinutes = (this.role == UserRole.Patient) ?  180: 60; //3h de sessão ou 1h de sessão, tem que ver quanto tempo a gente pretende colocar para a sessão diaria do admin e do usuário
-        return this.totalMinutesUsedToday < limitMinutes;*/
+        return this.totalMinutesUsedToday < limitMinutes; */
         return true;
     }
 
-    // verifica se a conta não está expirada
+    // Verifica se a conta não está expirada
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
-    // conta não bloqueada tem que implementar uma lógica ainda pra ver se ela fica expirada ou não
+    // Conta não bloqueada tem que implementar uma lógica ainda pra ver se ela fica expirada ou não
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
-    // credenciais não expiradas fazer a lógica de implementação ainda delas, com base no jwt e hash
+    // Credenciais não expiradas fazer a lógica de implementação ainda delas, com base no jwt e hash
     @Override
     public boolean isCredentialsNonExpired() {
         return true;

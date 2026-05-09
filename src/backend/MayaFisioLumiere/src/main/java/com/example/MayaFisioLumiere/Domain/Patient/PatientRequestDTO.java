@@ -13,4 +13,6 @@ public record PatientRequestDTO(
         Double height,
         Double weight,
         String description
-) { }
+        ) {
+
+}

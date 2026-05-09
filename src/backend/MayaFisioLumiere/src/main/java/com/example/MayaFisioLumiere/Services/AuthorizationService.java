@@ -20,14 +20,17 @@ public class AuthorizationService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-    //TENTATIVA DE RESOLVER O FORBIDDEN!
-        //  buscar o email na tabela de Administradores
+        // Buscar o email na tabela de Administradores
         var admin = adminRepository.findByAdminEmail(username);
-        if (admin.isPresent()) return admin.get();
+        if (admin.isPresent()) {
+            return admin.get();
+        }
 
         // Tenta buscar na tabela de Pacientes
         var patient = patientRepository.findByEmail(username);
-        if (patient.isPresent()) return patient.get();
+        if (patient.isPresent()) {
+            return patient.get();
+        }
 
         // Se não achar em nenhum dos dois, o login falha
         throw new UsernameNotFoundException("Usuário não encontrado");

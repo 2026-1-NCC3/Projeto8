@@ -24,6 +24,7 @@ import java.util.List;
 @AllArgsConstructor
 
 public class AdminEntity implements UserDetails {
+
     // reconhece que esse usuário vai ser autenticado dentro da aplicação spring,
     // se estiver dando erro é so implementar os metodos automaticamente
     @Id
@@ -32,7 +33,6 @@ public class AdminEntity implements UserDetails {
 
     @Column(nullable = false)
     private String adminName;
-
 
     @Column(nullable = false, unique = true)
     private String adminEmail;
@@ -53,22 +53,22 @@ public class AdminEntity implements UserDetails {
     @Column(name = "last_access_date")
     private LocalDate lastAccessDate = LocalDate.now();
 
-
     // anotações geradas automaticamente ao implementarmos a classe de UserDetails
-
     // essa classe a baixo diz sobre o tipo de permissão que estamos dando para o nosso admin
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if (this.role == UserRole.ADMIN) {
             return List.of(
-                    new SimpleGrantedAuthority(UserRole.ADMIN.getRole()),   // Returns "ROLE_ADMIN"
+                    new SimpleGrantedAuthority(UserRole.ADMIN.getRole()), // Returns "ROLE_ADMIN"
                     new SimpleGrantedAuthority(UserRole.PATIENT.getRole()) // Returns "ROLE_PATIENT"
             );
         }
         return List.of(new SimpleGrantedAuthority(UserRole.PATIENT.getRole()));
     }
+
     @Override
-    public @Nullable String getPassword() {
+    public @Nullable
+    String getPassword() {
         return adminPassword;
     }
 
@@ -79,7 +79,7 @@ public class AdminEntity implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-    /* logica de tempo de sessão por dia
+        /* logica de tempo de sessão por dia
         if (lastAccessDate != null && !lastAccessDate.equals(LocalDate.now())) {
             return true;
         }

@@ -32,7 +32,7 @@ public class SecurityFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        // 1. Trata pre-flight do CORS (Evita 403 em requisições de navegadores/mobile)
+        // 1. Trata pre-flight do CORS (Evita 403 em requisições)
         if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
             filterChain.doFilter(request, response);
             return;
@@ -49,13 +49,13 @@ public class SecurityFilter extends OncePerRequestFilter {
         var login = tokenService.validateToken(token);
 
         if (login != null) {
-            // 3. Tenta encontrar como ADMIN
+            // 3. Tenta encontrar como admin
             var adminOptional = adminRepository.findByAdminEmail(login);
 
             if (adminOptional.isPresent()) {
                 setAuthentication(adminOptional.get());
             } else {
-                // 4. Se não for admin, tenta encontrar como PACIENTE
+                // 4. Se não for admin, tenta encontrar como paciente
                 var patientOptional = patientRepository.findByEmail(login);
                 if (patientOptional.isPresent()) {
                     setAuthentication(patientOptional.get());
@@ -74,10 +74,14 @@ public class SecurityFilter extends OncePerRequestFilter {
 
     private String recoverToken(HttpServletRequest request) {
         var authHeader = request.getHeader("Authorization");
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) return null;
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return null;
+        }
 
         String token = authHeader.substring(7).trim();
-        if (token.isEmpty() || token.equals("undefined") || token.equals("null")) return null;
+        if (token.isEmpty() || token.equals("undefined") || token.equals("null")) {
+            return null;
+        }
 
         return token;
     }

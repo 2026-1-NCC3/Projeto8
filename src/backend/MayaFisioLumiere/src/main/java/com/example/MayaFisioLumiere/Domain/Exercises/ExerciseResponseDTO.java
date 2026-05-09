@@ -6,4 +6,5 @@ public record ExerciseResponseDTO(
         String midiaURL,
         String tags,
         String description) {
+
 }

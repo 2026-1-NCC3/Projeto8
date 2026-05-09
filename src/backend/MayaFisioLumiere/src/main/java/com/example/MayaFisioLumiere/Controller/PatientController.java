@@ -13,13 +13,13 @@ import org.springframework.http.HttpStatus;
 import java.util.List;
 import java.util.UUID;
 
-@RestController //tipo da classe que vamos fazer
+@RestController
 @RequestMapping("/api/patient")
-//rota principal desse controller, sempre que formos adicionar uma rota nesse controle vai ser esse caminho +/nomeDaRota
+
 public class PatientController {
 
     @Autowired
-    private PatientRepository patientRepository; // conecta o controller ao banco de dados hospedado
+    private PatientRepository patientRepository;
 
     @Autowired
     private PatientService patientService;
@@ -27,7 +27,6 @@ public class PatientController {
     @GetMapping("/getAllPatients")
     public ResponseEntity<?> getAllPatients() {
         try {
-            // busca todos os pacientes dentro do banco de dados
             List<PatientResponseDTO> patients = patientService.getAllPatients();
             return ResponseEntity.ok(patients);
         } catch (Exception e) {
@@ -66,13 +65,13 @@ public class PatientController {
     }
 
     @PutMapping("/updateLgpdStatus/{id}")
-    public ResponseEntity<?> updateLgpdStatus(@PathVariable UUID id, @RequestParam boolean lgpdCheck){
-        try{
-        patientService.updateLgpdStatus(id, lgpdCheck);
-        return ResponseEntity.ok().body("Status LGPD atualizado com sucesso.");
+    public ResponseEntity<?> updateLgpdStatus(@PathVariable UUID id, @RequestParam boolean lgpdCheck) {
+        try {
+            patientService.updateLgpdStatus(id, lgpdCheck);
+            return ResponseEntity.ok().body("Status LGPD atualizado com sucesso.");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
-        catch(RuntimeException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());        }
 
     }
 
@@ -97,7 +96,7 @@ public class PatientController {
         }
     }
 
-    @DeleteMapping("/delete/{patient_id}") // deletando paciente por id
+    @DeleteMapping("/delete/{patient_id}")
     public ResponseEntity<?> deletePatient(@PathVariable("patient_id") UUID patient_id) {
         try {
             patientRepository.deleteById(patient_id);
@@ -106,5 +105,4 @@ public class PatientController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar paciente.");
         }
     }
-
 }

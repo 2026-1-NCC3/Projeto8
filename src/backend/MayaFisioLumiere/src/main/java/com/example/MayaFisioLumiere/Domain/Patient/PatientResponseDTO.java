@@ -17,6 +17,6 @@ public record PatientResponseDTO(
         boolean lgpdCheck,
         String description,
         String cpf
+        ) {
 
-) {
 }

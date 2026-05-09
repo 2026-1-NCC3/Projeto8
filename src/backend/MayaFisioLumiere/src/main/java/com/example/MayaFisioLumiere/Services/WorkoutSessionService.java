@@ -29,8 +29,8 @@ public class WorkoutSessionService {
 
     @Autowired
     private ExercisesRepository exercisesRepository; */
+
     // Criar um novo workout pegando o ID dos exercicios
-    // Permitir associar mais de um exercise id
     public WorkoutSessionEntity createWorkout(WorkoutSesRequestDTO data) {
 
         PatientEntity patient = patientRepository.findById(data.patient_id())
@@ -47,7 +47,6 @@ public class WorkoutSessionService {
     }
 
     // Permitir ao paciente dar check no Workout do dia (checked = true)
-    // Associar essa logica ao botao no front
     public WorkoutSessionEntity checkWorkout(Long workoutSession_id) {
         WorkoutSessionEntity workout = workoutSessionRepository.findById(workoutSession_id)
                 .orElseThrow(() -> new RuntimeException("Workout não encontrado"));
@@ -121,6 +120,7 @@ public class WorkoutSessionService {
         return workoutSessionRepository.findByPatient(patient);
     }
      */
+    
     public List<WorkoutSesResponseDTO> getWorkoutsByPatient(UUID patientId) {
         PatientEntity patient = patientRepository.findById(patientId)
                 .orElseThrow(() -> new RuntimeException("Paciente não encontrado"));

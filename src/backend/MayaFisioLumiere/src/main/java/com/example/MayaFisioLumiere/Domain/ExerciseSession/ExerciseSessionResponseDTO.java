@@ -12,6 +12,6 @@ public record ExerciseSessionResponseDTO(
         int serie,
         int repetitions,
         Boolean feelPain
-) {
+        ) {
 
 }

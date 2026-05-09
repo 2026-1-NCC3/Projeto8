@@ -9,4 +9,6 @@ public record ExerciseSessionRequestDTO(
         Integer serie,
         Integer repetitions,
         Boolean feelPain
-        ) { }
+        ) {
+
+}

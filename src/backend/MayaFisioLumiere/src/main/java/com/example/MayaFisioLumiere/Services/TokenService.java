@@ -14,6 +14,7 @@ import java.time.ZoneOffset;
 
 @Service
 public class TokenService {
+
     @Value("${api.security.token.secret}")
     private String secret;
 
@@ -32,7 +33,7 @@ public class TokenService {
             return JWT.create()
                     .withIssuer("auth-api")
                     .withSubject(user.getUsername())
-                    .withClaim("role", role) // Agora o token terá "role": "admin"
+                    .withClaim("role", role) // Agora o token tem "role": "admin"
                     .withExpiresAt(genExpirationDate())
                     .sign(algorithm);
         } catch (JWTCreationException exception) {
@@ -52,7 +53,6 @@ public class TokenService {
             return null;
         }
 
-
     }
 
     public Long getExpirationDate(String token) {
@@ -63,16 +63,16 @@ public class TokenService {
                     .build()
                     .verify(token)
                     .getExpiresAt() // Pega o objeto Date da expiração
-                    .getTime();    // Converte para milissegundos (Long)
+                    .getTime();
         } catch (JWTVerificationException exception) {
             // Se o token já for inválido, retornamos o tempo atual para ele expirar logo
             return System.currentTimeMillis();
         }
     }
 
-    // o quanto de tempo a sessão desse usuario vai expirar
+    // Quanto de tempo a sessão desse usuario vai expirar
     private Instant genExpirationDate() {
-        // vai expirar em 2h a partir da entrada da aplicação
+        // Vai expirar em 2h a partir da entrada da aplicação
         return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
     }
 }

@@ -21,7 +21,7 @@ public class AppointmentEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID appointment_id;
 
-    @Column( name = "date", nullable = false)
+    @Column(name = "date", nullable = false)
     private LocalDateTime date;
 
     @Column

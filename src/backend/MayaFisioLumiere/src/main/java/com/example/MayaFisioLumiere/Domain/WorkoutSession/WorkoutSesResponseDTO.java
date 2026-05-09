@@ -11,6 +11,6 @@ public record WorkoutSesResponseDTO(
         Boolean checked,
         UUID patient,
         List<ExerciseSessionResponseDTO> exercises
-) {
+        ) {
 
 }

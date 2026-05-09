@@ -22,7 +22,7 @@ public class AppointmentService {
     @Autowired
     private PatientRepository patientRepository;
 
-    // create appointment
+    // Create appointment
     public AppointmentEntity createAppointment(AppointmentRequestDTO data) {
         PatientEntity patient = patientRepository.findById(data.patient_id())
                 .orElseThrow(() -> new RuntimeException("Paciente não encontrado"));
@@ -36,7 +36,7 @@ public class AppointmentService {
         return appointmentRepository.save(newAppointment);
     }
 
-    // update by patient id
+    // Update by patient id
     public AppointmentResponseDTO updateAppointment(AppointmentRequestDTO data, UUID patient_id, UUID appointment_id) {
         AppointmentEntity appointment = appointmentRepository.findById(appointment_id)
                 .orElseThrow(() -> new RuntimeException("Agendamento não encontrado"));
@@ -75,16 +75,16 @@ public class AppointmentService {
 
         return appointments.stream()
                 .map(entity -> new AppointmentResponseDTO(
-                        entity.getAppointment_id(),
-                        entity.getDate(),
-                        entity.getTime(),
-                        entity.getDescription(),
-                        patientId
-                ))
+                entity.getAppointment_id(),
+                entity.getDate(),
+                entity.getTime(),
+                entity.getDescription(),
+                patientId
+        ))
                 .toList();
     }
-    //get appointments by day
-
+    
+    // Get appointments by day
     public List<AppointmentResponseDTO> getAppointmentsByDate(LocalDateTime date) {
         List<AppointmentEntity> appointments = appointmentRepository.findByDate(date);
 
@@ -97,19 +97,19 @@ public class AppointmentService {
         )).toList();
     }
 
-    // get appointments by month
+    // Get appointments by month
     public List<AppointmentResponseDTO> getAppointmentsByMonth(int month, int year) {
         List<AppointmentEntity> appointments = appointmentRepository.findAll();
 
         return appointments.stream()
                 .filter(a -> a.getDate().getMonthValue() == month && a.getDate().getYear() == year)
                 .map(entity -> new AppointmentResponseDTO(
-                        entity.getAppointment_id(),
-                        entity.getDate(),
-                        entity.getTime(),
-                        entity.getDescription(),
-                        entity.getPatient().getPatient_ID()
-                )).toList();
+                entity.getAppointment_id(),
+                entity.getDate(),
+                entity.getTime(),
+                entity.getDescription(),
+                entity.getPatient().getPatient_ID()
+        )).toList();
     }
 
     public List<AppointmentResponseDTO> getAppointmentsByYear(int year) {
@@ -118,15 +118,15 @@ public class AppointmentService {
         return appointments.stream()
                 .filter(a -> a.getDate().getYear() == year)
                 .map(entity -> new AppointmentResponseDTO(
-                        entity.getAppointment_id(),
-                        entity.getDate(),
-                        entity.getTime(),
-                        entity.getDescription(),
-                        entity.getPatient().getPatient_ID()
-                )).toList();
+                entity.getAppointment_id(),
+                entity.getDate(),
+                entity.getTime(),
+                entity.getDescription(),
+                entity.getPatient().getPatient_ID()
+        )).toList();
     }
 
-    // get all appointments
+    // Get all appointments
     public List<AppointmentResponseDTO> getAllAppointments() {
         List<AppointmentEntity> appointments = appointmentRepository.findAll();
 
@@ -139,7 +139,7 @@ public class AppointmentService {
         )).toList();
     }
 
-    // delete appointment relacionado ao paciente
+    // Delete appointment relacionado ao paciente
     public void deleteAppointment(UUID appointment_id, UUID patient_id) {
         AppointmentEntity appointment = appointmentRepository.findById(appointment_id)
                 .orElseThrow(() -> new RuntimeException("Agendamento não encontrado"));

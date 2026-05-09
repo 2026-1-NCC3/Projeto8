@@ -22,28 +22,27 @@ public class PatientService {
     @Autowired
     private TokenService tokenService;
 
-
-    //busca todos os pacientes criados dentro do banco de dados
+    // Busca todos os pacientes criados dentro do banco de dados
     public List<PatientResponseDTO> getAllPatients() {
         List<PatientEntity> patients = this.patientRepository.findAll();
 
         return patients.stream()
                 .map(patient -> new PatientResponseDTO(
-                        patient.getPatient_ID(),
-                        patient.getPassword(),
-                        patient.getStatus(),
-                        patient.getName(),
-                        patient.getSurname(),
-                        patient.getEmail(),
-                        patient.getBirthDate(),
-                        patient.getCellPhone(),
-                        patient.getGender(),
-                        patient.getHeight(),
-                        patient.getWeight(),
-                        patient.isLgpdCheck(),
-                        patient.getDescription(),
-                        patient.getCpf()
-                ))
+                patient.getPatient_ID(),
+                patient.getPassword(),
+                patient.getStatus(),
+                patient.getName(),
+                patient.getSurname(),
+                patient.getEmail(),
+                patient.getBirthDate(),
+                patient.getCellPhone(),
+                patient.getGender(),
+                patient.getHeight(),
+                patient.getWeight(),
+                patient.isLgpdCheck(),
+                patient.getDescription(),
+                patient.getCpf()
+        ))
                 .toList();
     }
 
@@ -70,10 +69,8 @@ public class PatientService {
         );
     }
 
-
-    // busca paciente por nome completo
-    //CADE A ROTA?
-    public List<PatientResponseDTO> getPatientByFullName(String name, String surname){
+    // Busca paciente por nome completo
+    public List<PatientResponseDTO> getPatientByFullName(String name, String surname) {
         List<PatientEntity> patients = this.patientRepository.findByNameAndSurnameIgnoreCase(name, surname);
 
         return patients.stream().map(patient -> new PatientResponseDTO(
@@ -93,8 +90,9 @@ public class PatientService {
                 patient.getCpf()
         )).toList();
     }
-    //cria novo paciente dentro do banco de dados
-    public PatientEntity createPatient(PatientRequestDTO data){
+
+    // Cria novo paciente dentro do banco de dados
+    public PatientEntity createPatient(PatientRequestDTO data) {
         PatientEntity newPatient = new PatientEntity();
         newPatient.setName(data.name());
         newPatient.setSurname(data.surname());
@@ -136,23 +134,47 @@ public class PatientService {
         return response;
     }
 
-    // atualiza dados do paciente
+    // Atualiza dados do paciente
     public PatientResponseDTO updatePatientData(PatientRequestDTO body, UUID id) {
         PatientEntity patient = patientRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Paciente não encontrado"));
 
-        if (body.name() != null) patient.setName(body.name());
-        if (body.surname() != null) patient.setSurname(body.surname());
-        if (body.cpf() != null) patient.setCpf(body.cpf());
-        if (body.email() != null) patient.setEmail(body.email());
-        if (body.password() != null) patient.setPassword(body.password());
-        if (body.patientAge() != null) patient.setPatientAge(body.patientAge());
-        if (body.birthDate() != null) patient.setBirthDate(body.birthDate());
-        if (body.cellPhone() != null) patient.setCellPhone(body.cellPhone());
-        if (body.gender() != null) patient.setGender(body.gender());
-        if (body.height() != null) patient.setHeight(body.height());
-        if (body.weight() != null) patient.setWeight(body.weight());
-        if(body.description() != null) patient.setDescription(body.description());
+        if (body.name() != null) {
+            patient.setName(body.name());
+        }
+        if (body.surname() != null) {
+            patient.setSurname(body.surname());
+        }
+        if (body.cpf() != null) {
+            patient.setCpf(body.cpf());
+        }
+        if (body.email() != null) {
+            patient.setEmail(body.email());
+        }
+        if (body.password() != null) {
+            patient.setPassword(body.password());
+        }
+        if (body.patientAge() != null) {
+            patient.setPatientAge(body.patientAge());
+        }
+        if (body.birthDate() != null) {
+            patient.setBirthDate(body.birthDate());
+        }
+        if (body.cellPhone() != null) {
+            patient.setCellPhone(body.cellPhone());
+        }
+        if (body.gender() != null) {
+            patient.setGender(body.gender());
+        }
+        if (body.height() != null) {
+            patient.setHeight(body.height());
+        }
+        if (body.weight() != null) {
+            patient.setWeight(body.weight());
+        }
+        if (body.description() != null) {
+            patient.setDescription(body.description());
+        }
 
         patientRepository.save(patient);
 
@@ -174,15 +196,14 @@ public class PatientService {
         );
     }
 
-
-    // atualiza o status lgpd do paciente
-    public void updateLgpdStatus(UUID id, boolean lgpdCheck){
+    // Atualiza o status lgpd do paciente
+    public void updateLgpdStatus(UUID id, boolean lgpdCheck) {
         PatientEntity patient = patientRepository.findById(id).orElseThrow(() -> new RuntimeException("Paciente não encontrado"));
         patient.setLgpdCheck(lgpdCheck);
         patientRepository.save(patient);
     }
 
-    //deleta paciente pela uuid dele
+    // Deleta paciente pela uuid dele
     public void deletePatientById(UUID id) {
         if (!patientRepository.existsById(id)) {
             throw new RuntimeException("Paciente com ID " + id + " não encontrado.");
