@@ -18,7 +18,7 @@ public interface WorkoutService {
 
     // Para dar o "Check" final no treino e atualizar o status do paciente para "ativo"
     @PUT("api/workout/check/{id}")
-    Call<WorkoutSession> checkWorkout(@Path("id") Long workoutId);
+    Call<Void> checkWorkout(@Path("id") Long workoutId);
 
     // Busca o progresso semanal pelo ID do paciente
     @GET("api/workout/progress/{patient_id}")
