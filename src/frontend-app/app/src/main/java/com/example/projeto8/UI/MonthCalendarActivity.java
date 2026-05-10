@@ -4,6 +4,8 @@ package com.example.projeto8.UI;
 import static com.example.projeto8.UI.CalendarUtils.daysInMonthArray;
 import static com.example.projeto8.UI.CalendarUtils.monthYearFromDate;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,7 +15,10 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -45,12 +50,26 @@ public class MonthCalendarActivity extends AppCompatActivity implements Calendar
     private AppointmentAdapter appointmentAdapter;
     private List<Appointment> allAppointments = new ArrayList<>();
 
+    //Para pedir permissão de notificação
+    private final ActivityResultLauncher<String> requestPermissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                if (isGranted) {
+                    Log.d("NOTIF_PERM", "Permissão concedida pelo usuário");
+                } else {
+                    Toast.makeText(this, "Avisos de consulta desativados", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+    private static final String CHANNEL_ID = "agendamento_channel";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
 
         RetrofitClient.init(this);
+        createNotificationChannel();
+        checkNotificationPermission();
 
         if (CalendarUtils.selectedDate == null) {
             CalendarUtils.selectedDate = LocalDate.now();
@@ -59,17 +78,22 @@ public class MonthCalendarActivity extends AppCompatActivity implements Calendar
         initWidgets();
         setMonthView();
         setupMenuClicks();
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
         fetchAppointments();
     }
+
     private void fetchAppointments() {
-        String uuidStr = getSharedPreferences("STORAGE", MODE_PRIVATE).getString("patientId", null);
+        String uuidStr = getSharedPreferences("STORAGE", MODE_PRIVATE).getString("patient_id", null);
         if (uuidStr == null) return;
 
-        UUID patientId = UUID.fromString(uuidStr);
+        UUID patient_id = UUID.fromString(uuidStr);
 
         RetrofitClient.getAppointmentService()
-                .getAppointmentByPatient(patientId)
+                .getAppointmentByPatient(patient_id)
                 .enqueue(new Callback<List<Appointment>>() {
                     @Override
                     public void onResponse(Call<List<Appointment>> call, Response<List<Appointment>> response) {
@@ -98,7 +122,6 @@ public class MonthCalendarActivity extends AppCompatActivity implements Calendar
                 }
             }
         }
-
         updateUI(filteredList);
     }
 
@@ -109,7 +132,6 @@ public class MonthCalendarActivity extends AppCompatActivity implements Calendar
         } else {
             appointmentAdapter.setAppointments(filteredList);
         }
-
         updateSelectedDateText();
     }
 
@@ -228,6 +250,7 @@ public class MonthCalendarActivity extends AppCompatActivity implements Calendar
             CalendarUtils.selectedDate = date;
             setMonthView();
             updateSelectedDateText();
+            filterByDate();
         }
     }
 
@@ -245,5 +268,30 @@ public class MonthCalendarActivity extends AppCompatActivity implements Calendar
     public void nextMonthAction(View view) {
         CalendarUtils.selectedDate = CalendarUtils.selectedDate.plusMonths(1);
         setMonthView();
+    }
+
+    private void checkNotificationPermission() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            if (androidx.core.content.ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS)
+                    != android.content.pm.PackageManager.PERMISSION_GRANTED) {
+
+                requestPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS);
+            }
+        }
+    }
+    private void createNotificationChannel() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(
+                    CHANNEL_ID,
+                    "Notificações de Agendamento",
+                    NotificationManager.IMPORTANCE_HIGH // IMPORTANCE_HIGH para aparecer o banner no topo
+            );
+            channel.setDescription("Canal para avisos de sessões de fisioterapia");
+
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            if (manager != null) {
+                manager.createNotificationChannel(channel);
+            }
+        }
     }
 }
