@@ -30,7 +30,7 @@ import retrofit2.Response;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private TextView txtName, txtStatus, txtEmail, txtPassword, txtCpf,
+    private TextView txtName, txtEmail, txtPassword, txtCpf,
             txtCellphone, txtBirthDate, txtAge, txtGender,
             txtHeight, txtWeight, txtDescription, txtLGDP, txtWorkoutCount;
 
@@ -65,6 +65,7 @@ public class ProfileActivity extends AppCompatActivity {
         txtDescription = findViewById(R.id.txtDescription);
         txtLGDP = findViewById(R.id.txtLGDP);
 
+
         // PROGRESSO
         pbWorkouts = findViewById(R.id.pbWorkouts);
         txtWorkoutCount = findViewById(R.id.txtWorkoutCount);
@@ -93,9 +94,9 @@ public class ProfileActivity extends AppCompatActivity {
             }
 
             updateMenuSelection(
-                    btnProfile, containerProfile,
-                    btnHome, containerHome,
-                    btnCalendar, containerCalendar
+                    btnProfile,       // Selecionado
+                    containerProfile, // Container Selecionado
+                    btnHome, containerHome, btnCalendar, containerCalendar // TODOS os outros que devem ser resetados
             );
         }
     }
@@ -104,26 +105,58 @@ public class ProfileActivity extends AppCompatActivity {
         view.startAnimation(anim);
     }
     public void setupMenuClicks() {
-        btnHome.setOnClickListener(v -> {
-            animateClick(v);
-            updateMenuSelection(btnHome, containerHome, btnCalendar, containerCalendar, btnProfile, containerProfile);
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
+        // BOTÃO HOME
+        if (btnHome != null) {
+            btnHome.setOnClickListener(v -> {
+                animateClick(v);
+                // Abre a MainActivity e fecha a Profile
+                Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            });
+        }
 
-        });
+        // BOTÃO CALENDÁRIO
+        if (btnCalendar != null) {
+            btnCalendar.setOnClickListener(v -> {
+                animateClick(v);
+                // Abre o Calendário e fecha a Profile
+                Intent intent = new Intent(ProfileActivity.this, MonthCalendarActivity.class);
+                startActivity(intent);
+                finish();
+            });
+        }
 
+        // BOTÃO PERFIL (Onde você já está)
+        if (btnProfile != null) {
+            btnProfile.setOnClickListener(v -> {
+                animateClick(v);
+                // Apenas visual: atualiza a seleção sem abrir nova Activity
+                updateMenuSelection(btnProfile, containerProfile, btnCalendar, containerCalendar, btnHome, containerHome);
+            });
+        }
+    }
 
-        btnCalendar.setOnClickListener(v -> {
-            animateClick(v);
-            updateMenuSelection(btnCalendar, containerCalendar, btnHome, containerHome, btnProfile, containerProfile);
-            startActivity(new Intent(this, MonthCalendarActivity.class));
+    private void updateMenuSelection(View selectedBtn, View selectedContainer, View... others) {
+        // 1. Limpa o estado de todos os outros botões e containers passados
+        for (View view : others) {
+            if (view != null) {
+                view.setSelected(false);
+                // Em vez de comparar com variáveis globais, limpamos o background
+                // de qualquer View que for passada nesta lista de "others"
+                view.setBackground(null);
+            }
+        }
 
-        });
+        // 2. Ativa o botão selecionado
+        if (selectedBtn != null) {
+            selectedBtn.setSelected(true);
+        }
 
-        btnProfile.setOnClickListener(v -> {
-            updateMenuSelection(btnProfile, containerProfile, btnCalendar, containerCalendar, btnHome, containerHome);
-        });
-
+        // 3. Aplica o fundo apenas no container selecionado
+        if (selectedContainer != null) {
+            selectedContainer.setBackgroundResource(R.drawable.selected_item_bg);
+        }
     }
 
 
@@ -149,7 +182,6 @@ public class ProfileActivity extends AppCompatActivity {
                     PatientResponseDTO patient = response.body();
 
                     txtName.setText(patient.getName() + " " + patient.getSurname());
-                    txtStatus.setText("Status: " + patient.getStatus());
                     txtEmail.setText(patient.getEmail());
                     txtPassword.setText(patient.getPassword());
                     txtCpf.setText(patient.getCpf());
@@ -202,22 +234,6 @@ public class ProfileActivity extends AppCompatActivity {
 
 
 
-    private void updateMenuSelection(View selectedBtn, View selectedContainer, View... others) {
-        for (View view : others) {
-            if (view != null) {
-                view.setSelected(false);
-                if (view == containerHome || view == containerCalendar || view == containerProfile) {
-                    view.setBackground(null);
-                }
-            }
-        }
-        if (selectedBtn != null) {
-            selectedBtn.setSelected(true);
-        }
-        if (selectedContainer != null) {
-            selectedContainer.setBackgroundResource(R.drawable.selected_item_bg);
-        }
-    }
 
     private void showDeleteDialog() {
         View view = getLayoutInflater().inflate(R.layout.dialog_delete, null);

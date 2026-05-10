@@ -111,76 +111,13 @@
 
         </LinearLayout>
 
-        <!-- DIAS DA SEMANA -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="DOM"
-                android:textColor="@color/gray"
-                android:textAlignment="center" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="SEG"
-                android:textColor="@color/gray"
-                android:textAlignment="center" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TER"
-                android:textColor="@color/gray"
-                android:textAlignment="center" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="QUA"
-                android:textColor="@color/gray"
-                android:textAlignment="center" />
-
-            <TextView android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="QUI"
-                android:textColor="@color/gray"
-                android:textAlignment="center" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="SEX"
-                android:textColor="@color/gray"
-                android:textAlignment="center" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="SAB"
-                android:textColor="@color/gray"
-                android:textAlignment="center" />
-
-        </LinearLayout>
-
         <!-- CALENDÁRIO -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/calendarRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:layout_marginTop="9dp"
             android:layout_marginBottom="20dp" />
+
 
         <TextView
             android:id="@+id/txtTodayExercise"

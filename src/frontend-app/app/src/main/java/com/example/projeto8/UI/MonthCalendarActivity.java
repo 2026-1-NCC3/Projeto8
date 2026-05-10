@@ -144,9 +144,9 @@ public class MonthCalendarActivity extends AppCompatActivity implements Calendar
             }
         }
         updateMenuSelection(
-                btnCalendar, containerCalendar,
-                btnHome, containerHome,
-                btnProfile, containerProfile
+                btnCalendar,       // Selecionado
+                containerCalendar, // Container Selecionado
+                btnHome, containerHome, btnProfile, containerProfile // TODOS os outros que devem ser resetados
         );
     }
 
@@ -155,48 +155,61 @@ public class MonthCalendarActivity extends AppCompatActivity implements Calendar
         view.startAnimation(anim);
     }
     public void setupMenuClicks() {
+        // BOTÃO HOME
+        if (btnHome != null) {
+            btnHome.setOnClickListener(v -> {
+                animateClick(v);
+                // Abre a MainActivity e fecha a Profile
+                Intent intent = new Intent(MonthCalendarActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            });
+        }
 
-        // Clique na Home
-        btnHome.setOnClickListener(v -> {
-            animateClick(v);
-            updateMenuSelection(btnHome, containerHome, btnCalendar, containerCalendar, btnProfile, containerProfile);
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
+        // BOTÃO CALENDÁRIO
+        if (btnProfile != null) {
+            btnProfile.setOnClickListener(v -> {
+                animateClick(v);
+                // Abre o Calendário e fecha a Profile
+                Intent intent = new Intent(MonthCalendarActivity.this, ProfileActivity.class);
+                startActivity(intent);
+                finish();
+            });
+        }
 
-        });
-
-
-        btnCalendar.setOnClickListener(v -> {
-            updateMenuSelection(btnProfile, containerProfile, btnCalendar, containerCalendar, btnHome, containerHome);
-
-        });
-
-        btnProfile.setOnClickListener(v -> {
-            animateClick(v);
-            updateMenuSelection(btnHome, containerHome, btnCalendar, containerCalendar, btnProfile, containerProfile);
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
-        });
-
+        // BOTÃO PERFIL (Onde você já está)
+        if (btnCalendar != null) {
+            btnCalendar.setOnClickListener(v -> {
+                animateClick(v);
+                // Apenas visual: atualiza a seleção sem abrir nova Activity
+                updateMenuSelection(btnProfile, containerProfile, btnCalendar, containerCalendar, btnHome, containerHome);
+            });
+        }
     }
 
     private void updateMenuSelection(View selectedBtn, View selectedContainer, View... others) {
+        // 1. Limpa o estado de todos os outros botões e containers passados
         for (View view : others) {
             if (view != null) {
                 view.setSelected(false);
-                if (view == containerHome || view == containerCalendar || view == containerProfile) {
-                    view.setBackground(null);
-                }
+                // Em vez de comparar com variáveis globais, limpamos o background
+                // de qualquer View que for passada nesta lista de "others"
+                view.setBackground(null);
             }
         }
 
+        // 2. Ativa o botão selecionado
         if (selectedBtn != null) {
             selectedBtn.setSelected(true);
         }
+
+        // 3. Aplica o fundo apenas no container selecionado
         if (selectedContainer != null) {
             selectedContainer.setBackgroundResource(R.drawable.selected_item_bg);
         }
     }
+
+
 
     private void setMonthView() {
         monthYearText.setText(monthYearFromDate(CalendarUtils.selectedDate));

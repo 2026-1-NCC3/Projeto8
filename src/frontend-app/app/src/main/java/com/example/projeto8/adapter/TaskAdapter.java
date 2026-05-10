@@ -59,15 +59,15 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int position) {
         Task task = tasks.get(position);
 
-        // --- LÓGICA ACRESCENTADA PARA MENSAGEM ---
         if (task.getExerciseId() == -1L) {
             holder.txtTitle.setText(task.getTitle()); // Apenas o título da mensagem
             holder.imgArrow.setVisibility(View.GONE); // Esconde a seta
             holder.expandArea.setVisibility(View.GONE); // Garante que não expande
             holder.container.setOnClickListener(null); // Desabilita o clique de expansão
+
+
         } else {
-            // --- LÓGICA ORIGINAL PARA EXERCÍCIOS ---
-            holder.imgArrow.setVisibility(View.VISIBLE); // Garante que a seta apareça
+            holder.imgArrow.setVisibility(View.VISIBLE);
 
             String textoExibicao = task.getTitle() + " | " + task.getSerie() + "x" + task.getReps();
             holder.txtTitle.setText(textoExibicao);
@@ -100,5 +100,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     @Override
     public int getItemCount() {
         return tasks.size();
+    }
+    public boolean hasRealExercises() {
+        for (Task t : tasks) {
+            if (t.getExerciseId() != -1L) {
+                return true; // Encontrou pelo menos um exercício real
+            }
+        }
+        return false; // Só tem a mensagem de "vazio" ou a lista está vazia
     }
 }
