@@ -193,7 +193,7 @@ public class ExercisesActivity extends AppCompatActivity {
                             @Override
                             public void onResponse(Call<Void> call, Response<Void> response) {
                                 if (response.isSuccessful()) {
-                                    Toast.makeText(ExercisesActivity.this, "Dor registrada!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(ExercisesActivity.this, "Feedback de dor registrado!", Toast.LENGTH_SHORT).show();
 
                                     int corSucesso = Color.parseColor("#CCEE715F");
                                     btnPain.setBackgroundTintList(ColorStateList.valueOf(corSucesso));

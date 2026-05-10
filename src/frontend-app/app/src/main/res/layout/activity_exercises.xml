@@ -69,11 +69,12 @@
 
     <TextView
         android:id="@+id/txtDor"
-        android:layout_width="180dp"
+        android:layout_width="190dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:text="Você sentiu dor fazendo esse exercício?"
-        android:textSize="16sp"
+        android:textSize="17sp"
+        android:textStyle="bold"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/btnPain" />
@@ -86,7 +87,7 @@
         android:text="Senti dor!"
         android:textColor="@color/white"
         android:textStyle="bold"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="15dp"
         android:backgroundTint="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/btnNext" />
