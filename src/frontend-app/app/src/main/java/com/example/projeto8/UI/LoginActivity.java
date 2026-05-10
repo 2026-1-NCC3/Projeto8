@@ -119,6 +119,7 @@ public class LoginActivity extends AppCompatActivity {
                             .apply();
 
                     Log.d("JSON_REAL", new com.google.gson.Gson().toJson(response.body()));
+
                     Toast.makeText(LoginActivity.this, "Login realizado com sucesso!", Toast.LENGTH_SHORT).show();
 
                     // Verificação para ver se o botão de lgpd já foi acessado pela conta
