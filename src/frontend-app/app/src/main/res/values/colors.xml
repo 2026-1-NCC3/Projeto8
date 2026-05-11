@@ -19,7 +19,8 @@
     <color name="choc">#8C493A</color>
 
     <color name="orange">#CC6152</color>
-    <color name="lightOrange">#80CC6152</color>
+    <color name="lOrange">#A9CC6152</color>
+    <color name="lightOrange">#BCCC6152</color>
     <color name="lightBLue">#2F8394</color>
     <color name="brown">#7A4A2F</color>
     <color name="darkBrown">#4B331E</color>

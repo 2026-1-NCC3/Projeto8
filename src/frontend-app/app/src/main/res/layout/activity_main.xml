@@ -29,7 +29,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="30dp"
         android:elevation="10dp"
-        android:src="@drawable/contour_fem"
+        android:src="@drawable/ic_girl1"
         app:layout_constraintBottom_toBottomOf="@id/topBackground"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/topBackground" />
@@ -66,6 +66,8 @@
         android:layout_height="0dp"
         android:padding="20dp"
         android:orientation="vertical"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         app:layout_constraintTop_toBottomOf="@id/topBackground"
         app:layout_constraintBottom_toTopOf="@id/menu"
         app:layout_constraintStart_toStartOf="parent"
@@ -115,14 +117,18 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/calendarRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_marginBottom="20dp" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:clipChildren="false"
+            android:clipToPadding="false"/>
 
 
         <TextView
             android:id="@+id/txtTodayExercise"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:clipChildren="false"
+            android:clipToPadding="false"
             android:text="Exercício de hoje"
             android:textSize="18sp"
             android:textFontWeight="700"
@@ -142,7 +148,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="INICIAR EXERCÍCIO"
-            android:backgroundTint="@color/lightBLue"
+            android:background="@drawable/bg_button_ag_in"
             android:textColor="@color/white"
             android:layout_margin="16dp"
             app:cornerRadius="8dp"

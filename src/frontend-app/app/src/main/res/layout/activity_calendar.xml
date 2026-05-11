@@ -125,10 +125,7 @@
         android:id="@+id/calendarRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/orange"
-        android:minHeight="300dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp" />
+        android:background="@color/orange" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -166,24 +163,6 @@
         android:background="@drawable/bg_card_calendar"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="20dp"
-            android:paddingTop="20dp"
-            android:text="Agendamento"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/selectedDateTV"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="20dp"
-            android:text="Data Selecionada"
-            android:textColor="@color/gray"
-            android:textSize="14sp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewAppointments"
@@ -196,16 +175,6 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Você tem consulta hoje às 10 horas da manhã!"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            android:paddingTop="10dp"
-            android:paddingLeft="20dp"
-            android:textFontWeight="550" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:text="Deseja cancelar?"
             android:textColor="@color/black"
             android:textSize="14sp"
@@ -214,10 +183,11 @@
             android:textFontWeight="550" />
         <Button
             android:id="@+id/btnCancelarAgendamento"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="200dp"
+            android:layout_height="38dp"
             android:layout_margin="15dp"
-            android:backgroundTint="@color/lightBLue"
+            android:textColor="@color/white"
+            android:background="@drawable/bg_button_ag_in"
             android:text="Cancelar agendamento" />
 
     </LinearLayout>

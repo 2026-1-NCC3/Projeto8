@@ -71,6 +71,7 @@ class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>
         holder.exerciseDot.setVisibility(View.GONE);
         holder.selectionContainer.setBackgroundResource(0);
         holder.dayOfMonth.setBackgroundResource(0);
+        
 
 
 
@@ -117,8 +118,10 @@ class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>
 
             } else {
                 // --- MODO MENSAL ---
-                holder.selectionContainer.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+                holder.dayOfMonth.setBackgroundResource(0);
+                holder.selectionContainer.setBackgroundResource(0);
                 holder.exerciseDot.setVisibility(View.GONE);
+                holder.itemView.setBackgroundColor(Color.TRANSPARENT);
 
                 // Forçamos o tamanho exato
                 int circleSize = (int) (45 * density);
