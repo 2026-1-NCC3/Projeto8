@@ -8,6 +8,7 @@ import android.app.NotificationManager;
 import com.example.projeto8.R;
 
 public class AppointmentReceiver extends BroadcastReceiver {
+
     @Override
     public void onReceive(Context context, Intent intent) {
         String desc = intent.getStringExtra("description");

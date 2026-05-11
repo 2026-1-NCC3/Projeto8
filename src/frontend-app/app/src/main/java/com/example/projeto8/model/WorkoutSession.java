@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class WorkoutSession {
+
     private Long workoutSession_id;
     private String weekDay;
     private Boolean checked;
@@ -31,13 +32,16 @@ public class WorkoutSession {
     public List<ExerciseSession> exerciseSessions() {
         return exerciseSessions;
     }
-    public String getWeekDay() { return weekDay; }
+
+    public String getWeekDay() {
+        return weekDay;
+    }
 
     public List<ExerciseSession> getExercises() {
         return exerciseSessions;
     }
 
-    public Long getWorkoutSession_id(){
+    public Long getWorkoutSession_id() {
         return workoutSession_id;
     }
 

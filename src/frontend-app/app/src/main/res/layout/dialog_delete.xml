@@ -21,9 +21,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:text="Delete Account?"
-            android:textColor="#333333"
-            android:textSize="22sp"
+            android:text="Deseja deletar sua conta?"
+            android:textColor="@color/black"
+            android:fontFamily=""
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextView
@@ -31,9 +32,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="8dp"
-            android:text="aaaaaaaaaaa"
+            android:text="Ao excluir sua conta, não será possível acessa-la novamente, tem certeza?"
             android:textColor="#666666"
-            android:textSize="14sp" />
+            android:textSize="15sp" />
 
 
         <LinearLayout
@@ -49,8 +50,7 @@
                 android:layout_weight="1"
                 android:layout_marginEnd="8dp"
                 android:background="@android:color/transparent"
-
-                android:text="Cancel"
+                android:text="Cancelar"
                 android:textAllCaps="false"
                 android:textColor="@color/black" />
 
@@ -61,12 +61,10 @@
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
                 android:background="@drawable/bg_btn_solid_red"
-                android:text="Deletar Conta"
+                android:text="Apagar Conta"
                 android:textAllCaps="false"
                 android:textColor="@color/white" />
-
         </LinearLayout>
-
     </LinearLayout>
 
     <FrameLayout
@@ -82,7 +80,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
-            android:src="@android:drawable/ic_menu_delete"
+            android:src="@drawable/ic_trash"
             app:tint="#FFFFFF" />
     </FrameLayout>
 

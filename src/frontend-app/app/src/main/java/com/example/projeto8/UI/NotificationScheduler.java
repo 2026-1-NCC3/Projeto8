@@ -12,21 +12,22 @@ import java.time.ZonedDateTime;
 public class NotificationScheduler {
 
     public static void schedule(Context context, LocalDateTime appointmentDate, String description, String time) {
-        //Converte a data para milissegundos
         ZonedDateTime zdt = appointmentDate.atZone(ZoneId.systemDefault());
         long appointmentMillis = zdt.toInstant().toEpochMilli();
 
-        //Define o tempo: exatos 24 horas antes
+        // Define o tempo: exatas 24 horas antes
         long notifyTime = appointmentMillis - (24 * 60 * 60 * 1000);
 
         // Se já passou das 24h anteriores (ex: consulta é daqui a 2h), não agenda
-        if (System.currentTimeMillis() > notifyTime) return;
+        if (System.currentTimeMillis() > notifyTime) {
+            return;
+        }
 
         Intent intent = new Intent(context, AppointmentReceiver.class);
         intent.putExtra("description", description);
         intent.putExtra("horario", time);
 
-        // id baseado no horário do appt para não sobrescrever outros agendamentos
+        // ID baseado no horário do appt para não sobrescrever outros agendamentos
         int uniqueId = (int) (appointmentMillis / 1000);
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(

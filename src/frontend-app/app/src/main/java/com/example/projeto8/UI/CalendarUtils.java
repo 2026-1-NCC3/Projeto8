@@ -1,6 +1,5 @@
 package com.example.projeto8.UI;
 
-
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -9,25 +8,22 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class CalendarUtils
-{
+public class CalendarUtils {
+
     public static LocalDate selectedDate;
     private static final Locale localeBR = new Locale("pt", "BR");
-    public static String formattedDate(LocalDate date)
 
-    {
+    public static String formattedDate(LocalDate date) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", localeBR);
         return date.format(formatter);
     }
 
-    public static String formattedTime(LocalTime time)
-    {
+    public static String formattedTime(LocalTime time) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm:ss a", localeBR);
         return time.format(formatter);
     }
 
-    public static String monthYearFromDate(LocalDate date)
-    {
+    public static String monthYearFromDate(LocalDate date) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM yyyy", localeBR);
         String formatted = date.format(formatter);
         return formatted.substring(0, 1).toUpperCase() + formatted.substring(1);
@@ -43,14 +39,15 @@ public class CalendarUtils
         // getValue() retorna 1 (Seg) a 7 (Dom)
         int dayOfWeek = firstOfMonth.getDayOfWeek().getValue();
 
-        // Se seu calendário começa no DOMINGO:
-        if (dayOfWeek == 7) dayOfWeek = 0;
+        // Calendário começa no DOMINGO
+        if (dayOfWeek == 7) {
+            dayOfWeek = 0;
+        }
 
         for (int i = 1; i <= 42; i++) {
             if (i <= dayOfWeek || i > daysInMonth + dayOfWeek) {
                 daysInMonthArray.add(null);
             } else {
-                // Use o dia calculado i - dayOfWeek
                 int day = i - dayOfWeek;
                 daysInMonthArray.add(LocalDate.of(date.getYear(), date.getMonthValue(), day));
             }
@@ -58,34 +55,29 @@ public class CalendarUtils
         return daysInMonthArray;
     }
 
-    public static ArrayList<LocalDate> daysInWeekArray(LocalDate selectedDate)
-    {
+    public static ArrayList<LocalDate> daysInWeekArray(LocalDate selectedDate) {
         ArrayList<LocalDate> days = new ArrayList<>();
         LocalDate current = sundayForDate(selectedDate);
         LocalDate endDate = current.plusWeeks(1);
 
-        while (current.isBefore(endDate))
-        {
+        while (current.isBefore(endDate)) {
             days.add(current);
             current = current.plusDays(1);
         }
         return days;
     }
 
-    private static LocalDate sundayForDate(LocalDate current)
-    {
+    private static LocalDate sundayForDate(LocalDate current) {
         LocalDate oneWeekAgo = current.minusWeeks(1);
 
-        while (current.isAfter(oneWeekAgo))
-        {
-            if(current.getDayOfWeek() == DayOfWeek.SUNDAY)
+        while (current.isAfter(oneWeekAgo)) {
+            if (current.getDayOfWeek() == DayOfWeek.SUNDAY) {
                 return current;
+            }
 
             current = current.minusDays(1);
         }
 
         return null;
     }
-
-
 }

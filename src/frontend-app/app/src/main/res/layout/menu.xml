@@ -20,7 +20,6 @@
         android:gravity="center"
         android:clickable="true"
         android:focusable="true">
-
         <LinearLayout
             android:id="@+id/containerCalendarSelect"
             android:layout_width="65dp"
@@ -29,14 +28,12 @@
             android:orientation="vertical"
             android:padding="4dp"
             android:duplicateParentState="true">
-
             <ImageView
                 android:id="@+id/iconCalendar"
                 android:layout_width="26dp"
                 android:layout_height="26dp"
                 android:src="@drawable/ic_calendar_selector"
                 android:duplicateParentState="true" />
-
             <TextView
                 android:id="@+id/txtCalendar"
                 android:layout_width="wrap_content"
@@ -44,11 +41,9 @@
                 android:text="Agenda"
                 android:layout_marginTop="4dp"
                 android:textSize="11sp"
-                android:textStyle="bold"
-                android:textColor="@color/lightBLue"
+                android:textColor="@color/darkGray"
                 android:duplicateParentState="true" />
         </LinearLayout>
-
     </LinearLayout>
 
     <!-- BOTÃO: HOME -->
@@ -61,7 +56,6 @@
         android:clickable="true"
         android:focusable="true">
 
-
         <LinearLayout
             android:id="@+id/containerHomeSelect"
             android:layout_width="65dp"
@@ -71,24 +65,21 @@
             android:orientation="vertical"
             android:padding="4dp"
             android:duplicateParentState="true">
-
             <ImageView
                 android:id="@+id/iconHome"
                 android:layout_width="26dp"
                 android:layout_height="26dp"
                 android:src="@drawable/ic_home_selector"
                 android:duplicateParentState="true" />
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Início"
                 android:textSize="11sp"
                 android:textStyle="bold"
-                android:textColor="@color/gray"
+                android:textColor="@color/darkGray"
                 android:duplicateParentState="true" />
         </LinearLayout>
-
     </LinearLayout>
 
     <!-- BOTÃO: PERFIL -->
@@ -100,7 +91,6 @@
         android:gravity="center"
         android:clickable="true"
         android:focusable="true">
-
         <LinearLayout
             android:id="@+id/containerProfileSelect"
             android:layout_width="65dp"
@@ -109,21 +99,19 @@
             android:orientation="vertical"
             android:padding="4dp"
             android:duplicateParentState="true">
-
             <ImageView
                 android:id="@+id/iconProfile"
                 android:layout_width="26dp"
                 android:layout_height="26dp"
                 android:src="@drawable/ic_profile_selector"
                 android:duplicateParentState="true" />
-
             <TextView
                 android:id="@+id/txtProfile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Perfil"
                 android:textSize="11sp"
-                android:textColor="@color/gray"
+                android:textColor="@color/darkGray"
                 android:duplicateParentState="true" />
         </LinearLayout>
     </LinearLayout>

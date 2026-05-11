@@ -14,6 +14,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
+
     private static final String BASE_URL = "https://projeto8.onrender.com/";
     private static Retrofit retrofit = null;
     private static Context appContext;
@@ -36,7 +37,7 @@ public class RetrofitClient {
                         Request originalRequest = chain.request();
                         Request.Builder builder = originalRequest.newBuilder();
 
-                        // LÓGICA: Se NÃO for login, tenta adicionar o token
+                        // Se NÃO for login, tenta adicionar o token
                         String path = originalRequest.url().encodedPath();
                         if (!path.contains("/api/patient/login") && !path.contains("/api/auth/login")) {
 
@@ -60,19 +61,22 @@ public class RetrofitClient {
         }
         return retrofit;
     }
-        //Interfaces
-        public static WorkoutService getWorkoutService() {
-            return getRetrofitInstance().create(WorkoutService.class);
-        }
 
-        public static PatientService getPatientService() {
-            return getRetrofitInstance().create(PatientService.class);
-        }
+    /* Interfaces */
 
-        public static ExerciseSessionService getExerciseService() {
-            return getRetrofitInstance().create(ExerciseSessionService.class);
-        }
-        public static AppointmentService getAppointmentService() {
-            return getRetrofitInstance().create(AppointmentService.class);
-        }
+    public static WorkoutService getWorkoutService() {
+        return getRetrofitInstance().create(WorkoutService.class);
+    }
+
+    public static PatientService getPatientService() {
+        return getRetrofitInstance().create(PatientService.class);
+    }
+
+    public static ExerciseSessionService getExerciseService() {
+        return getRetrofitInstance().create(ExerciseSessionService.class);
+    }
+
+    public static AppointmentService getAppointmentService() {
+        return getRetrofitInstance().create(AppointmentService.class);
+    }
 }

@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.splashscreen.SplashScreen;
 
@@ -22,16 +21,15 @@ public class LoadScreenActivity extends AppCompatActivity {
         SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
         super.onCreate(savedInstanceState);
 
-
         setContentView(R.layout.activity_load_screen);
 
-        ImageView logo   = findViewById(R.id.splashLogo);
+        ImageView logo = findViewById(R.id.splashLogo);
         TextView appName = findViewById(R.id.splashName);
-        TextView byLine  = findViewById(R.id.splashByLine);
+        TextView byLine = findViewById(R.id.splashByLine);
         ProgressBar loading = findViewById(R.id.loadingProgress);
 
-        loading.setAlpha(0f); // invisível no início
-        loading.animate()            // Anime para ele aparecer depois de 900ms
+        loading.setAlpha(0f);
+        loading.animate()
                 .alpha(1f)
                 .setStartDelay(900)
                 .setDuration(400)
@@ -71,8 +69,6 @@ public class LoadScreenActivity extends AppCompatActivity {
 
                 finish();
             }
-        }, 2000); // 2 segundos de espera, por exemplo
+        }, 2000);
     }
 }
-
-

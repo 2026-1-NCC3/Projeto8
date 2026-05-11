@@ -59,5 +59,4 @@ public class Patient {
         return weight;
     }
 
-
 }

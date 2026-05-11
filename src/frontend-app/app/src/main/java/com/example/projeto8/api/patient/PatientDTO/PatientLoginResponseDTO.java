@@ -21,13 +21,23 @@ public class PatientLoginResponseDTO {
     @SerializedName("lgpd_check")
     private boolean lgpdCheck;
 
-    public String getId() { return patient_id; }
+    public String getId() {
+        return patient_id;
+    }
 
-    public String getName() { return name; }
-    public String getEmail() { return email; }
-    public String getToken() { return token; }
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getToken() {
+        return token;
+    }
 
     public boolean isLgpdCheck() {
-        return  lgpdCheck;
+        return lgpdCheck;
     }
 }

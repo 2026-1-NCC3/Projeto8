@@ -13,7 +13,6 @@ import retrofit2.http.Path;
 
 public interface ExerciseSessionService {
 
-    //Para pegar as exercise sesion do patient, sem ser a workout do dia
     @GET("api/exerciseSession/getAllExerciseSessions")
     Call<List<ExerciseSession>> getAllExerciseSessions();
 

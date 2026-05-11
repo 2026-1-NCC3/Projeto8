@@ -4,8 +4,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Task implements Parcelable {
+
     private String name;
-    public boolean isExpanded = false; // Necessário para o clique de expandir
+    public boolean isExpanded = false;
 
     private String title;
     private int serie;
@@ -26,6 +27,7 @@ public class Task implements Parcelable {
         this.isExpanded = false;
 
     }
+
     protected Task(Parcel in) {
         name = in.readString();
         isExpanded = in.readByte() != 0;
@@ -78,23 +80,41 @@ public class Task implements Parcelable {
     }
 
     // Getters
-    public Long getExerciseId() { return exercise_id; }
-    public String getTitle() { return title; }
-    public int getReps() { return reps; }
-    public int getSerie() { return serie; }
-    public String getMidiaURL() { return midiaURL; } // NOVO
-    public String getDescription() { return description; }
-    public String getTags() { return tags; } // NOVO
+    public Long getExerciseId() {
+        return exercise_id;
+    }
 
+    public String getTitle() {
+        return title;
+    }
 
-    //teste dados mockados
+    public int getReps() {
+        return reps;
+    }
+
+    public int getSerie() {
+        return serie;
+    }
+
+    public String getMidiaURL() {
+        return midiaURL;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getTags() {
+        return tags;
+    }
+
+    // Teste com dados mockados
     public Task(String name) {
         this.name = name;
     }
 
-    // Getter para o Adapter conseguir ler o nome e mostrar na tela
+    // Getter para o Adapter conseguir ler o nome
     public String getName() {
         return name;
     }
-
 }

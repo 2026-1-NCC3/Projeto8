@@ -21,9 +21,12 @@ public class ExerciseSessionController {
 
     @Autowired
     private ExerciseSessionRepository exerciseSessionRepository;
+
     private ExerciseSessionEntity exerciseSessionEntity;
+
     @Autowired
     private ExerciseService exerciseService;
+    
     @Autowired
     private ExerciseSessionService exerciseSessionService;
 

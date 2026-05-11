@@ -1,4 +1,3 @@
-
 package com.example.projeto8.model;
 
 import com.example.projeto8.model.Exercise;
@@ -8,8 +7,7 @@ public class ExerciseSession {
 
     // O @SerializedName garante que o Android entenda se o Back enviar "name"
     @SerializedName("name")
-    private String name; //nao seria melhor pegar pelo exercise ID dentro da exercise session?
-
+    private String name;
 
     private Long exercisesession_id;
     private int serie;
@@ -51,10 +49,9 @@ public class ExerciseSession {
         return exercise;
     }
 
-    // Construtor vazio (necessário para o Retrofit)
-    public ExerciseSession() {}
+    public ExerciseSession() {
+    }
 
-    // Getter para pegarmos o nome do exercício na MainActivity
     public String getName() {
         return name;
     }

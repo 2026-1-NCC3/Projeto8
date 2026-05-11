@@ -20,7 +20,7 @@
         app:layout_constraintBottom_toTopOf="@id/contentLayout"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageView
         android:id="@+id/contour"
@@ -29,7 +29,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="30dp"
         android:elevation="10dp"
-        android:src="@drawable/contour_fem"
+        android:src="@drawable/icon"
         app:layout_constraintBottom_toBottomOf="@id/topBackground"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/topBackground" />
@@ -58,8 +58,7 @@
         android:textSize="30sp"
         android:elevation="5dp"
         app:layout_constraintTop_toBottomOf="@id/txtWelcome"
-        app:layout_constraintStart_toStartOf="@id/txtWelcome"
-        />
+        app:layout_constraintStart_toStartOf="@id/txtWelcome" />
 
     <LinearLayout
         android:id="@+id/contentLayout"
@@ -67,6 +66,8 @@
         android:layout_height="0dp"
         android:padding="20dp"
         android:orientation="vertical"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         app:layout_constraintTop_toBottomOf="@id/topBackground"
         app:layout_constraintBottom_toTopOf="@id/menu"
         app:layout_constraintStart_toStartOf="parent"
@@ -88,7 +89,7 @@
                 android:rotation="180"
                 android:scaleType="fitStart"
                 android:src="@drawable/brown_chevron"
-                android:background="?attr/selectableItemBackground"/>
+                android:background="?attr/selectableItemBackground" />
 
             <TextView
                 android:id="@+id/monthYearTV"
@@ -99,7 +100,7 @@
                 android:textFontWeight="600"
                 android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textSize="20sp"/>
+                android:textSize="20sp" />
 
             <ImageButton
                 android:layout_width="30dp"
@@ -108,70 +109,7 @@
                 android:onClick="nextWeekAction"
                 android:contentDescription="Próximo"
                 android:background="?attr/selectableItemBackground"
-                android:src="@drawable/brown_chevron"/>
-
-        </LinearLayout>
-
-        <!-- DIAS DA SEMANA -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="DOM"
-                android:textColor="@color/gray"
-                android:textAlignment="center"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="SEG"
-                android:textColor="@color/gray"
-                android:textAlignment="center"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TER"
-                android:textColor="@color/gray"
-                android:textAlignment="center"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="QUA"
-                android:textColor="@color/gray"
-                android:textAlignment="center"/>
-
-            <TextView android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="QUI"
-                android:textColor="@color/gray"
-                android:textAlignment="center"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="SEX"
-                android:textColor="@color/gray"
-                android:textAlignment="center"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="SAB"
-                android:textColor="@color/gray"
-                android:textAlignment="center"/>
+                android:src="@drawable/brown_chevron" />
 
         </LinearLayout>
 
@@ -179,19 +117,24 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/calendarRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_marginTop="9dp"
-            android:layout_marginBottom="20dp"/>
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:clipChildren="false"
+            android:clipToPadding="false"/>
+
 
         <TextView
             android:id="@+id/txtTodayExercise"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:paddingTop="18dp"
             android:text="Exercício de hoje"
             android:textSize="18sp"
             android:textFontWeight="700"
             android:layout_marginBottom="10dp"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black" />
 
         <!-- TASKS -->
         <androidx.recyclerview.widget.RecyclerView
@@ -199,14 +142,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:nestedScrollingEnabled="false"/>
+            android:nestedScrollingEnabled="false" />
 
         <Button
             android:id="@+id/btnStartWorkout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="INICIAR EXERCÍCIO"
-            android:backgroundTint="@color/lightBLue"
+            android:background="@drawable/bg_button_ag_in"
             android:textColor="@color/white"
             android:layout_margin="16dp"
             app:cornerRadius="8dp"
@@ -221,5 +164,5 @@
         android:layout_height="80dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

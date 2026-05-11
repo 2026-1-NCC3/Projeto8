@@ -2,9 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-
     android:padding="24dp">
-
 
     <TextView
         android:layout_width="wrap_content"
@@ -21,7 +19,6 @@
         android:text="                      Termo de consentimento LGPD"
         android:textSize="15dp"
         android:textStyle="bold" />
-
 
     <ScrollView
         android:layout_width="match_parent"
@@ -96,7 +93,6 @@ Ao marcar a opção de aceite no aplicativo, o usuário concorda de forma livre,
             android:backgroundTint="@color/black"
             android:text="Não aceito"
             android:textColor="@android:color/white"
-            />
+        />
     </LinearLayout>
-
 </LinearLayout>

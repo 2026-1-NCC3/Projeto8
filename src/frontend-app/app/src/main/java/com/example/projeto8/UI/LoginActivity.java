@@ -33,6 +33,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
+
     Button btnLogin;
     Button btn_accept_lgpd;
     EditText Email;
@@ -48,7 +49,6 @@ public class LoginActivity extends AppCompatActivity {
         RetrofitClient.init(this);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
-
 
         Email = findViewById(R.id.editEmail);
         Password = findViewById(R.id.editPassword);
@@ -78,12 +78,11 @@ public class LoginActivity extends AppCompatActivity {
         Password.setHint(hintPass);
 
     }
+
     public void forgotPatientPassword() {
-        // Torna visível mas com transparência zero
         mensagePassword.setAlpha(0f);
         mensagePassword.setVisibility(View.VISIBLE);
 
-        // Anima a opacidade para 1 (aparecer suavemente)
         mensagePassword.animate()
                 .alpha(1f)
                 .setDuration(500)
@@ -94,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
         String email = Email.getText().toString().trim();
         String password = Password.getText().toString().trim();
 
-        //Validar se o paciente preencheu os campos
+        // Validar se o paciente preencheu os campos
         if (email.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_SHORT).show();
             return;
@@ -116,19 +115,20 @@ public class LoginActivity extends AppCompatActivity {
                             .putString("token", tokenGerado)
                             .putString("patient_id", patientID)
                             .putString("patient_name", patientName)
-                            .putBoolean("lgpd_check", response.body().isLgpdCheck()) // Adicione esta linha
+                            .putBoolean("lgpd_check", response.body().isLgpdCheck())
                             .apply();
 
-                    Log.d("JSON_REAL", new com.google.gson.Gson().toJson(response.body())); //Log para ver o que está retornando no login
+                    Log.d("JSON_REAL", new com.google.gson.Gson().toJson(response.body()));
+
                     Toast.makeText(LoginActivity.this, "Login realizado com sucesso!", Toast.LENGTH_SHORT).show();
 
-                    // verificação para ver se o botão de lgpd já foi acessado pela conta
+                    // Verificação para ver se o botão de lgpd já foi acessado pela conta
                     if (!response.body().isLgpdCheck()) {
                         LgpdPopUpScreen lgpdSheet = new LgpdPopUpScreen();
                         lgpdSheet.setCancelable(false);
                         lgpdSheet.show(getSupportFragmentManager(), "LGPD_CHECK");
                     } else {
-                        //Após o login, manda os dados para a MainActivity (App Home)
+                        // Após o login, manda os dados para a MainActivity (App Home)
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         intent.putExtra("PATIENT_ID", patientID);
                         intent.putExtra("AUTH_TOKEN", tokenGerado);
@@ -155,4 +155,3 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 }
-

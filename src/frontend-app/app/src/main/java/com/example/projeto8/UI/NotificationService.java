@@ -22,10 +22,11 @@ import androidx.core.app.NotificationCompat;
 import com.example.projeto8.R;
 
 public class NotificationService extends AppCompatActivity {
+
     private final ActivityResultLauncher<String> activityResultLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), new ActivityResultCallback<Boolean>() {
         @Override
         public void onActivityResult(Boolean o) {
-            if (o){
+            if (o) {
                 Toast.makeText(NotificationService.this, "Permitir postar notificações", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(NotificationService.this, "Permissão para postar notificações negada", Toast.LENGTH_SHORT).show();

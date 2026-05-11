@@ -13,12 +13,14 @@ import com.example.projeto8.R;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>
 {
     private final ArrayList<LocalDate> days;
     private final OnItemListener onItemListener;
     private int selectedBackgroundResource;
+    private HashSet<LocalDate> datesWithWorkouts = new HashSet<>();
 
     public CalendarAdapter(ArrayList<LocalDate> days, OnItemListener onItemListener, int selectedBackgroundResource)
     {
@@ -64,36 +66,62 @@ class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>
     {
         LocalDate date = days.get(position);
         float density = holder.itemView.getContext().getResources().getDisplayMetrics().density;
-
-        // Reset total
+        // 1. Reset total (Limpa o que foi usado em células recicladas)
         holder.dayOfMonth.setText("");
         holder.exerciseDot.setVisibility(View.GONE);
-        holder.selectionContainer.setBackgroundResource(0); // Limpa fundo do retângulo
-        holder.dayOfMonth.setBackgroundResource(0);        // Limpa fundo do círculo
+        holder.selectionContainer.setBackgroundResource(0);
+        holder.dayOfMonth.setBackgroundResource(0);
+        
+
+
+
 
         if (date != null) {
             holder.dayOfMonth.setText(String.valueOf(date.getDayOfMonth()));
 
             if (days.size() <= 7) {
                 // --- MODO SEMANAL ---
-                // Largura do retângulo: 40dp a 45dp costuma ficar perfeito
                 holder.selectionContainer.getLayoutParams().width = (int) (45 * density);
+                holder.dayName.setVisibility(View.VISIBLE);
 
-                if (date.getDayOfMonth() == 26) {
+
+                // Pega o nome do dia (DOM, SEG...) traduzido
+                java.util.Locale localeBR = new java.util.Locale("pt", "BR");
+                String nomeDia = date.getDayOfWeek()
+                        .getDisplayName(java.time.format.TextStyle.SHORT, localeBR)
+                        .replace(".", "")
+                        .toUpperCase();
+
+                holder.dayName.setText(nomeDia);
+
+
+                // Se a data atual está no conjunto de datas com treino, mostra a bolinha
+                if (datesWithWorkouts != null && datesWithWorkouts.contains(date)) {
                     holder.exerciseDot.setVisibility(View.VISIBLE);
+                } else {
+                    holder.exerciseDot.setVisibility(View.GONE);
                 }
 
+                // Lógica de Seleção (Cor do dia clicado)
                 if (date.equals(CalendarUtils.selectedDate)) {
                     holder.selectionContainer.setBackgroundResource(selectedBackgroundResource);
                     holder.dayOfMonth.setTextColor(Color.WHITE);
+                    holder.dayName.setTextColor(Color.WHITE);
+                    // Opcional: Se quiser que a bolinha fique branca quando o dia estiver selecionado
+                    holder.exerciseDot.setBackgroundTintList(android.content.res.ColorStateList.valueOf(Color.WHITE));
                 } else {
                     holder.dayOfMonth.setTextColor(Color.BLACK);
+                    holder.dayName.setTextColor(Color.GRAY);
+                    // Volta a cor original da bolinha (ex: laranja) quando não selecionado
+                    holder.exerciseDot.setBackgroundTintList(null);
                 }
 
             } else {
                 // --- MODO MENSAL ---
-                holder.selectionContainer.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+                holder.dayOfMonth.setBackgroundResource(0);
+                holder.selectionContainer.setBackgroundResource(0);
                 holder.exerciseDot.setVisibility(View.GONE);
+                holder.itemView.setBackgroundColor(Color.TRANSPARENT);
 
                 // Forçamos o tamanho exato
                 int circleSize = (int) (45 * density);
@@ -121,10 +149,11 @@ class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>
     }
 
 
-    private boolean verificarSeTemExercicioNoDia(LocalDate date) {
-        // Sua lógica: consultar uma lista, banco de dados ou Map
-        return false;
+    public void setWorkoutDates(HashSet<LocalDate> dates) {
+        this.datesWithWorkouts = dates;
+        notifyDataSetChanged(); // Isso faz o calendário redesenhar e mostrar as bolinhas
     }
+
     @Override
     public int getItemCount()
     {

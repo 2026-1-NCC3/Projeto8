@@ -26,8 +26,7 @@ public class LgpdPopUpScreen extends BottomSheetDialogFragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
-    {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.layout_lgpd_bottom_sheet, container, false);
 
         Button btnAccept = view.findViewById(R.id.btn_accept_lgpd);
@@ -37,7 +36,7 @@ public class LgpdPopUpScreen extends BottomSheetDialogFragment {
             updateLgpdOnServer();
         });
 
-      btnDecline.setOnClickListener(v -> {
+        btnDecline.setOnClickListener(v -> {
             Toast.makeText(getContext(), "Consentimento necessário.", Toast.LENGTH_SHORT).show();
 
             Intent intent = new Intent(getActivity(), LoadScreenActivity.class);
@@ -45,7 +44,9 @@ public class LgpdPopUpScreen extends BottomSheetDialogFragment {
             startActivity(intent);
 
             dismiss();
-            if (getActivity() != null) getActivity().finish();
+            if (getActivity() != null) {
+                getActivity().finish();
+            }
         });
 
         return view;
@@ -67,7 +68,9 @@ public class LgpdPopUpScreen extends BottomSheetDialogFragment {
                         Intent intent = new Intent(getActivity(), MainActivity.class);
                         startActivity(intent);
                         dismiss();
-                        if (getActivity() != null) getActivity().finish();
+                        if (getActivity() != null) {
+                            getActivity().finish();
+                        }
                     }
                 }
 

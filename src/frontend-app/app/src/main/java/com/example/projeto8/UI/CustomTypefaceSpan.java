@@ -23,5 +23,4 @@ public class CustomTypefaceSpan extends MetricAffectingSpan {
         tp.setTypeface(typeface);
         tp.setFakeBoldText(true);
     }
-
 }

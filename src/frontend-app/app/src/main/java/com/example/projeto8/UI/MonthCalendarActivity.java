@@ -4,12 +4,22 @@ package com.example.projeto8.UI;
 import static com.example.projeto8.UI.CalendarUtils.daysInMonthArray;
 import static com.example.projeto8.UI.CalendarUtils.monthYearFromDate;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -33,6 +43,7 @@ import retrofit2.Response;
 
 public class MonthCalendarActivity extends AppCompatActivity implements CalendarAdapter.OnItemListener {
 
+    private Button btnCancelarAgendamento;
     private TextView monthYearText, selectedDateTV;
     private RecyclerView calendarRecyclerView;
     private View btnCalendar, btnHome, btnProfile;
@@ -41,12 +52,26 @@ public class MonthCalendarActivity extends AppCompatActivity implements Calendar
     private AppointmentAdapter appointmentAdapter;
     private List<Appointment> allAppointments = new ArrayList<>();
 
+    //Para pedir permissão de notificação
+    private final ActivityResultLauncher<String> requestPermissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                if (isGranted) {
+                    Log.d("NOTIF_PERM", "Permissão concedida pelo usuário");
+                } else {
+                    Toast.makeText(this, "Avisos de consulta desativados", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+    private static final String CHANNEL_ID = "agendamento_channel";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
 
         RetrofitClient.init(this);
+        createNotificationChannel();
+        checkNotificationPermission();
 
         if (CalendarUtils.selectedDate == null) {
             CalendarUtils.selectedDate = LocalDate.now();
@@ -55,17 +80,23 @@ public class MonthCalendarActivity extends AppCompatActivity implements Calendar
         initWidgets();
         setMonthView();
         setupMenuClicks();
+        setUpAppointment();
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
         fetchAppointments();
     }
+
     private void fetchAppointments() {
-        String uuidStr = getSharedPreferences("STORAGE", MODE_PRIVATE).getString("patientId", null);
+        String uuidStr = getSharedPreferences("STORAGE", MODE_PRIVATE).getString("patient_id", null);
         if (uuidStr == null) return;
 
-        UUID patientId = UUID.fromString(uuidStr);
+        UUID patient_id = UUID.fromString(uuidStr);
 
         RetrofitClient.getAppointmentService()
-                .getAppointmentByPatient(patientId)
+                .getAppointmentByPatient(patient_id)
                 .enqueue(new Callback<List<Appointment>>() {
                     @Override
                     public void onResponse(Call<List<Appointment>> call, Response<List<Appointment>> response) {
@@ -94,7 +125,6 @@ public class MonthCalendarActivity extends AppCompatActivity implements Calendar
                 }
             }
         }
-
         updateUI(filteredList);
     }
 
@@ -105,7 +135,6 @@ public class MonthCalendarActivity extends AppCompatActivity implements Calendar
         } else {
             appointmentAdapter.setAppointments(filteredList);
         }
-
         updateSelectedDateText();
     }
 
@@ -113,6 +142,8 @@ public class MonthCalendarActivity extends AppCompatActivity implements Calendar
         monthYearText = findViewById(R.id.monthYearTV);
         calendarRecyclerView = findViewById(R.id.calendarRecyclerView);
         selectedDateTV = findViewById(R.id.selectedDateTV);
+
+        btnCancelarAgendamento = findViewById(R.id.btnCancelarAgendamento);
 
         // Inicializa o RecyclerView de agendamentos
         recyclerViewAppointments = findViewById(R.id.recyclerViewAppointments);
@@ -124,17 +155,14 @@ public class MonthCalendarActivity extends AppCompatActivity implements Calendar
         // Referência segura para o ícone selecionado
         View menuInclude = findViewById(R.id.menu);
         if (menuInclude != null) {
-            // Botões principais para clique
             btnCalendar = menuInclude.findViewById(R.id.btnCalendar);
             btnHome = menuInclude.findViewById(R.id.btnHome);
             btnProfile = menuInclude.findViewById(R.id.btnProfile);
 
-            // Containers internos para o fundo rosa (use os IDs do seu XML)
             containerCalendar = menuInclude.findViewById(R.id.containerCalendarSelect);
             containerHome = menuInclude.findViewById(R.id.containerHomeSelect);
             containerProfile = menuInclude.findViewById(R.id.containerProfileSelect);
 
-            // CONFIGURAÇÃO INICIAL: Como estamos na Agenda, ela começa selecionada
             if (btnCalendar != null) {
                 btnCalendar.setSelected(true);
                 if (containerCalendar != null) {
@@ -143,65 +171,83 @@ public class MonthCalendarActivity extends AppCompatActivity implements Calendar
             }
         }
         updateMenuSelection(
-                btnCalendar, containerCalendar,
-                btnHome, containerHome,
-                btnProfile, containerProfile
+                btnCalendar,       // Selecionado
+                containerCalendar, // Container Selecionado
+                btnHome, containerHome, btnProfile, containerProfile // TODOS os outros que devem ser resetados
         );
     }
 
+    private void animateClick(View view) {
+        Animation anim = AnimationUtils.loadAnimation(this, R.anim.scale_up_down);
+        view.startAnimation(anim);
+    }
+
     public void setupMenuClicks() {
-    // Clique na Agenda (Já está nela, pode apenas resetar a view se quiser)
-        btnCalendar.setOnClickListener(v -> {
-            updateMenuSelection(btnCalendar, containerCalendar, btnHome, containerHome, btnProfile, containerProfile);
-        });
+        // BOTÃO HOME
+        if (btnHome != null) {
+            btnHome.setOnClickListener(v -> {
+                animateClick(v);
+                // Abre a MainActivity e fecha a Profile
+                Intent intent = new Intent(MonthCalendarActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            });
+        }
 
-        // Clique na Home
-        btnHome.setOnClickListener(v -> {
-            updateMenuSelection(btnHome, containerHome, btnCalendar, containerCalendar, btnProfile, containerProfile);
-            startActivity(new Intent(this, MainActivity.class));
-            overridePendingTransition(0, 0);
-            finish(); // Opcional: fecha a agenda ao ir para a home
-        });
+        // BOTÃO CALENDÁRIO
+        if (btnProfile != null) {
+            btnProfile.setOnClickListener(v -> {
+                animateClick(v);
+                // Abre o Calendário e fecha a Profile
+                Intent intent = new Intent(MonthCalendarActivity.this, ProfileActivity.class);
+                startActivity(intent);
+                finish();
+            });
+        }
 
-        // Clique no Perfil
-        btnProfile.setOnClickListener(v -> {
-            updateMenuSelection(btnProfile, containerProfile, btnCalendar, containerCalendar, btnHome, containerHome);
-            startActivity(new Intent(this, ProfileActivity.class));
-            overridePendingTransition(0, 0);
-        });
+        // BOTÃO PERFIL (Onde você já está)
+        if (btnCalendar != null) {
+            btnCalendar.setOnClickListener(v -> {
+                animateClick(v);
+                // Apenas visual: atualiza a seleção sem abrir nova Activity
+                updateMenuSelection(btnProfile, containerProfile, btnCalendar, containerCalendar, btnHome, containerHome);
+            });
+        }
     }
 
     private void updateMenuSelection(View selectedBtn, View selectedContainer, View... others) {
+        // 1. Limpa o estado de todos os outros botões e containers passados
         for (View view : others) {
             if (view != null) {
                 view.setSelected(false);
-                // Se for um dos containers internos, removemos o background
-                if (view == containerHome || view == containerCalendar || view == containerProfile) {
-                    view.setBackground(null);
-                }
+                // Em vez de comparar com variáveis globais, limpamos o background
+                // de qualquer View que for passada nesta lista de "others"
+                view.setBackground(null);
             }
         }
 
-        if (selectedBtn != null) selectedBtn.setSelected(true);
+        // 2. Ativa o botão selecionado
+        if (selectedBtn != null) {
+            selectedBtn.setSelected(true);
+        }
+
+        // 3. Aplica o fundo apenas no container selecionado
         if (selectedContainer != null) {
             selectedContainer.setBackgroundResource(R.drawable.selected_item_bg);
         }
     }
+
 
     private void setMonthView() {
         monthYearText.setText(monthYearFromDate(CalendarUtils.selectedDate));
         ArrayList<LocalDate> daysInMonth = daysInMonthArray(CalendarUtils.selectedDate);
 
         CalendarAdapter calendarAdapter = new CalendarAdapter(daysInMonth, this, R.drawable.circle_selected);
-        // IMPORTANTE: Usar "this" em vez de getApplicationContext() para evitar crashes de layout
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 7);
         calendarRecyclerView.setLayoutManager(layoutManager);
         calendarRecyclerView.setAdapter(calendarAdapter);
 
-
     }
-
-
 
     @Override
     public void onItemClick(int position, LocalDate date) {
@@ -209,16 +255,15 @@ public class MonthCalendarActivity extends AppCompatActivity implements Calendar
             CalendarUtils.selectedDate = date;
             setMonthView();
             updateSelectedDateText();
+            filterByDate();
         }
     }
 
     private void updateSelectedDateText() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, d 'de' MMMM", new Locale("pt", "BR"));
         String formatted = CalendarUtils.selectedDate.format(formatter);
-        // Deixar a primeira letra maiúscula
         selectedDateTV.setText(formatted.substring(0, 1).toUpperCase() + formatted.substring(1));
     }
-
 
     public void previousMonthAction(View view) {
         CalendarUtils.selectedDate = CalendarUtils.selectedDate.minusMonths(1);
@@ -229,4 +274,56 @@ public class MonthCalendarActivity extends AppCompatActivity implements Calendar
         CalendarUtils.selectedDate = CalendarUtils.selectedDate.plusMonths(1);
         setMonthView();
     }
+
+    private void checkNotificationPermission() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            if (androidx.core.content.ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS)
+                    != android.content.pm.PackageManager.PERMISSION_GRANTED) {
+
+                requestPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS);
+            }
+        }
+    }
+
+    private void createNotificationChannel() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(
+                    CHANNEL_ID,
+                    "Notificações de Agendamento",
+                    NotificationManager.IMPORTANCE_HIGH // IMPORTANCE_HIGH para aparecer o banner no topo
+            );
+            channel.setDescription("Canal para avisos de sessões de fisioterapia");
+
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            if (manager != null) {
+                manager.createNotificationChannel(channel);
+            }
+        }
+    }
+
+    private void setUpAppointment() {
+        btnCancelarAgendamento.setOnClickListener(v -> {
+
+            androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(v.getContext());
+
+            builder.setTitle("Falar com a Maya");
+            builder.setMessage("Você será redirecionado para o WhatsApp da Maia, deseja continuar?");
+
+            // 3. Botão de "Continuar" (Aqui vai o seu código do WhatsApp)
+            builder.setPositiveButton("Continuar", (dialog, which) -> {
+                String whatsappUrl = "https://api.whatsapp.com/send/?phone=5511998820868&text=Olá%21%0D+gostaria+de+falar+sobre+meu+agendamento.&type=phone_number&app_absent=0";
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(whatsappUrl));
+                startActivity(intent);
+            });
+
+
+            builder.setNegativeButton("Cancelar", (dialog, which) -> {
+                dialog.dismiss();
+            });
+
+            builder.show();
+        });
+    }
+
 }

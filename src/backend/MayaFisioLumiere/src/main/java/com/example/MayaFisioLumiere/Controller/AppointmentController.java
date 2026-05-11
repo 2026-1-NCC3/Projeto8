@@ -21,6 +21,7 @@ public class AppointmentController {
 
     @Autowired
     private AppointmentRepository appointmentRepository;
+    
     @Autowired
     private AppointmentService appointmentService;
 

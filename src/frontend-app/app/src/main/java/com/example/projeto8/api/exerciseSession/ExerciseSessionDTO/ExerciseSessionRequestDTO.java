@@ -2,7 +2,6 @@ package com.example.projeto8.api.exerciseSession.ExerciseSessionDTO;
 
 public class ExerciseSessionRequestDTO {
 
-    //Para atualizar o feelPain das exerciseSession
     private Boolean feelPain;
 
     public ExerciseSessionRequestDTO(Boolean feelPain) {
@@ -12,6 +11,7 @@ public class ExerciseSessionRequestDTO {
     public Boolean getFeelPain() {
         return feelPain;
     }
+
     public void setFeelPain(Boolean feelPain) {
         this.feelPain = feelPain;
     }
