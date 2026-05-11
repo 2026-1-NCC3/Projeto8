@@ -23,13 +23,17 @@
 ## Entregas das Disciplinas
 | Disciplina | Entrega 1 | Entrega 2 |  
 | :-------: | :------: | :-------: |
-| Análise Descritiva de Dados | [/documentos/entrega-1/analise-descitiva-de-dados](https://github.com/2026-1-NCC3/Projeto8/blob/main/documentos/entrega-1/analise-descitiva-de-dados.md) |    
-| Programação Orientada a Objetos | [/documentos/entrega-1/programacao-orientada-objetos](https://github.com/2026-1-NCC3/Projeto8/blob/main/documentos/entrega-1/programacao-orientada-objetos.jpg) |   
-| Programação para Dispositivos Móveis | [/src/frontend-app](https://github.com/2026-1-NCC3/Projeto8/tree/main/src/frontend-app) |   
-| Projeto Interdisciplinar | [/documentos/entrega-1/projeto-interdisciplinar](https://github.com/2026-1-NCC3/Projeto8/tree/main/documentos/entrega-1/projeto-interdisciplinar) |   
+| Análise Descritiva de Dados | [/entrega-1/analise-descitiva-de-dados](https://github.com/2026-1-NCC3/Projeto8/blob/main/documentos/entrega-1/analise-descitiva-de-dados.md) | [/entrega-2/analise-descitiva-de-dados](https://github.com/2026-1-NCC3/Projeto8/blob/main/documentos/entrega-2/analise-descritiva-de-dados.pdf) |    
+| Programação Orientada a Objetos | [/entrega-1/programacao-orientada-objetos](https://github.com/2026-1-NCC3/Projeto8/blob/main/documentos/entrega-1/programacao-orientada-objetos.jpg) | [/entrega-2/programacao-orientada-objetos](https://github.com/2026-1-NCC3/Projeto8/blob/main/documentos/entrega-2/programacao-orientada-objetos.pdf) |   
+| Programação para Dispositivos Móveis | [/(entrega-1)/src/frontend-app](https://github.com/2026-1-NCC3/Projeto8/tree/main/src/(entrega-1)/frontend-app) | [/src/frontend-app](https://github.com/2026-1-NCC3/Projeto8/tree/main/src/frontend-app) |   
+| Projeto Interdisciplinar | [/entrega-1/projeto-interdisciplinar](https://github.com/2026-1-NCC3/Projeto8/tree/main/documentos/entrega-1/projeto-interdisciplinar) | [/entrega-2/projeto-interdisciplinar](https://github.com/2026-1-NCC3/Projeto8/tree/main/documentos/entrega-2/projeto-interdisciplinar) |   
 <br/>
 
 # Descrição
+<img width="1113" height="1200" alt="screenshots" src="https://github.com/user-attachments/assets/98d66758-e6b0-46bc-adc3-11cb24b610dd" />
+
+<br/>
+
 ## Proposta Principal
 O projeto **Lumière** é uma solução digital desenvolvida para auxiliar a fisioterapeuta **Maya Yoshiko Yamamoto**, especializada em **Reeducação Postural Global (RPG)**, na gestão e acompanhamento de seus pacientes.
 Atualmente, parte da comunicação e do acompanhamento terapêutico é realizada por meio de mensagens e registros informais, o que dificulta a organização das informações clínicas, o acompanhamento da evolução do paciente e o planejamento dos exercícios domiciliares.
