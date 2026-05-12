@@ -88,6 +88,8 @@
         android:textColor="@color/white"
         android:textStyle="bold"
         android:layout_marginBottom="15dp"
+        android:paddingEnd="20dp"
+        android:paddingStart="20dp"
         android:backgroundTint="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/btnNext" />
@@ -100,6 +102,7 @@
         android:src="@drawable/chevron"
         android:scaleType="fitEnd"
         android:contentDescription="Próximo"
+        android:backgroundTint="@color/linen"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:background="@drawable/selected_item_bg" />
@@ -112,6 +115,7 @@
         android:src="@drawable/backchevron"
         android:scaleType="fitEnd"
         android:contentDescription="Próximo"
+        android:backgroundTint="@color/linen"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:background="@drawable/selected_item_bg" />

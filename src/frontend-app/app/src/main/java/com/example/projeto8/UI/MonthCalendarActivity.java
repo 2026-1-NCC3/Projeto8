@@ -306,12 +306,11 @@ public class MonthCalendarActivity extends AppCompatActivity implements Calendar
 
             androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(v.getContext());
 
-            builder.setTitle("Falar com a Maya");
-            builder.setMessage("Você será redirecionado para o WhatsApp da Maia, deseja continuar?");
+            builder.setTitle("Falar com Maya");
+            builder.setMessage("Você será redirecionado para o WhatsApp da Maya, deseja continuar?");
 
-            // 3. Botão de "Continuar" (Aqui vai o seu código do WhatsApp)
             builder.setPositiveButton("Continuar", (dialog, which) -> {
-                String whatsappUrl = "https://api.whatsapp.com/send/?phone=5511998820868&text=Olá%21%0D+gostaria+de+falar+sobre+meu+agendamento.&type=phone_number&app_absent=0";
+                String whatsappUrl = "https://api.whatsapp.com/send/?phone=5511998820868&text=Olá%21%0D+Maya+,+gostaria+ de +falar +com +você.&type=phone_number&app_absent=0";
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse(whatsappUrl));
                 startActivity(intent);

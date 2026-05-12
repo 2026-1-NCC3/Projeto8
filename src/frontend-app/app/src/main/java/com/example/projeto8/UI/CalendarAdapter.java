@@ -142,7 +142,7 @@ class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>
                     holder.dayOfMonth.setTextColor(Color.WHITE);
                 } else {
                     holder.dayOfMonth.setBackgroundResource(0); // Garante que não tenha fundo sobrando
-                    holder.dayOfMonth.setTextColor(Color.BLACK);
+                    holder.dayOfMonth.setTextColor(Color.WHITE);
                 }
             }
         }
