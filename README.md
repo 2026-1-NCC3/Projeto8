@@ -14,9 +14,9 @@
 [Victória Duarte Vieira Azevedo](https://github.com/viick04)
 
 ## Professores Orientadores
-[Katia Bossi](https://www.linkedin.com/in/katia-bossi)  
-[Marco Aurélio](https://www.linkedin.com/in/marco-aurelio-lima-barbosa)  
-[Victor Rosetti](https://www.linkedin.com/in/victorbarq)  
+[Kátia Milani Lara Bossi](https://www.linkedin.com/in/katia-bossi)  
+[Marco Aurélio Lima Barbosa](https://www.linkedin.com/in/marco-aurelio-lima-barbosa)  
+[Victor Bruno Alexander Rosetti de Quiroz](https://www.linkedin.com/in/victorbarq)  
 [Rodrigo da Rosa](https://www.linkedin.com/in/rodrigo-da-rosa-phd/)  
 <br/>
 
@@ -160,7 +160,7 @@ http://localhost:3000
 <br/>
 
 ## 📋 Licença/License
-[FECAP - Fundação de Comércio Álvares Penteado](https://www.fecap.br) - [Lumière](https://github.com/2026-1-NCC3/Projeto8) © 2026 by [Analice Coimbra Carneiro](https://github.com/analicecoimbra), [Mariah Alice Pimentel Lôbo Pereira](https://github.com/alicelobwp), [Sofia Botechia Hernandes](https://github.com/sofiahernandes) and [Victória Duarte Vieira Azevedo](https://github.com/viick04) is licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" height="20" width="20" style="margin-left: 0.2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" height="20" width="20" style="margin-left: 0.2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" height="20" width="20" style="margin-left: 0.2em;">
+[Lumière](https://github.com/2026-1-NCC3/Projeto8) © 2026 by [Analice Coimbra Carneiro](https://github.com/analicecoimbra), [Mariah Alice Pimentel Lôbo Pereira](https://github.com/alicelobwp), [Sofia Botechia Hernandes](https://github.com/sofiahernandes), [Victória Duarte Vieira Azevedo](https://github.com/viick04) and [FECAP - Fundação de Comércio Álvares Penteado](https://www.fecap.br) is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" height="20" width="20" style="margin-left: 0.2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" height="20" width="20" style="margin-left: 0.2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" height="20" width="20" style="margin-left: 0.2em;">
 
 <br/><br/>
 
