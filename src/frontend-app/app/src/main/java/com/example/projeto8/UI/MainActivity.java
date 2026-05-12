@@ -100,9 +100,9 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
                 String url = task.getMidiaURL();
                 if (url != null && !url.isEmpty()) {
                     try {
-                        // Importe android.net.Uri no topo do arquivo
                         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                         startActivity(intent);
+                        overridePendingTransition(0, 0);
                     } catch (Exception e) {
                         Toast.makeText(MainActivity.this, "Erro ao abrir o vídeo", Toast.LENGTH_SHORT).show();
                     }
@@ -191,7 +191,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         }
     }
 
-    public void setupWorkoutActions(){
+    public void setupWorkoutActions() {
         btnStartWorkout.setOnClickListener(v -> {
             animateClick(v);
 
@@ -381,7 +381,6 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
                                 if (calendarAdapter != null) {
                                     calendarAdapter.setWorkoutDates(globalDiasComTreino);
                                 }
-
 
 
                                 if (adapter.hasRealExercises()) {

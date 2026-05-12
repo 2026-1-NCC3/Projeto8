@@ -271,6 +271,7 @@ public class ProfileActivity extends AppCompatActivity {
                     Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
+                    overridePendingTransition(0,0);
                     finish();
                 } else {
                     Log.e("DELETE_ERROR", "Erro ao deletar: " + response.code());

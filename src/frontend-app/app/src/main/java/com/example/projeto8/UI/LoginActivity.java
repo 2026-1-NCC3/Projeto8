@@ -135,6 +135,7 @@ public class LoginActivity extends AppCompatActivity {
                         intent.putExtra("PATIENT_NAME", patientName);
                         intent.putExtra("PATIENT_EMAIL", patientEmail);
                         startActivity(intent);
+                        overridePendingTransition(0,0);
                         finish();
                     }
                 } else {

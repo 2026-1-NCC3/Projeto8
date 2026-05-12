@@ -12,6 +12,7 @@ desugarJdkLibs = "2.0.4"
 retrofit = "2.9.0"
 okhttpLogging = "4.12.0"
 splashscreen = "1.0.1"
+coreSplashscreen = "1.2.0"
 
 
 [libraries]
@@ -28,6 +29,7 @@ retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit
 retrofit-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 okhttp-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttpLogging" }
 androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "splashscreen" }
+core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "coreSplashscreen" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

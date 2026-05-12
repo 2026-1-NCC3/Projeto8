@@ -20,7 +20,6 @@
         android:text="Maya Yamamoto"
         android:textColor="#F2FFFFFF"
         android:textSize="30sp"
-        android:letterSpacing="0.04"
         android:fontFamily="@font/domine" />
 
     <TextView
@@ -31,7 +30,6 @@
         android:text="by lumiere"
         android:textColor="#F2FFFFFF"
         android:textSize="16sp"
-        android:letterSpacing="0.18"
         android:fontFamily="@font/domine" />
 
     <ProgressBar

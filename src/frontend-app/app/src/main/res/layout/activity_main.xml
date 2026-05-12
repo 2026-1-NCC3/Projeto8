@@ -13,7 +13,7 @@
     <View
         android:id="@+id/topBackground"
         android:layout_width="match_parent"
-        android:layout_height="170dp"
+        android:layout_height="210dp"
         android:background="@drawable/top_bg"
         android:elevation="4dp"
         android:outlineProvider="background"

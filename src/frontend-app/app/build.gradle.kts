@@ -35,6 +35,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.core.splashscreen)
     coreLibraryDesugaring(libs.desugar.jdk.libs)
     implementation(libs.appcompat)
     implementation(libs.material)
