@@ -235,7 +235,7 @@
                     android:layout_marginTop="20dp"
                     android:padding="5dp"
                     android:text="Dados Físicos"
-                    android:textSize="16sp"
+                    android:textSize="18dp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/txtAge" />
