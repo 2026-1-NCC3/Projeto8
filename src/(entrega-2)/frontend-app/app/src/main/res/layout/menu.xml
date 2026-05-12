@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/menu_container"
+    android:layout_width="match_parent"
+    android:layout_height="105dp"
+    android:orientation="horizontal"
+    android:background="@drawable/hotbar_background"
+    android:gravity="center"
+    android:paddingBottom="16dp"
+    android:paddingTop="8dp"
+    android:animateLayoutChanges="true">
+
+    <!-- BOTÃO: AGENDA -->
+    <LinearLayout
+        android:id="@+id/btnCalendar"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:clickable="true"
+        android:focusable="true">
+        <LinearLayout
+            android:id="@+id/containerCalendarSelect"
+            android:layout_width="65dp"
+            android:layout_height="55dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="4dp"
+            android:duplicateParentState="true">
+            <ImageView
+                android:id="@+id/iconCalendar"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:src="@drawable/ic_calendar_selector"
+                android:duplicateParentState="true" />
+            <TextView
+                android:id="@+id/txtCalendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Agenda"
+                android:layout_marginTop="4dp"
+                android:textSize="11sp"
+                android:textColor="@color/darkGray"
+                android:duplicateParentState="true" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- BOTÃO: HOME -->
+    <LinearLayout
+        android:id="@+id/btnHome"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:clickable="true"
+        android:focusable="true">
+
+        <LinearLayout
+            android:id="@+id/containerHomeSelect"
+            android:layout_width="65dp"
+            android:layout_height="55dp"
+            android:background="@drawable/selected_item_bg"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="4dp"
+            android:duplicateParentState="true">
+            <ImageView
+                android:id="@+id/iconHome"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:src="@drawable/ic_home_selector"
+                android:duplicateParentState="true" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Início"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:textColor="@color/darkGray"
+                android:duplicateParentState="true" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- BOTÃO: PERFIL -->
+    <LinearLayout
+        android:id="@+id/btnProfile"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:clickable="true"
+        android:focusable="true">
+        <LinearLayout
+            android:id="@+id/containerProfileSelect"
+            android:layout_width="65dp"
+            android:layout_height="55dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="4dp"
+            android:duplicateParentState="true">
+            <ImageView
+                android:id="@+id/iconProfile"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:src="@drawable/ic_profile_selector"
+                android:duplicateParentState="true" />
+            <TextView
+                android:id="@+id/txtProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Perfil"
+                android:textSize="11sp"
+                android:textColor="@color/darkGray"
+                android:duplicateParentState="true" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

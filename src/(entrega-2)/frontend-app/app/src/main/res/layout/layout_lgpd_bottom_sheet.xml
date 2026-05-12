@@ -1,0 +1,98 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="              Sua Privacidade é Importante"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="                      Termo de consentimento LGPD"
+        android:textSize="15dp"
+        android:textStyle="bold" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_marginTop="16dp"
+        android:background="#F5F5F5"
+        android:padding="12dp">
+
+        <TextView
+            android:id="@+id/tv_lgpd_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="4sp"
+            android:text=" Este aplicativo coleta e trata dados pessoais e dados sensíveis relacionados à saúde do usuário com a finalidade de acompanhamento fisioterapêutico, gestão de exercícios e monitoramento da evolução do tratamento. \n
+Ao utilizar este aplicativo, o usuário declara estar ciente e concorda com o tratamento de seus dados pessoais e dados de saúde, conforme previsto na Lei Geral de Proteção de Dados (Lei nº 13.709/2018).\n
+Dados coletados:\n
+- Nome completo\n
+- Email\n
+-  Idade\n
+\n
+Informações de saúde relacionadas ao tratamento fisioterapêutico\n
+Histórico de exercícios e sessões realizadas\n
+\n
+Finalidade do uso\n
+Os dados são utilizados exclusivamente para:\n
+
+- Acompanhamento do progresso do paciente\n
+- Personalização de exercícios\n
+- Monitoramento do tratamento fisioterapêutico\n
+\n
+--Compartilhamento de dados--\n
+Os dados poderão ser acessados por profissionais de saúde responsáveis pelo acompanhamento do paciente dentro da plataforma.\n
+\n
+--Armazenamento e segurança--\n
+Os dados são armazenados em servidores seguros e protegidos por medidas técnicas e administrativas adequadas para garantir a confidencialidade das informações.\n
+\n
+--Direitos do titular dos dados--\n
+O usuário poderá, a qualquer momento:\n
+\n
+- Solicitar acesso aos seus dados \n
+- Corrigir informações incorretas \n
+- Solicitar exclusão de seus dados \n
+- Revogar este consentimento \n
+
+-- Consentimento--\n
+Ao marcar a opção de aceite no aplicativo, o usuário concorda de forma livre, informada e inequívoca com o tratamento de seus dados pessoais e dados sensíveis conforme descrito neste termo\n"
+            android:textColor="#333333"
+            android:textSize="14sp" />
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="10dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_accept_lgpd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/lightBLue"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:text="Aceito"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/btn_decline_lgpd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/black"
+            android:text="Não aceito"
+            android:textColor="@android:color/white"
+        />
+    </LinearLayout>
+</LinearLayout>
