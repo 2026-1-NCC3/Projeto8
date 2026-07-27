@@ -3,7 +3,7 @@ Access the application: [https://admin-lumiere.vercel.app](https://admin-lumiere
 </div>
 
 Group: [Analice Carneiro](https://github.com/AnaliceCoimbra/), [Mariah Alice Pereira](https://github.com/alicelobwp), [Sofia Hernandes](https://github.com/sofiahernandes), [Victória Azevedo](https://github.com/viick04)  
-Advisors: [Kátia Milani Lara Bossi](https://www.linkedin.com/in/katia-bossi), [Marco Aurélio Lima Barbosa](https://www.linkedin.com/in/marco-aurelio-lima-barbosa), [Victor Bruno Alexander Rosetti de Quiroz](https://www.linkedin.com/in/victorbarq), [Rodrigo da Rosa](https://www.linkedin.com/in/rodrigo-da-rosa-phd/)
+Advisors: [Kátia Bossi](https://www.linkedin.com/in/katia-bossi), [Marco Aurélio Barbosa](https://www.linkedin.com/in/marco-aurelio-lima-barbosa), [Victor Bruno de Quiroz](https://www.linkedin.com/in/victorbarq), [Rodrigo da Rosa](https://www.linkedin.com/in/rodrigo-da-rosa-phd/)
 <br/>
 
 ### Description
