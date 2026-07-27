@@ -1,169 +1,90 @@
-<h1 align="center">Fundação de Comércio Álvares Penteado</h1>
-
-<div align="center">
-<a href= "https://www.fecap.br/"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhZPrRa89Kma0ZZogxm0pi-tCn_TLKeHGVxywp-LXAFGR3B1DPouAJYHgKZGV0XTEf4AE&usqp=CAU" alt="FECAP - Fundação de Comércio Álvares Penteado" border="0"></a>
-
-<h1>Nome do Projeto: Lumière</h1>
+## Lumière | Distributed Healthcare System
+Access the application: [https://admin-lumiere.vercel.app](https://admin-lumiere.vercel.app/)
 </div>
+
+Group: [Analice Carneiro](https://github.com/AnaliceCoimbra/), [Mariah Alice Pereira](https://github.com/alicelobwp), [Sofia Hernandes](https://github.com/sofiahernandes), [Victória Azevedo](https://github.com/viick04)  
+Advisors: [Kátia Milani Lara Bossi](https://www.linkedin.com/in/katia-bossi), [Marco Aurélio Lima Barbosa](https://www.linkedin.com/in/marco-aurelio-lima-barbosa), [Victor Bruno Alexander Rosetti de Quiroz](https://www.linkedin.com/in/victorbarq), [Rodrigo da Rosa](https://www.linkedin.com/in/rodrigo-da-rosa-phd/)
 <br/>
 
-## Integrantes do Grupo
-[Analice Coimbra Carneiro](https://github.com/AnaliceCoimbra)  
-[Mariah Alice Pimentel Lôbo Pereira](https://github.com/alicelobwp)  
-[Sofia Botechia Hernandes](https://github.com/sofiahernandes)  
-[Victória Duarte Vieira Azevedo](https://github.com/viick04)
+### Description
 
-## Professores Orientadores
-[Kátia Milani Lara Bossi](https://www.linkedin.com/in/katia-bossi)  
-[Marco Aurélio Lima Barbosa](https://www.linkedin.com/in/marco-aurelio-lima-barbosa)  
-[Victor Bruno Alexander Rosetti de Quiroz](https://www.linkedin.com/in/victorbarq)  
-[Rodrigo da Rosa](https://www.linkedin.com/in/rodrigo-da-rosa-phd/)  
-<br/>
+The **Lumière** project is a digital solution developed to support physiotherapist Maya Yoshiko Yamamoto, who specializes in Global Postural Reeducation (GPR), in managing and monitoring her patients.
+Currently, part of the communication and therapeutic follow-up is carried out through messages and informal records, making it difficult to organize clinical information, track patient progress, and plan home exercise programs.
+To address this problem, the project proposes the development of a system consisting of:
+* **Mobile Application (Patient):** A mobile app where patients can access their prescribed exercises, watch instructional videos, record the completion of their activities, and monitor their progress throughout their treatment.
+* **Web Module (Admin):** A web interface used by the physiotherapist to manage patients, medical records, prescribed exercises, and monitor treatment progress.
+* **Backend (shared by the Mobile and Web applications) and Database:** Responsible for authentication, business logic, data storage, and integration between the mobile application and the web module.
 
-## Entregas das Disciplinas
-| Disciplina | Entrega 1 | Entrega 2 |  
-| :-------: | :------: | :-------: |
-| Análise Descritiva de Dados | [/entrega-1/analise-descitiva-de-dados](https://github.com/2026-1-NCC3/Projeto8/blob/main/documentos/entrega-1/analise-descitiva-de-dados.md) | [/entrega-2/analise-descitiva-de-dados](https://github.com/2026-1-NCC3/Projeto8/blob/main/documentos/entrega-2/analise-descritiva-de-dados.pdf) |    
-| Programação Orientada a Objetos | [/entrega-1/programacao-orientada-objetos](https://github.com/2026-1-NCC3/Projeto8/blob/main/documentos/entrega-1/programacao-orientada-objetos.jpg) | [/entrega-2/programacao-orientada-objetos](https://github.com/2026-1-NCC3/Projeto8/blob/main/documentos/entrega-2/programacao-orientada-objetos.pdf) |   
-| Programação para Dispositivos Móveis | [/(entrega-1)/src/frontend-app](https://github.com/2026-1-NCC3/Projeto8/tree/main/src/(entrega-1)/frontend-app) | [/entrega-2/programacao-aplicativos-moveis](https://github.com/2026-1-NCC3/Projeto8/tree/main/documentos/entrega-2/projeto-interdisciplinar) |   
-| Projeto Interdisciplinar | [/entrega-1/projeto-interdisciplinar](https://github.com/2026-1-NCC3/Projeto8/tree/main/documentos/entrega-1/projeto-interdisciplinar) | [/entrega-2/projeto-interdisciplinar](https://github.com/2026-1-NCC3/Projeto8/tree/main/documentos/entrega-2/projeto-interdisciplinar) |   
-<br/>
+### Folders structure (inside /src)
 
-# Descrição
-<img width="1113" height="1200" alt="screenshots" src="https://github.com/user-attachments/assets/98d66758-e6b0-46bc-adc3-11cb24b610dd" />
+```yaml
+backend/
+├─ MayaFisioLumiere/src/main/java/com/example/MayaFisioLumiere
+  ├─ Configurations/
+  ├─ Controller/
+  ├─ Domain/
+  ├─ Entity/
+  ├─ Repository/
+  ├─ Services/
+  └─ MayaFisioLumiereApplication.java
 
-<br/>
+frontend-app/
+├─ app/src/main/
+  ├─ AndroidManifest.xml
+  └─ java/com/example/projeto8/
+    ├─ UI
+    ├─ adapter
+    ├─ api
+    ├─ model
+    ├─ remote
+  └─ res/
+    ├─ anim
+    ├─ drawable
+    ├─ font
+    ├─ layout
+    └─ values
 
-## Proposta Principal
-O projeto **Lumière** é uma solução digital desenvolvida para auxiliar a fisioterapeuta **Maya Yoshiko Yamamoto**, especializada em **Reeducação Postural Global (RPG)**, na gestão e acompanhamento de seus pacientes.
-Atualmente, parte da comunicação e do acompanhamento terapêutico é realizada por meio de mensagens e registros informais, o que dificulta a organização das informações clínicas, o acompanhamento da evolução do paciente e o planejamento dos exercícios domiciliares.
-
-Para solucionar esse problema, o projeto propõe o desenvolvimento de um sistema composto por:
-- **Aplicativo Mobile (paciente)**: onde o paciente poderá acessar seus exercícios prescritos, assistir vídeos demonstrativos, registrar a execução das atividades e acompanhar sua evolução ao longo do tratamento.
-- **Módulo Web (admin)**: interface utilizada pela fisioterapeuta para gerenciar pacientes, prontuários, exercícios e acompanhar o progresso dos atendimentos.
-- **Backend (comum entre os projetos Mobile e Web) e Banco de Dados**: responsável pela autenticação, regras de negócio, armazenamento das informações e integração entre o aplicativo mobile e o módulo web.
-
-<br/>
-
-## 🛠 Estrutura de Pastas
-O projeto possui uma arquitetura dividida em **frontend mobile, frontend web e backend**, todos dentro da pasta principal `src`.
-```bash
-src
-├── backend
-│ src/main/java/com/example/MayaFisioLumiere
-│ ├── Configuration
-│ ├── Controller
-│ ├── Domain
-│ ├── Entity
-│ ├── Repository
-│ └── Services
-│
-├── frontend-app
-│ src/main/java/com/example/projeto8
-│ ├── adapter
-│ ├── api
-│ ├── model
-│ ├── remote
-│ ├── UI
-│ res
-│
-├── frontend-web
-│ ├── (pages)
-│ ├── actions
-│ ├── components
-│ ├── hooks
-└─├── lib
+frontend-web/
+├─ app/
+  ├─ (pages)
+  ├─ actions
+  ├─ components
+  ├─ hooks
+  └─ lib
 ```
 
-**Descrição dos módulos**  
-**/backend**  
-- autenticação;
-- regras de negócio;
-- comunicação com o banco de dados PostgreSQL;
-- APIs consumidas pelo mobile e pelo web.
+### Instalation
 
-**/frontend-app**  
-Aplicativo mobile utilizado pelos pacientes para:
-- visualizar exercícios;
-- registrar o progresso do paciente;
-- acompanhar evolução e feedbacks;
-- receber orientações do profissional.
+- **Android**: download `app-debug.apk` on your Android device and follow the instructions.
+- **Web App**: there is no instalation! Access the web application (which is hosted with mock-data [here](https://admin-lumiere.vercel.app/), since credits ran out - but you can use your local instance or host the app yourself).
 
-**/frontend-web**  
-Interface administrativa utilizada pela fisioterapeuta para:
-- cadastrar e gerenciar pacientes;
-- cadastrar exercícios;
-- prescrever sessões de exercícios;
-- acompanhar evolução e registros dos pacientes.
+### How to run it locally
 
-<br/>
+0. Pre-requisites: Android Studio, Visual Studio Code (or equivalent), Java (JDK v21), Node.js (v18^), npm/yarn, and Git
 
-## 🛠 Instalação
-- **Android**: faça o Download do app-debug.apk no seu celular. Execute o APK e siga as instruções de seu telefone.
-- **Web App**: não há instalação! Acesse a [aplicação web](https://admin-lumiere.vercel.app/) através do seu browser de preferência e insira suas credenciais.
-
-<br/>
-
-## 💻 Configuração para Desenvolvimento
-### Pré-requisitos
-Para acessar o ambiente de desenvolvimento é necessário ter instalado:
-- **Android Studio** e **Visual Studio Code** (ou outra aplicação equivalente)
-- **Java (JDK versão 21)**
-- **Node.js (versão 18 ou superior)** e **npm ou yarn**
-- **Git**
-<br/>
-
-### Passo-a-passo de execução local (Acesso ao App)
-Para acessar o ambiente de desenvolvimento do aplicativo mobile:
-1. Clone o repositório
+1. Run the mobile application locally  
+a) Go to the frontend-app folder  
+b) Open it in Android Studio
 ```bash
-git clone https://github.com/2026-1-NCC3/Projeto8.git
-```
-
-2. Acesse a pasta do applicativo
-```bash
-cd Projeto8
+git clone https://github.com/sofiahernandes/distributed-healthcare-system.git
+cd distributed-healthcare-system
 cd frontend-app
 ```
 
-6. Abra a pasta no Android Studio  
-
-<br/>
-
-### Passo-a-passo de execução local (Acesso ao Admin)
-1. Clone o repositório
+2. Run the admin panel locally  
+a) Go to the frontend-web folder and install dependencies  
+b) Configure the environment variables in a .env file  
+c) Execute the development server and access it in http://localhost:3000  
 ```bash
-git clone https://github.com/2026-1-NCC3/Projeto8.git
-```
-
-2. Acesse a pasta do painel do administrador e instale as dependências  
-```bash
-cd Projeto8
+cd distributed-healthcare-system
 cd frontend-web
 npm install
-```
 
-4. Configure as variáveis de ambiente (exemplo `.env.example`)
-```bash
-NEXT_PUBLIC_API_URL=http://localhost:8080 # ou sua URL hospedada
-```
+NEXT_PUBLIC_API_URL=http://localhost:8080 # or your hosted URL
 
-5. Execute o servidor de desenvolvimento
-```bash
 npm run dev
 ```
 
-6. Acesse no navegador
-```bash
-http://localhost:3000
-```
-<br/>
+### License
 
-## 📋 Licença/License
-[Lumière](https://github.com/2026-1-NCC3/Projeto8) © 2026 by [Analice Coimbra Carneiro](https://github.com/analicecoimbra), [Mariah Alice Pimentel Lôbo Pereira](https://github.com/alicelobwp), [Sofia Botechia Hernandes](https://github.com/sofiahernandes), [Victória Duarte Vieira Azevedo](https://github.com/viick04) and [FECAP - Fundação de Comércio Álvares Penteado](https://www.fecap.br) is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" height="20" width="20" style="margin-left: 0.2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" height="20" width="20" style="margin-left: 0.2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" height="20" width="20" style="margin-left: 0.2em;">
-
-<br/><br/>
-
-## 🎓 Referências
-[Creative Commons](https://creativecommons.org/share-your-work/)  
-[Template PI FECAP](https://github.com/fecaphub/Template_PI)  
+<a href="https://www.fecap.br">FECAP - Fundação de Comércio Álvares Penteado</a> - <a href="https://github.com/sofiahernandes/distributed-healthcare-system">Lumière (Distributed Healthcare System)</a> © 2026 by <a href="https://github.com/analicecoimbra">Analice Coimbra Carneiro</a>, <a href="https://github.com/alicelobwp">Mariah Alice Pimentel Lôbo Pereira</a>, <a href="https://github.com/sofiahernandes">Sofia Botechia Hernandes</a> and <a href="https://github.com/viick04">Victória Duarte Vieira Azevedo</a> is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" height="20" width="20" style="margin-left: 0.2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" height="20" width="20" style="margin-left: 0.2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" height="20" width="20" style="margin-left: 0.2em;">
