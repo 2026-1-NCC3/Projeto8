@@ -39,7 +39,7 @@ public class WorkoutSessionController {
         }
     }
 
-        //Resetar o check após 6 dias para o paciente treinar a próxima semana
+    // Resetar o check após 6 dias para o paciente treinar a próxima semana
     @Scheduled(cron = "0 0 3 * * *")
     @Transactional
     public void resetOldWorkouts() {
@@ -50,9 +50,8 @@ public class WorkoutSessionController {
 
         for (WorkoutSessionEntity workout : oldWorkouts) {
             workout.setChecked(false);
-            workout.setWorkoutDate(null); // Limpa a data para o próximo check
+            workout.setWorkoutDate(null);
 
-            //Para resetar a dor do exercício
             if (workout.getExerciseSessions() != null) {
                 workout.getExerciseSessions().forEach(session -> session.setFeelPain(false));
             }
@@ -60,7 +59,7 @@ public class WorkoutSessionController {
         workoutSessionRepository.saveAll(oldWorkouts);
     }
 
-        // Verificar progresso desta semana
+    // Verificar progresso desta semana
     public Map<String, Object> getWeeklyProgress(UUID patientId) {
         PatientEntity patient = patientRepository.findById(patientId)
                 .orElseThrow(() -> new RuntimeException("Paciente não encontrado"));

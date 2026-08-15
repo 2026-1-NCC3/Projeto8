@@ -75,7 +75,7 @@ public class AdminService {
                 admin.setAdminEmail((data.adminEmail()));
             }
 
-            // senha do admin com bcrypt já
+            // Senha do admin com bcrypt já
             if (data.adminPassword() != null) {
                 admin.setAdminPassword(bcrypt.encode(data.adminPassword()));
             }

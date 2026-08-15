@@ -35,7 +35,7 @@ public class ExerciseController {
         return ResponseEntity.ok(exercise);
     }
 
-    // Retornar os exercícios cadastrados, com paginação, para não retornar TODOS os
+    // Retornar os exercícios cadastrados, com paginação, para não retornar todos os
     // exercícios e uma vez, e sim alguns por página e depois scrollar ou clicar no +1 página
     // /api/exercise/all?page=2&size=3,
     @GetMapping("/all")

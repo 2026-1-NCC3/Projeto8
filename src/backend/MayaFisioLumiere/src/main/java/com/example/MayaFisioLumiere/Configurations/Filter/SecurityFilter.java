@@ -32,7 +32,6 @@ public class SecurityFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        // 1. Trata pre-flight do CORS (Evita 403 em requisições)
         if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
             filterChain.doFilter(request, response);
             return;
@@ -40,7 +39,6 @@ public class SecurityFilter extends OncePerRequestFilter {
 
         var token = this.recoverToken(request);
 
-        // 2. Se não houver token, segue o fluxo (O SecurityConfig decidirá se a rota é permitAll)
         if (token == null) {
             filterChain.doFilter(request, response);
             return;
@@ -49,13 +47,11 @@ public class SecurityFilter extends OncePerRequestFilter {
         var login = tokenService.validateToken(token);
 
         if (login != null) {
-            // 3. Tenta encontrar como admin
             var adminOptional = adminRepository.findByAdminEmail(login);
 
             if (adminOptional.isPresent()) {
                 setAuthentication(adminOptional.get());
             } else {
-                // 4. Se não for admin, tenta encontrar como paciente
                 var patientOptional = patientRepository.findByEmail(login);
                 if (patientOptional.isPresent()) {
                     setAuthentication(patientOptional.get());

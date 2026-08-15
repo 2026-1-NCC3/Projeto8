@@ -108,29 +108,19 @@ public class PatientEntity implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        /* // Lógica de tempo de sessão por dia
-        if (lastAccessDate != null && !lastAccessDate.equals(LocalDate.now())) {
-            return true;
-        }
-
-        int limitMinutes = (this.role == UserRole.Patient) ?  180: 60; //3h de sessão ou 1h de sessão, tem que ver quanto tempo a gente pretende colocar para a sessão diaria do admin e do usuário
-        return this.totalMinutesUsedToday < limitMinutes; */
         return true;
     }
 
-    // Verifica se a conta não está expirada
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
-    // Conta não bloqueada tem que implementar uma lógica ainda pra ver se ela fica expirada ou não
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
-    // Credenciais não expiradas fazer a lógica de implementação ainda delas, com base no jwt e hash
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
