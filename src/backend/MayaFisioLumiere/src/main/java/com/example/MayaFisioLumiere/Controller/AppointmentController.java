@@ -25,7 +25,7 @@ public class AppointmentController {
     @Autowired
     private AppointmentService appointmentService;
 
-    // Busca todos os agendamentos dentro do banco de dados
+    // Busca todos os agendamentos no banco de dados
     @GetMapping("/all")
     public ResponseEntity<?> getAllAppointments() {
         try {
@@ -48,7 +48,8 @@ public class AppointmentController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro interno no servidor");
         }
     }
-// busca agendamento do mês do paciente
+    
+    // Busca agendamento do mês do paciente
     @GetMapping("/patient/month/{patient_id}")
     public ResponseEntity<?>  getAppoinmentsforPatientByMonth(@PathVariable("patient_id") UUID patientId, int month, int year) {
         try{
@@ -59,7 +60,7 @@ public class AppointmentController {
         }
     }
 
-    // busca agendamento dessa data
+    // Busca agendamento dessa data
     @GetMapping("/date")
     public ResponseEntity<?> getAppointmentsByDate(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime date) {
         try {
@@ -69,7 +70,7 @@ public class AppointmentController {
         }
     }
 
-    // Busca agendamento por mes
+    // Busca agendamento por mês
     @GetMapping("/month")
     public ResponseEntity<?> getAppointmentsByMonth(@RequestParam int month, @RequestParam int year) {
         try {

@@ -28,7 +28,7 @@ public class AuthController {
     public ResponseEntity<Map<String, String>> login(@RequestBody AdminRequestDTO body) {
         String token = adminService.loginAdmin(body.adminEmail(), body.adminPassword());
 
-        // Retorno em json pro frontend entender
+        // Retorno em json pro frontend
         return ResponseEntity.ok(Map.of("token", token));
     }
 

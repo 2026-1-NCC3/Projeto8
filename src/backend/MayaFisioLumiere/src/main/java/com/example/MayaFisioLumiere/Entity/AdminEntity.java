@@ -25,7 +25,7 @@ import java.util.List;
 
 public class AdminEntity implements UserDetails {
 
-    // reconhece que esse usuário vai ser autenticado dentro da aplicação spring,
+    // Reconhece que esse usuário vai ser autenticado dentro da aplicação spring,
     // se estiver dando erro é so implementar os metodos automaticamente
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,10 +40,9 @@ public class AdminEntity implements UserDetails {
     @Column(nullable = false)
     private String adminPassword;
 
-    @Enumerated(EnumType.STRING) // salva como admin dentro do banco de dados
+    @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    // adicionar essas colunas dentro do banco de dados para expiração da sessão do admin
     @Column(name = "total_minutes_today")
     private long totalMinutesUsedToday = 0;
 
@@ -53,7 +52,7 @@ public class AdminEntity implements UserDetails {
     @Column(name = "last_access_date")
     private LocalDate lastAccessDate = LocalDate.now();
 
-    // anotações geradas automaticamente ao implementarmos a classe de UserDetails
+    // Anotações geradas automaticamente ao implementarmos a classe de UserDetails
     // essa classe a baixo diz sobre o tipo de permissão que estamos dando para o nosso admin
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -79,29 +78,19 @@ public class AdminEntity implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        /* logica de tempo de sessão por dia
-        if (lastAccessDate != null && !lastAccessDate.equals(LocalDate.now())) {
-            return true;
-        }
-
-        int limitMinutes = (this.role == UserRole.Admin) ? 540 : 180; //9h de sessão ou 3h de sessão, tem que ver quanto tempo a gente pretende colocar para a sessão diaria do admin e do usuário
-        return this.totalMinutesUsedToday < limitMinutes;*/
         return true;
     }
 
-    // verifica se a conta não está expirada
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
-    // conta não bloqueada tem que implementar uma lógica ainda pra ver se ela fica expirada ou não
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
-    // credenciais não expiradas fazer a lógica de implementação ainda delas, com base no jwt e hash
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
